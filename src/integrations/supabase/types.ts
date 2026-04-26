@@ -26,11 +26,11 @@ export type Database = {
           full_name: string
           gender: string
           id: string
-          id_card_url: string
+          id_card_url: string[]
           mobile: string
-          motivation: string
+          motivation: string | null
           nid_number: string
-          photo_url: string
+          photo_url: string[]
           whatsapp: string
         }
         Insert: {
@@ -44,11 +44,11 @@ export type Database = {
           full_name: string
           gender: string
           id?: string
-          id_card_url: string
+          id_card_url: string[]
           mobile: string
-          motivation: string
+          motivation?: string | null
           nid_number: string
-          photo_url: string
+          photo_url: string[]
           whatsapp: string
         }
         Update: {
@@ -62,11 +62,11 @@ export type Database = {
           full_name?: string
           gender?: string
           id?: string
-          id_card_url?: string
+          id_card_url?: string[]
           mobile?: string
-          motivation?: string
+          motivation?: string | null
           nid_number?: string
-          photo_url?: string
+          photo_url?: string[]
           whatsapp?: string
         }
         Relationships: []
