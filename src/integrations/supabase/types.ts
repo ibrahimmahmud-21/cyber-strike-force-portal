@@ -27,6 +27,7 @@ export type Database = {
           gender: string
           id: string
           id_card_url: string[]
+          is_read: boolean
           mobile: string
           motivation: string | null
           nid_number: string
@@ -45,6 +46,7 @@ export type Database = {
           gender: string
           id?: string
           id_card_url: string[]
+          is_read?: boolean
           mobile: string
           motivation?: string | null
           nid_number: string
@@ -63,6 +65,7 @@ export type Database = {
           gender?: string
           id?: string
           id_card_url?: string[]
+          is_read?: boolean
           mobile?: string
           motivation?: string | null
           nid_number?: string
