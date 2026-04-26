@@ -153,8 +153,42 @@
     border-color: var(--color-border);
   }
 
+  html {
+    font-family: var(--font-sans);
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .font-bangla {
+    font-family: var(--font-bangla);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  .text-gold {
+    color: var(--gold);
+  }
+
+  .bg-gold {
+    background-color: var(--gold);
+  }
+
+  .border-gold {
+    border-color: var(--gold);
+  }
+
+  .gold-divider {
+    background: var(--gradient-gold);
+    height: 2px;
+    width: 64px;
+    border-radius: 9999px;
   }
 }
