@@ -29,18 +29,24 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Cyber Strike Force — Join the Team" },
+      { title: "Cyber Strike Force" },
       {
         name: "description",
         content: "Become a Cyber Warrior of Bangladesh. Join Cyber Strike Force.",
       },
-      { property: "og:title", content: "Cyber Strike Force — Join the Team" },
+      { property: "og:title", content: "Cyber Strike Force" },
       {
         property: "og:description",
         content: "Become a Cyber Warrior of Bangladesh.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Cyber Strike Force" },
+      { name: "description", content: "Cyber Strike force" },
+      { property: "og:description", content: "Cyber Strike force" },
+      { name: "twitter:description", content: "Cyber Strike force" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/d9dbfdd5-16ad-4b68-8c82-5fe48d2a0dfb" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/d9dbfdd5-16ad-4b68-8c82-5fe48d2a0dfb" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
