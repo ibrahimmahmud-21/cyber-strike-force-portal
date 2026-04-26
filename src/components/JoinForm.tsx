@@ -25,21 +25,29 @@ export function JoinForm() {
     return data.publicUrl;
   }
 
+  async function uploadAll(files: File[], bucket: string): Promise<string[]> {
+    return Promise.all(files.map((f) => uploadFile(f, bucket)));
+  }
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     try {
-      const fd = new FormData(e.currentTarget);
-      const photo = fd.get("photo") as File;
-      const idCard = fd.get("id_card") as File;
+      const form = e.currentTarget;
+      const fd = new FormData(form);
 
-      if (!photo || photo.size === 0) throw new Error("আপনার ছবি আপলোড করুন");
-      if (!idCard || idCard.size === 0) throw new Error("পরিচয়পত্র আপলোড করুন");
+      const photoFiles = (fd.getAll("photo") as File[]).filter((f) => f && f.size > 0);
+      const idFiles = (fd.getAll("id_card") as File[]).filter((f) => f && f.size > 0);
+
+      if (photoFiles.length === 0) throw new Error("আপনার ছবি আপলোড করুন");
+      if (idFiles.length === 0) throw new Error("পরিচয়পত্র আপলোড করুন");
 
       const [photo_url, id_card_url] = await Promise.all([
-        uploadFile(photo, "csf-photos"),
-        uploadFile(idCard, "csf-ids"),
+        uploadAll(photoFiles, "csf-photos"),
+        uploadAll(idFiles, "csf-ids"),
       ]);
+
+      const motivationRaw = String(fd.get("motivation") ?? "").trim();
 
       const { error } = await supabase.from("submissions").insert({
         full_name: String(fd.get("full_name")),
@@ -48,7 +56,7 @@ export function JoinForm() {
         mobile: String(fd.get("mobile")),
         address: String(fd.get("address")),
         education: String(fd.get("education")),
-        motivation: String(fd.get("motivation")),
+        motivation: motivationRaw || null,
         date_of_birth: String(fd.get("date_of_birth")),
         nid_number: String(fd.get("nid_number")),
         gender: String(fd.get("gender")),
@@ -61,7 +69,7 @@ export function JoinForm() {
       if (error) throw error;
 
       toast.success("সফলভাবে সাবমিট হয়েছে");
-      (e.target as HTMLFormElement).reset();
+      form.reset();
     } catch (err) {
       const message = err instanceof Error ? err.message : "একটি সমস্যা হয়েছে";
       toast.error(message);
@@ -103,8 +111,8 @@ export function JoinForm() {
       </div>
 
       <div>
-        <label className={labelCls}>আপনি কেন যোগ দিতে চান *</label>
-        <textarea name="motivation" required maxLength={1000} rows={4} className={inputCls} />
+        <label className={labelCls}>আপনি কেন যোগ দিতে চান</label>
+        <textarea name="motivation" maxLength={1000} rows={4} className={inputCls} />
       </div>
 
       <div>
@@ -140,18 +148,18 @@ export function JoinForm() {
 
       <div>
         <label className={labelCls}>আপনার সাম্প্রতিক ছবি *</label>
-        <input name="photo" type="file" accept="image/*" required className={fileCls} />
+        <input name="photo" type="file" accept="image/*" multiple required className={fileCls} />
       </div>
 
       <div>
         <label className={labelCls}>পরিচয়পত্র (NID বা ID Card) *</label>
-        <input name="id_card" type="file" accept="image/*" required className={fileCls} />
+        <input name="id_card" type="file" accept="image/*" multiple required className={fileCls} />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="font-bangla group relative mt-2 inline-flex w-full items-center justify-center overflow-hidden rounded-xl bg-foreground px-8 py-4 text-base font-semibold text-primary-foreground shadow-[0_8px_24px_-8px_rgba(0,0,0,0.3)] transition hover:shadow-[0_12px_32px_-8px_rgba(212,175,55,0.5)] disabled:opacity-60"
+        className="font-bangla group relative mt-2 inline-flex w-full items-center justify-center overflow-hidden rounded-xl bg-foreground px-8 py-4 text-base font-semibold text-primary-foreground shadow-[0_8px_24px_-8px_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-10px_rgba(212,175,55,0.55)] disabled:opacity-60 disabled:hover:translate-y-0"
       >
         <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
         <span className="relative">{loading ? "অপেক্ষা করুন..." : "সাবমিট করুন"}</span>
