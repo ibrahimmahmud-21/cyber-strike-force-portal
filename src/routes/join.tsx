@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
 import { JoinForm } from "@/components/JoinForm";
+import { RulesDialog } from "@/components/RulesDialog";
 
 export const Route = createFileRoute("/join")({
   head: () => ({
