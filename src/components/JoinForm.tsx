@@ -48,23 +48,32 @@ export function JoinForm() {
       ]);
 
       const motivationRaw = String(fd.get("motivation") ?? "").trim();
+      const emailVal = String(fd.get("email")).trim().toLowerCase();
 
-      const { error } = await supabase.from("submissions").insert({
-        full_name: String(fd.get("full_name")),
-        email: String(fd.get("email")),
-        father_name: String(fd.get("father_name")),
-        mobile: String(fd.get("mobile")),
-        address: String(fd.get("address")),
-        education: String(fd.get("education")),
-        motivation: motivationRaw || null,
-        date_of_birth: String(fd.get("date_of_birth")),
-        nid_number: String(fd.get("nid_number")),
-        gender: String(fd.get("gender")),
-        whatsapp: String(fd.get("whatsapp")),
-        facebook_link: String(fd.get("facebook_link")),
-        photo_url,
-        id_card_url,
-      });
+      // Upsert on email — replaces previous submission from same email
+      const { error } = await supabase.from("submissions").upsert(
+        {
+          full_name: String(fd.get("full_name")),
+          email: emailVal,
+          father_name: String(fd.get("father_name")),
+          mobile: String(fd.get("mobile")),
+          address: String(fd.get("address")),
+          education: String(fd.get("education")),
+          motivation: motivationRaw || null,
+          date_of_birth: String(fd.get("date_of_birth")),
+          nid_number: String(fd.get("nid_number")),
+          gender: String(fd.get("gender")),
+          whatsapp: String(fd.get("whatsapp")),
+          facebook_link: String(fd.get("facebook_link")),
+          photo_url,
+          id_card_url,
+          status: "pending",
+          is_read: false,
+          reject_reason: null,
+          created_at: new Date().toISOString(),
+        },
+        { onConflict: "email" },
+      );
 
       if (error) throw error;
 
