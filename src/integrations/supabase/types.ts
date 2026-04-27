@@ -32,6 +32,8 @@ export type Database = {
           motivation: string | null
           nid_number: string
           photo_url: string[]
+          reject_reason: string | null
+          status: string
           whatsapp: string
         }
         Insert: {
@@ -51,6 +53,8 @@ export type Database = {
           motivation?: string | null
           nid_number: string
           photo_url: string[]
+          reject_reason?: string | null
+          status?: string
           whatsapp: string
         }
         Update: {
@@ -70,6 +74,8 @@ export type Database = {
           motivation?: string | null
           nid_number?: string
           photo_url?: string[]
+          reject_reason?: string | null
+          status?: string
           whatsapp?: string
         }
         Relationships: []
