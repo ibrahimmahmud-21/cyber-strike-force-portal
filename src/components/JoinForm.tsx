@@ -120,7 +120,7 @@ export function JoinForm() {
       </div>
 
       <div>
-        <label className={labelCls}>আপনি কেন যোগ দিতে চান</label>
+        <label className={labelCls}>আপনি কেন যোগ দিতে চান (ঐচ্ছিক)</label>
         <textarea name="motivation" maxLength={1000} rows={4} className={inputCls} />
       </div>
 
