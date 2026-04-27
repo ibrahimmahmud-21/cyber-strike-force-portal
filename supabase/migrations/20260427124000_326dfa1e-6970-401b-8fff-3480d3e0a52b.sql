@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS submissions_mobile_unique ON public.submissions (mobile);
