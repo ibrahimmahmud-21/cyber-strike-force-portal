@@ -32,9 +32,30 @@ export function JoinForm() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    const form = e.currentTarget;
     try {
-      const form = e.currentTarget;
       const fd = new FormData(form);
+
+      const emailVal = String(fd.get("email") ?? "").trim().toLowerCase();
+      const mobileVal = String(fd.get("mobile") ?? "").trim();
+
+      if (!emailVal || !mobileVal) {
+        throw new Error("ইমেইল এবং মোবাইল নাম্বার দিন");
+      }
+
+      // Pre-check duplicate by email OR mobile
+      const { data: existing, error: checkErr } = await supabase
+        .from("submissions")
+        .select("id")
+        .or(`email.eq.${emailVal},mobile.eq.${mobileVal}`)
+        .limit(1);
+
+      if (checkErr) throw checkErr;
+      if (existing && existing.length > 0) {
+        toast.error("আপনি ইতিমধ্যে একবার আবেদন করেছেন");
+        setLoading(false);
+        return;
+      }
 
       const photoFiles = (fd.getAll("photo") as File[]).filter((f) => f && f.size > 0);
       const idFiles = (fd.getAll("id_card") as File[]).filter((f) => f && f.size > 0);
@@ -42,45 +63,55 @@ export function JoinForm() {
       if (photoFiles.length === 0) throw new Error("আপনার ছবি আপলোড করুন");
       if (idFiles.length === 0) throw new Error("পরিচয়পত্র আপলোড করুন");
 
-      const [photo_url, id_card_url] = await Promise.all([
-        uploadAll(photoFiles, "csf-photos"),
-        uploadAll(idFiles, "csf-ids"),
-      ]);
+      let photo_url: string[] = [];
+      let id_card_url: string[] = [];
+      try {
+        [photo_url, id_card_url] = await Promise.all([
+          uploadAll(photoFiles, "csf-photos"),
+          uploadAll(idFiles, "csf-ids"),
+        ]);
+      } catch (uploadErr) {
+        const msg = uploadErr instanceof Error ? uploadErr.message : "আপলোড ব্যর্থ হয়েছে";
+        throw new Error(`ছবি আপলোডে সমস্যা: ${msg}`);
+      }
 
       const motivationRaw = String(fd.get("motivation") ?? "").trim();
-      const emailVal = String(fd.get("email")).trim().toLowerCase();
 
-      // Upsert on email — replaces previous submission from same email
-      const { error } = await supabase.from("submissions").upsert(
-        {
-          full_name: String(fd.get("full_name")),
-          email: emailVal,
-          father_name: String(fd.get("father_name")),
-          mobile: String(fd.get("mobile")),
-          address: String(fd.get("address")),
-          education: String(fd.get("education")),
-          motivation: motivationRaw || null,
-          date_of_birth: String(fd.get("date_of_birth")),
-          nid_number: String(fd.get("nid_number")),
-          gender: String(fd.get("gender")),
-          whatsapp: String(fd.get("whatsapp")),
-          facebook_link: String(fd.get("facebook_link")),
-          photo_url,
-          id_card_url,
-          status: "pending",
-          is_read: false,
-          reject_reason: null,
-          created_at: new Date().toISOString(),
-        },
-        { onConflict: "email" },
-      );
+      const { error } = await supabase.from("submissions").insert({
+        full_name: String(fd.get("full_name")),
+        email: emailVal,
+        father_name: String(fd.get("father_name")),
+        mobile: mobileVal,
+        address: String(fd.get("address")),
+        education: String(fd.get("education")),
+        motivation: motivationRaw || null,
+        date_of_birth: String(fd.get("date_of_birth")),
+        nid_number: String(fd.get("nid_number")),
+        gender: String(fd.get("gender")),
+        whatsapp: String(fd.get("whatsapp")),
+        facebook_link: String(fd.get("facebook_link")),
+        photo_url,
+        id_card_url,
+        status: "pending",
+        is_read: false,
+        reject_reason: null,
+      });
 
-      if (error) throw error;
+      if (error) {
+        // Postgres unique violation → duplicate
+        const code = (error as { code?: string }).code;
+        if (code === "23505") {
+          toast.error("আপনি দ্বিতীয়বার সাবমিট করার চেষ্টা করছেন");
+          return;
+        }
+        throw error;
+      }
 
-      toast.success("সফলভাবে সাবমিট হয়েছে");
+      toast.success("আপনার আবেদন সফলভাবে জমা হয়েছে");
       form.reset();
     } catch (err) {
-      const message = err instanceof Error ? err.message : "একটি সমস্যা হয়েছে";
+      const message =
+        err instanceof Error && err.message ? err.message : "একটি সমস্যা হয়েছে, আবার চেষ্টা করুন";
       toast.error(message);
     } finally {
       setLoading(false);
