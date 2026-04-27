@@ -117,7 +117,7 @@ export function JoinForm() {
         // Postgres unique violation → duplicate
         const code = (error as { code?: string }).code;
         if (code === "23505") {
-          toast.error("আপনি দ্বিতীয়বার সাবমিট করার চেষ্টা করছেন");
+          toast.error("আপনি ইতিমধ্যে আবেদন করেছেন");
           return;
         }
         throw error;
