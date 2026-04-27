@@ -43,18 +43,34 @@ export function JoinForm() {
         throw new Error("ইমেইল এবং মোবাইল নাম্বার দিন");
       }
 
-      // Pre-check duplicate by email OR mobile
+      // Pre-check duplicate by email OR mobile — only block if status is pending/approved
       const { data: existing, error: checkErr } = await supabase
         .from("submissions")
-        .select("id")
-        .or(`email.eq.${emailVal},mobile.eq.${mobileVal}`)
-        .limit(1);
+        .select("id,status")
+        .or(`email.eq.${emailVal},mobile.eq.${mobileVal}`);
 
       if (checkErr) throw checkErr;
-      if (existing && existing.length > 0) {
-        toast.error("আপনি ইতিমধ্যে একবার আবেদন করেছেন");
+      const blocking = (existing ?? []).find(
+        (r) => r.status === "pending" || r.status === "approved",
+      );
+      if (blocking) {
+        toast.error("আপনি ইতিমধ্যে আবেদন করেছেন");
         setLoading(false);
         return;
+      }
+
+      // Remove any prior rejected submissions for this email/mobile so unique indexes don't block
+      const stale = (existing ?? []).filter(
+        (r) => r.status !== "pending" && r.status !== "approved",
+      );
+      if (stale.length > 0) {
+        await supabase
+          .from("submissions")
+          .delete()
+          .in(
+            "id",
+            stale.map((r) => r.id),
+          );
       }
 
       const photoFiles = (fd.getAll("photo") as File[]).filter((f) => f && f.size > 0);
