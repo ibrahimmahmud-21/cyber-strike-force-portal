@@ -25,10 +25,22 @@ export const Route = createFileRoute("/join")({
 });
 
 function JoinPage() {
+  const [rulesOpen, setRulesOpen] = useState(true);
+  const [accepted, setAccepted] = useState(false);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Toaster position="top-center" richColors />
       <SiteHeader />
+
+      <RulesDialog
+        open={rulesOpen}
+        onOpenChange={setRulesOpen}
+        onContinue={() => {
+          setAccepted(true);
+          setRulesOpen(false);
+        }}
+      />
 
       <section className="relative overflow-hidden border-b border-border px-6 py-16 sm:py-20">
         <div className="pointer-events-none absolute inset-0 cyber-grid opacity-50" />
@@ -50,7 +62,22 @@ function JoinPage() {
       <section className="bg-secondary/30 px-6 py-16">
         <div className="mx-auto w-full max-w-2xl animate-fade-up">
           <div className="lift-card rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-10">
-            <JoinForm />
+            {accepted ? (
+              <JoinForm />
+            ) : (
+              <div className="flex flex-col items-center gap-4 py-8 text-center">
+                <p className="font-bangla text-muted-foreground">
+                  ফর্ম দেখতে আবেদনের নিয়মাবলী পড়ুন এবং Continue ক্লিক করুন।
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setRulesOpen(true)}
+                  className="font-bangla rounded-xl bg-foreground px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:-translate-y-0.5"
+                >
+                  নিয়মাবলী দেখুন
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>
