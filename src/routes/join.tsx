@@ -54,7 +54,7 @@ function JoinPage() {
           </h1>
           <div className="animate-fade-up delay-200 mx-auto my-5 gold-divider" />
           <p className="animate-fade-up delay-300 font-bangla text-muted-foreground">
-            Become a Cyber Warrior of Bangladesh
+            We fight for Bangladesh
           </p>
         </div>
       </section>
