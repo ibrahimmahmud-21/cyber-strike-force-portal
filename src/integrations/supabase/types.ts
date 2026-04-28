@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      config: {
+        Row: {
+          approve_template_id: string
+          id: string
+          public_key: string
+          reject_template_id: string
+          service_id: string
+          updated_at: string
+        }
+        Insert: {
+          approve_template_id?: string
+          id?: string
+          public_key?: string
+          reject_template_id?: string
+          service_id?: string
+          updated_at?: string
+        }
+        Update: {
+          approve_template_id?: string
+          id?: string
+          public_key?: string
+          reject_template_id?: string
+          service_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       submissions: {
         Row: {
           address: string
