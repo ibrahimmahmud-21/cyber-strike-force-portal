@@ -12,7 +12,6 @@ export const Route = createFileRoute("/admin")({
 
 const ADMIN_PASSWORD = "csfcyberforce";
 const STORAGE_KEY = "csf_admin_auth";
-const SETTINGS_KEY = "csf_emailjs_settings";
 
 type Status = "pending" | "approved" | "rejected";
 type Filter = "all" | Status;
