@@ -492,8 +492,6 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       </header>
 
       <main className="mx-auto max-w-6xl px-6 py-8">
-        <SecretBox onSubmit={(v) => saveConfig.current(v)} />
-
         {loading ? (
           <p className="text-center text-muted-foreground">Loading...</p>
         ) : filtered.length === 0 ? (
