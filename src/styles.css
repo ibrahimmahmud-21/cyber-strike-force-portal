@@ -233,4 +233,15 @@
   .delay-200 { animation-delay: 0.2s; }
   .delay-300 { animation-delay: 0.3s; }
   .delay-400 { animation-delay: 0.4s; }
+
+  /* Subtle hacker accent */
+  .text-neon { color: var(--neon); }
+  .border-neon { border-color: var(--neon); }
+  .btn-glow {
+    transition: box-shadow 300ms ease, transform 300ms ease, border-color 300ms ease;
+  }
+  .btn-glow:hover {
+    box-shadow: 0 0 0 1px var(--neon-soft), 0 0 24px -4px var(--neon-soft);
+    transform: translateY(-1px);
+  }
 }
