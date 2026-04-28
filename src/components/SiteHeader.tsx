@@ -24,7 +24,7 @@ export function SiteHeader() {
               CYBER STRIKE <span className="text-gold">FORCE</span>
             </p>
             <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Bangladesh
+              We fight for Bangladesh
             </p>
           </div>
         </Link>
