@@ -537,18 +537,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
         />
       )}
 
-      {settingsOpen && (
-        <SettingsModal
-          settings={settings}
-          onClose={() => setSettingsOpen(false)}
-          onSave={(s) => {
-            setSettings(s);
-            localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
-            toast.success("Settings saved");
-            setSettingsOpen(false);
-          }}
-        />
-      )}
+
+
     </div>
   );
 }
