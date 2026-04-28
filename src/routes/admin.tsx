@@ -182,7 +182,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
           approveTemplateId: (data as { approve_template_id?: string }).approve_template_id ?? "",
           rejectTemplateId: (data as { reject_template_id?: string }).reject_template_id ?? "",
         };
-        setSettings(loaded);
+
         settingsRef.current = loaded;
       }
     })();
@@ -226,7 +226,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
           approveTemplateId: payload.approve_template_id,
           rejectTemplateId: payload.reject_template_id,
         };
-        setSettings(next);
+
         settingsRef.current = next;
         return "Config saved";
       } catch (e) {
