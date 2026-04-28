@@ -56,7 +56,7 @@ function Index() {
           <div className="animate-fade-up delay-200 my-6 gold-divider" />
 
           <p className="animate-fade-up delay-300 font-bangla max-w-xl text-lg text-muted-foreground sm:text-xl">
-            Become a Cyber Warrior of Bangladesh
+            We fight for Bangladesh
           </p>
 
           <Link
