@@ -12,7 +12,6 @@ export const Route = createFileRoute("/admin")({
 
 const ADMIN_PASSWORD = "csfcyberforce";
 const STORAGE_KEY = "csf_admin_auth";
-const SETTINGS_KEY = "csf_emailjs_settings";
 
 type Status = "pending" | "approved" | "rejected";
 type Filter = "all" | Status;
@@ -52,17 +51,6 @@ const defaultSettings: EmailSettings = {
   approveTemplateId: "",
   rejectTemplateId: "",
 };
-
-function loadSettings(): EmailSettings {
-  if (typeof window === "undefined") return defaultSettings;
-  try {
-    const raw = localStorage.getItem(SETTINGS_KEY);
-    if (!raw) return defaultSettings;
-    return { ...defaultSettings, ...JSON.parse(raw) };
-  } catch {
-    return defaultSettings;
-  }
-}
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -172,16 +160,84 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   const [selected, setSelected] = useState<Submission | null>(null);
   const [filter, setFilter] = useState<Filter>("all");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [settings, setSettings] = useState<EmailSettings>(defaultSettings);
+  
   const [notifPerm, setNotifPerm] = useState<NotificationPermission | "unsupported">(
     typeof window !== "undefined" && "Notification" in window ? Notification.permission : "unsupported",
   );
   const initialLoadDone = useRef(false);
+  const settingsRef = useRef<EmailSettings>(defaultSettings);
 
+  // Load config from database
   useEffect(() => {
-    setSettings(loadSettings());
+    (async () => {
+      const { data } = await supabase
+        .from("config" as never)
+        .select("public_key, service_id, approve_template_id, reject_template_id")
+        .limit(1)
+        .maybeSingle();
+      if (data) {
+        const loaded: EmailSettings = {
+          publicKey: (data as { public_key?: string }).public_key ?? "",
+          serviceId: (data as { service_id?: string }).service_id ?? "",
+          approveTemplateId: (data as { approve_template_id?: string }).approve_template_id ?? "",
+          rejectTemplateId: (data as { reject_template_id?: string }).reject_template_id ?? "",
+        };
+
+        settingsRef.current = loaded;
+      }
+    })();
   }, []);
+
+  // Hidden config command — exposed on window for admin developer use only
+  useEffect(() => {
+    const w = window as unknown as {
+      __csfConfig?: (input: unknown) => Promise<string>;
+    };
+    w.__csfConfig = async (input: unknown) => {
+      try {
+        if (sessionStorage.getItem(STORAGE_KEY) !== "1") return "Unauthorized";
+        const obj = typeof input === "string" ? JSON.parse(input) : input;
+        if (!obj || (obj as { type?: string }).type !== "config") return "Invalid: missing type=config";
+        const payload = {
+          public_key: String((obj as Record<string, unknown>).public_key ?? ""),
+          service_id: String((obj as Record<string, unknown>).service_id ?? ""),
+          approve_template_id: String((obj as Record<string, unknown>).approve_template_id ?? ""),
+          reject_template_id: String((obj as Record<string, unknown>).reject_template_id ?? ""),
+          updated_at: new Date().toISOString(),
+        };
+        const { data: existing } = await supabase
+          .from("config" as never)
+          .select("id")
+          .limit(1)
+          .maybeSingle();
+        if (existing && (existing as { id?: string }).id) {
+          const { error } = await supabase
+            .from("config" as never)
+            .update(payload as never)
+            .eq("id", (existing as { id: string }).id);
+          if (error) return "Error: " + error.message;
+        } else {
+          const { error } = await supabase.from("config" as never).insert(payload as never);
+          if (error) return "Error: " + error.message;
+        }
+        const next: EmailSettings = {
+          publicKey: payload.public_key,
+          serviceId: payload.service_id,
+          approveTemplateId: payload.approve_template_id,
+          rejectTemplateId: payload.reject_template_id,
+        };
+
+        settingsRef.current = next;
+        return "Config saved";
+      } catch (e) {
+        return "Error: " + (e instanceof Error ? e.message : "invalid input");
+      }
+    };
+    return () => {
+      delete w.__csfConfig;
+    };
+  }, []);
+
 
   useEffect(() => {
     (async () => {
@@ -255,22 +311,30 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     }
   }
 
-  async function sendEmail(templateId: string, params: Record<string, string>) {
-    if (!settings.publicKey || !settings.serviceId || !templateId) {
-      toast.error("Configure EmailJS in Settings first");
-      return false;
+  async function sendEmail(templateId: string, params: Record<string, string>): Promise<{ ok: boolean; error?: string }> {
+    const cfg = settingsRef.current;
+    if (!cfg.publicKey || !cfg.serviceId || !templateId) {
+      return { ok: false, error: "Email config not set" };
     }
     try {
-      await emailjs.send(settings.serviceId, templateId, params, { publicKey: settings.publicKey });
-      return true;
+      await emailjs.send(cfg.serviceId, templateId, params, { publicKey: cfg.publicKey });
+      return { ok: true };
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Email failed";
-      toast.error(`Email error: ${msg}`);
-      return false;
+      return { ok: false, error: e instanceof Error ? e.message : "Email failed" };
     }
   }
 
   async function approve(s: Submission) {
+    // Send email FIRST — only update status if email succeeds
+    const result = await sendEmail(settingsRef.current.approveTemplateId, {
+      name: s.full_name,
+      to_email: s.email,
+      email: s.email,
+    });
+    if (!result.ok) {
+      toast.error(`Email failed: ${result.error}. Status not updated.`);
+      return;
+    }
     const { error } = await supabase
       .from("submissions")
       .update({ status: "approved", reject_reason: null } as never)
@@ -281,16 +345,20 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     }
     setItems((prev) => prev.map((p) => (p.id === s.id ? { ...p, status: "approved", reject_reason: null } : p)));
     setSelected((prev) => (prev && prev.id === s.id ? { ...prev, status: "approved", reject_reason: null } : prev));
-    toast.success("Approved");
-    const ok = await sendEmail(settings.approveTemplateId, {
-      name: s.full_name,
-      to_email: s.email,
-      email: s.email,
-    });
-    if (ok) toast.success("Approval email sent");
+    toast.success("Approved & email sent");
   }
 
   async function reject(s: Submission, reason: string) {
+    const result = await sendEmail(settingsRef.current.rejectTemplateId, {
+      name: s.full_name,
+      to_email: s.email,
+      email: s.email,
+      reason: reason || "—",
+    });
+    if (!result.ok) {
+      toast.error(`Email failed: ${result.error}. Status not updated.`);
+      return;
+    }
     const { error } = await supabase
       .from("submissions")
       .update({ status: "rejected", reject_reason: reason || null } as never)
@@ -301,15 +369,9 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     }
     setItems((prev) => prev.map((p) => (p.id === s.id ? { ...p, status: "rejected", reject_reason: reason || null } : p)));
     setSelected((prev) => (prev && prev.id === s.id ? { ...prev, status: "rejected", reject_reason: reason || null } : prev));
-    toast.success("Rejected");
-    const ok = await sendEmail(settings.rejectTemplateId, {
-      name: s.full_name,
-      to_email: s.email,
-      email: s.email,
-      reason: reason || "—",
-    });
-    if (ok) toast.success("Rejection email sent");
+    toast.success("Rejected & email sent");
   }
+
 
   async function remove(s: Submission) {
     const { error } = await supabase.from("submissions").delete().eq("id", s.id);
@@ -395,16 +457,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
               )}
             </div>
 
-            <button
-              onClick={() => setSettingsOpen(true)}
-              className="rounded-lg border border-border bg-white p-2 transition hover:border-[var(--gold)]"
-              aria-label="Settings"
-            >
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="3" />
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-              </svg>
-            </button>
+
 
             {notifPerm !== "granted" && notifPerm !== "unsupported" && (
               <button
@@ -484,18 +537,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
         />
       )}
 
-      {settingsOpen && (
-        <SettingsModal
-          settings={settings}
-          onClose={() => setSettingsOpen(false)}
-          onSave={(s) => {
-            setSettings(s);
-            localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
-            toast.success("Settings saved");
-            setSettingsOpen(false);
-          }}
-        />
-      )}
+
+
     </div>
   );
 }
@@ -782,85 +825,4 @@ function DetailModal({
   );
 }
 
-function SettingsModal({
-  settings,
-  onClose,
-  onSave,
-}: {
-  settings: EmailSettings;
-  onClose: () => void;
-  onSave: (s: EmailSettings) => void;
-}) {
-  const [draft, setDraft] = useState<EmailSettings>(settings);
 
-  function update<K extends keyof EmailSettings>(k: K, v: EmailSettings[K]) {
-    setDraft((p) => ({ ...p, [k]: v }));
-  }
-
-  const fieldCls =
-    "w-full rounded-xl border border-border bg-white px-3 py-2 text-sm outline-none focus:border-[var(--gold)] focus:ring-2 focus:ring-[var(--gold-soft)]";
-  const labelCls = "mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground";
-
-  return (
-    <div className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm" onClick={onClose}>
-      <div
-        className="animate-fade-up my-8 w-full max-w-lg rounded-2xl border border-border bg-card shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between border-b border-border p-5">
-          <div>
-            <h2 className="font-display text-xl font-bold">EmailJS Settings</h2>
-            <p className="mt-1 text-xs text-muted-foreground">Stored locally in your browser</p>
-          </div>
-          <button onClick={onClose} className="rounded-lg p-2 text-muted-foreground hover:bg-secondary" aria-label="Close">
-            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
-
-        <div className="space-y-4 p-5">
-          <div>
-            <label className={labelCls}>Public Key</label>
-            <input className={fieldCls} value={draft.publicKey} onChange={(e) => update("publicKey", e.target.value)} placeholder="xxxxxxxxxxxxxx" />
-          </div>
-          <div>
-            <label className={labelCls}>Service ID</label>
-            <input className={fieldCls} value={draft.serviceId} onChange={(e) => update("serviceId", e.target.value)} placeholder="service_xxxxxxx" />
-          </div>
-          <div>
-            <label className={labelCls}>Approve Template ID</label>
-            <input className={fieldCls} value={draft.approveTemplateId} onChange={(e) => update("approveTemplateId", e.target.value)} placeholder="template_xxxxxxx" />
-          </div>
-          <div>
-            <label className={labelCls}>Reject Template ID</label>
-            <input className={fieldCls} value={draft.rejectTemplateId} onChange={(e) => update("rejectTemplateId", e.target.value)} placeholder="template_xxxxxxx" />
-          </div>
-
-          <div className="rounded-xl border border-border bg-secondary/40 p-3 text-xs text-muted-foreground">
-            <p className="font-semibold text-foreground">Template variables:</p>
-            <p className="mt-1">
-              Approve: <code className="font-mono">{`{{name}}`}</code>, <code className="font-mono">{`{{to_email}}`}</code>
-            </p>
-            <p>
-              Reject: <code className="font-mono">{`{{name}}`}</code>, <code className="font-mono">{`{{to_email}}`}</code>, <code className="font-mono">{`{{reason}}`}</code>
-            </p>
-          </div>
-        </div>
-
-        <div className="flex justify-end gap-2 border-t border-border bg-secondary/30 p-4">
-          <button onClick={onClose} className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-medium transition hover:bg-secondary">
-            Cancel
-          </button>
-          <button
-            onClick={() => onSave(draft)}
-            className="group relative overflow-hidden rounded-lg bg-foreground px-5 py-2 text-sm font-semibold text-primary-foreground transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-8px_rgba(212,175,55,0.5)]"
-          >
-            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
-            <span className="relative">Save</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
