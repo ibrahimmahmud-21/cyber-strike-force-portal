@@ -188,55 +188,69 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     })();
   }, []);
 
-  // Hidden config command — exposed on window for admin developer use only
-  useEffect(() => {
-    const w = window as unknown as {
-      __csfConfig?: (input: unknown) => Promise<string>;
+  // Save config to database — used by both window helper and the secret box
+  const saveConfig = useRef<(input: unknown) => Promise<{ ok: boolean; message: string }>>(async () => ({ ok: false, message: "" }));
+  saveConfig.current = async (input: unknown) => {
+    if (sessionStorage.getItem(STORAGE_KEY) !== "1") {
+      return { ok: false, message: "Unauthorized" };
+    }
+    let obj: unknown;
+    try {
+      obj = typeof input === "string" ? JSON.parse(input) : input;
+    } catch {
+      return { ok: false, message: "Invalid JSON format" };
+    }
+    if (!obj || (obj as { type?: string }).type !== "config") {
+      return { ok: false, message: 'Invalid: must include "type": "config"' };
+    }
+    const payload = {
+      public_key: String((obj as Record<string, unknown>).public_key ?? ""),
+      service_id: String((obj as Record<string, unknown>).service_id ?? ""),
+      approve_template_id: String((obj as Record<string, unknown>).approve_template_id ?? ""),
+      reject_template_id: String((obj as Record<string, unknown>).reject_template_id ?? ""),
+      updated_at: new Date().toISOString(),
     };
-    w.__csfConfig = async (input: unknown) => {
-      try {
-        if (sessionStorage.getItem(STORAGE_KEY) !== "1") return "Unauthorized";
-        const obj = typeof input === "string" ? JSON.parse(input) : input;
-        if (!obj || (obj as { type?: string }).type !== "config") return "Invalid: missing type=config";
-        const payload = {
-          public_key: String((obj as Record<string, unknown>).public_key ?? ""),
-          service_id: String((obj as Record<string, unknown>).service_id ?? ""),
-          approve_template_id: String((obj as Record<string, unknown>).approve_template_id ?? ""),
-          reject_template_id: String((obj as Record<string, unknown>).reject_template_id ?? ""),
-          updated_at: new Date().toISOString(),
-        };
-        const { data: existing } = await supabase
+    if (!payload.public_key || !payload.service_id || !payload.approve_template_id || !payload.reject_template_id) {
+      return { ok: false, message: "All four fields are required" };
+    }
+    try {
+      const { data: existing } = await supabase
+        .from("config" as never)
+        .select("id")
+        .limit(1)
+        .maybeSingle();
+      if (existing && (existing as { id?: string }).id) {
+        const { error } = await supabase
           .from("config" as never)
-          .select("id")
-          .limit(1)
-          .maybeSingle();
-        if (existing && (existing as { id?: string }).id) {
-          const { error } = await supabase
-            .from("config" as never)
-            .update(payload as never)
-            .eq("id", (existing as { id: string }).id);
-          if (error) return "Error: " + error.message;
-        } else {
-          const { error } = await supabase.from("config" as never).insert(payload as never);
-          if (error) return "Error: " + error.message;
-        }
-        const next: EmailSettings = {
-          publicKey: payload.public_key,
-          serviceId: payload.service_id,
-          approveTemplateId: payload.approve_template_id,
-          rejectTemplateId: payload.reject_template_id,
-        };
-
-        settingsRef.current = next;
-        return "Config saved";
-      } catch (e) {
-        return "Error: " + (e instanceof Error ? e.message : "invalid input");
+          .update(payload as never)
+          .eq("id", (existing as { id: string }).id);
+        if (error) return { ok: false, message: error.message };
+      } else {
+        const { error } = await supabase.from("config" as never).insert(payload as never);
+        if (error) return { ok: false, message: error.message };
       }
+    } catch (e) {
+      return { ok: false, message: e instanceof Error ? e.message : "Database error" };
+    }
+    settingsRef.current = {
+      publicKey: payload.public_key,
+      serviceId: payload.service_id,
+      approveTemplateId: payload.approve_template_id,
+      rejectTemplateId: payload.reject_template_id,
     };
-    return () => {
-      delete w.__csfConfig;
+    return { ok: true, message: "Config saved successfully" };
+  };
+
+  // Hidden window helper for power users
+  useEffect(() => {
+    const w = window as unknown as { __csfConfig?: (input: unknown) => Promise<string> };
+    w.__csfConfig = async (input: unknown) => {
+      const r = await saveConfig.current(input);
+      return r.message;
     };
+    return () => { delete w.__csfConfig; };
   }, []);
+
 
 
   useEffect(() => {
@@ -478,6 +492,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       </header>
 
       <main className="mx-auto max-w-6xl px-6 py-8">
+        <SecretBox onSubmit={(v) => saveConfig.current(v)} />
+
         {loading ? (
           <p className="text-center text-muted-foreground">Loading...</p>
         ) : filtered.length === 0 ? (
@@ -826,3 +842,54 @@ function DetailModal({
 }
 
 
+
+function SecretBox({ onSubmit }: { onSubmit: (value: string) => Promise<{ ok: boolean; message: string }> }) {
+  const [value, setValue] = useState("");
+  const [response, setResponse] = useState<{ ok: boolean; message: string } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const lastTriedRef = useRef("");
+
+  // Auto-detect: when input looks like a complete config JSON, save it.
+  useEffect(() => {
+    const trimmed = value.trim();
+    if (!trimmed || trimmed === lastTriedRef.current) return;
+    if (!trimmed.startsWith("{") || !trimmed.endsWith("}")) return;
+    if (!trimmed.includes('"type"') || !trimmed.includes('"config"')) return;
+
+    let parsed: unknown;
+    try { parsed = JSON.parse(trimmed); } catch { return; }
+    if (!parsed || typeof parsed !== "object") return;
+    const o = parsed as Record<string, unknown>;
+    if (o.type !== "config") return;
+    if (!o.public_key || !o.service_id || !o.approve_template_id || !o.reject_template_id) return;
+
+    lastTriedRef.current = trimmed;
+    setBusy(true);
+    onSubmit(trimmed).then((r) => {
+      setResponse(r);
+      setBusy(false);
+      if (r.ok) setValue("");
+    });
+  }, [value, onSubmit]);
+
+  return (
+    <div className="mb-6 rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)]">
+      <textarea
+        value={value}
+        onChange={(e) => { setValue(e.target.value); setResponse(null); }}
+        rows={4}
+        spellCheck={false}
+        placeholder='Paste config JSON here...'
+        className="w-full resize-none rounded-xl border border-border bg-white px-3 py-2 font-mono text-xs outline-none focus:border-[var(--gold)] focus:ring-2 focus:ring-[var(--gold-soft)]"
+      />
+      {busy && (
+        <p className="mt-2 text-xs text-muted-foreground">Saving...</p>
+      )}
+      {response && !busy && (
+        <p className={`mt-2 text-xs font-medium ${response.ok ? "text-emerald-700" : "text-red-700"}`}>
+          {response.ok ? "✓ " : "✕ "}{response.message}
+        </p>
+      )}
+    </div>
+  );
+}
