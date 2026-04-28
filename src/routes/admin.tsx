@@ -52,17 +52,6 @@ const defaultSettings: EmailSettings = {
   rejectTemplateId: "",
 };
 
-function loadSettings(): EmailSettings {
-  if (typeof window === "undefined") return defaultSettings;
-  try {
-    const raw = localStorage.getItem(SETTINGS_KEY);
-    if (!raw) return defaultSettings;
-    return { ...defaultSettings, ...JSON.parse(raw) };
-  } catch {
-    return defaultSettings;
-  }
-}
-
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
 
