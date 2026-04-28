@@ -96,7 +96,7 @@ export function SiteFooter() {
         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
           © {new Date().getFullYear()} Cyber Strike Force
         </p>
-        <p className="text-xs text-muted-foreground">Cyber Warriors of Bangladesh</p>
+        <p className="text-xs text-muted-foreground">We fight for Bangladesh</p>
       </div>
     </footer>
   );
