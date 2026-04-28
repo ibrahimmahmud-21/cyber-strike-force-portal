@@ -160,16 +160,84 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   const [selected, setSelected] = useState<Submission | null>(null);
   const [filter, setFilter] = useState<Filter>("all");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [settings, setSettings] = useState<EmailSettings>(defaultSettings);
   const [notifPerm, setNotifPerm] = useState<NotificationPermission | "unsupported">(
     typeof window !== "undefined" && "Notification" in window ? Notification.permission : "unsupported",
   );
   const initialLoadDone = useRef(false);
+  const settingsRef = useRef<EmailSettings>(defaultSettings);
 
+  // Load config from database
   useEffect(() => {
-    setSettings(loadSettings());
+    (async () => {
+      const { data } = await supabase
+        .from("config" as never)
+        .select("public_key, service_id, approve_template_id, reject_template_id")
+        .limit(1)
+        .maybeSingle();
+      if (data) {
+        const loaded: EmailSettings = {
+          publicKey: (data as { public_key?: string }).public_key ?? "",
+          serviceId: (data as { service_id?: string }).service_id ?? "",
+          approveTemplateId: (data as { approve_template_id?: string }).approve_template_id ?? "",
+          rejectTemplateId: (data as { reject_template_id?: string }).reject_template_id ?? "",
+        };
+        setSettings(loaded);
+        settingsRef.current = loaded;
+      }
+    })();
   }, []);
+
+  // Hidden config command — exposed on window for admin developer use only
+  useEffect(() => {
+    const w = window as unknown as {
+      __csfConfig?: (input: unknown) => Promise<string>;
+    };
+    w.__csfConfig = async (input: unknown) => {
+      try {
+        if (sessionStorage.getItem(STORAGE_KEY) !== "1") return "Unauthorized";
+        const obj = typeof input === "string" ? JSON.parse(input) : input;
+        if (!obj || (obj as { type?: string }).type !== "config") return "Invalid: missing type=config";
+        const payload = {
+          public_key: String((obj as Record<string, unknown>).public_key ?? ""),
+          service_id: String((obj as Record<string, unknown>).service_id ?? ""),
+          approve_template_id: String((obj as Record<string, unknown>).approve_template_id ?? ""),
+          reject_template_id: String((obj as Record<string, unknown>).reject_template_id ?? ""),
+          updated_at: new Date().toISOString(),
+        };
+        const { data: existing } = await supabase
+          .from("config" as never)
+          .select("id")
+          .limit(1)
+          .maybeSingle();
+        if (existing && (existing as { id?: string }).id) {
+          const { error } = await supabase
+            .from("config" as never)
+            .update(payload as never)
+            .eq("id", (existing as { id: string }).id);
+          if (error) return "Error: " + error.message;
+        } else {
+          const { error } = await supabase.from("config" as never).insert(payload as never);
+          if (error) return "Error: " + error.message;
+        }
+        const next: EmailSettings = {
+          publicKey: payload.public_key,
+          serviceId: payload.service_id,
+          approveTemplateId: payload.approve_template_id,
+          rejectTemplateId: payload.reject_template_id,
+        };
+        setSettings(next);
+        settingsRef.current = next;
+        return "Config saved";
+      } catch (e) {
+        return "Error: " + (e instanceof Error ? e.message : "invalid input");
+      }
+    };
+    return () => {
+      delete w.__csfConfig;
+    };
+  }, []);
+
 
   useEffect(() => {
     (async () => {
