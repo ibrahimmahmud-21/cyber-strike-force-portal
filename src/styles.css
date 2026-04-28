@@ -98,6 +98,8 @@
   --shadow-soft: 0 2px 12px -4px oklch(0.15 0 0 / 0.08), 0 8px 32px -8px oklch(0.15 0 0 / 0.06);
   --shadow-card: 0 1px 3px oklch(0.15 0 0 / 0.04), 0 8px 24px -8px oklch(0.15 0 0 / 0.08);
   --gradient-gold: linear-gradient(135deg, oklch(0.82 0.13 88), oklch(0.68 0.14 80));
+  --neon: oklch(0.85 0.22 145);
+  --neon-soft: oklch(0.85 0.22 145 / 0.35);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -231,4 +233,15 @@
   .delay-200 { animation-delay: 0.2s; }
   .delay-300 { animation-delay: 0.3s; }
   .delay-400 { animation-delay: 0.4s; }
+
+  /* Subtle hacker accent */
+  .text-neon { color: var(--neon); }
+  .border-neon { border-color: var(--neon); }
+  .btn-glow {
+    transition: box-shadow 300ms ease, transform 300ms ease, border-color 300ms ease;
+  }
+  .btn-glow:hover {
+    box-shadow: 0 0 0 1px var(--neon-soft), 0 0 24px -4px var(--neon-soft);
+    transform: translateY(-1px);
+  }
 }

@@ -56,12 +56,12 @@ function Index() {
           <div className="animate-fade-up delay-200 my-6 gold-divider" />
 
           <p className="animate-fade-up delay-300 font-bangla max-w-xl text-lg text-muted-foreground sm:text-xl">
-            Become a Cyber Warrior of Bangladesh
+            We fight for Bangladesh
           </p>
 
           <Link
             to="/join"
-            className="animate-fade-up delay-400 group relative mt-10 inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-10 py-4 text-base font-semibold tracking-wide text-primary-foreground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.4)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_rgba(212,175,55,0.55)]"
+            className="btn-glow animate-fade-up delay-400 group relative mt-10 inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-10 py-4 text-base font-semibold tracking-wide text-primary-foreground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.4)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_rgba(212,175,55,0.55)]"
           >
             <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
             <span className="relative">Join Now</span>
