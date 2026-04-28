@@ -311,7 +311,6 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     }
   }
 
-  async function sendEmail(templateId: string, params: Record<string, string>) {
   async function sendEmail(templateId: string, params: Record<string, string>): Promise<{ ok: boolean; error?: string }> {
     const cfg = settingsRef.current;
     if (!cfg.publicKey || !cfg.serviceId || !templateId) {
