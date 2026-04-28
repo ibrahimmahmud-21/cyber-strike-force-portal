@@ -312,21 +312,30 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   }
 
   async function sendEmail(templateId: string, params: Record<string, string>) {
-    if (!settings.publicKey || !settings.serviceId || !templateId) {
-      toast.error("Configure EmailJS in Settings first");
-      return false;
+  async function sendEmail(templateId: string, params: Record<string, string>): Promise<{ ok: boolean; error?: string }> {
+    const cfg = settingsRef.current;
+    if (!cfg.publicKey || !cfg.serviceId || !templateId) {
+      return { ok: false, error: "Email config not set" };
     }
     try {
-      await emailjs.send(settings.serviceId, templateId, params, { publicKey: settings.publicKey });
-      return true;
+      await emailjs.send(cfg.serviceId, templateId, params, { publicKey: cfg.publicKey });
+      return { ok: true };
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Email failed";
-      toast.error(`Email error: ${msg}`);
-      return false;
+      return { ok: false, error: e instanceof Error ? e.message : "Email failed" };
     }
   }
 
   async function approve(s: Submission) {
+    // Send email FIRST — only update status if email succeeds
+    const result = await sendEmail(settingsRef.current.approveTemplateId, {
+      name: s.full_name,
+      to_email: s.email,
+      email: s.email,
+    });
+    if (!result.ok) {
+      toast.error(`Email failed: ${result.error}. Status not updated.`);
+      return;
+    }
     const { error } = await supabase
       .from("submissions")
       .update({ status: "approved", reject_reason: null } as never)
@@ -337,16 +346,20 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     }
     setItems((prev) => prev.map((p) => (p.id === s.id ? { ...p, status: "approved", reject_reason: null } : p)));
     setSelected((prev) => (prev && prev.id === s.id ? { ...prev, status: "approved", reject_reason: null } : prev));
-    toast.success("Approved");
-    const ok = await sendEmail(settings.approveTemplateId, {
-      name: s.full_name,
-      to_email: s.email,
-      email: s.email,
-    });
-    if (ok) toast.success("Approval email sent");
+    toast.success("Approved & email sent");
   }
 
   async function reject(s: Submission, reason: string) {
+    const result = await sendEmail(settingsRef.current.rejectTemplateId, {
+      name: s.full_name,
+      to_email: s.email,
+      email: s.email,
+      reason: reason || "—",
+    });
+    if (!result.ok) {
+      toast.error(`Email failed: ${result.error}. Status not updated.`);
+      return;
+    }
     const { error } = await supabase
       .from("submissions")
       .update({ status: "rejected", reject_reason: reason || null } as never)
@@ -357,15 +370,9 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     }
     setItems((prev) => prev.map((p) => (p.id === s.id ? { ...p, status: "rejected", reject_reason: reason || null } : p)));
     setSelected((prev) => (prev && prev.id === s.id ? { ...prev, status: "rejected", reject_reason: reason || null } : prev));
-    toast.success("Rejected");
-    const ok = await sendEmail(settings.rejectTemplateId, {
-      name: s.full_name,
-      to_email: s.email,
-      email: s.email,
-      reason: reason || "—",
-    });
-    if (ok) toast.success("Rejection email sent");
+    toast.success("Rejected & email sent");
   }
+
 
   async function remove(s: Submission) {
     const { error } = await supabase.from("submissions").delete().eq("id", s.id);
