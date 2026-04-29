@@ -59,9 +59,9 @@ function JoinPage() {
         </div>
       </section>
 
-      <section className="bg-secondary/30 px-6 py-16">
+      <section className="px-6 py-16">
         <div className="mx-auto w-full max-w-2xl animate-fade-up">
-          <div className="lift-card rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-10">
+          <div className="glass-card rounded-3xl p-6 sm:p-10">
             {accepted ? (
               <JoinForm />
             ) : (
@@ -72,7 +72,7 @@ function JoinPage() {
                 <button
                   type="button"
                   onClick={() => setRulesOpen(true)}
-                  className="font-bangla rounded-xl bg-foreground px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:-translate-y-0.5"
+                  className="btn-premium font-bangla px-6 py-3 text-sm font-semibold"
                 >
                   নিয়মাবলী দেখুন
                 </button>

@@ -49,10 +49,10 @@ function ContactPage() {
             <a
               key={it.label}
               href={it.href}
-              className={`lift-card group block rounded-2xl border border-border bg-card p-6 text-center shadow-[var(--shadow-card)] animate-fade-up delay-${(i + 1) * 100}`}
+              className={`glass-card group block rounded-2xl p-7 text-center transition animate-fade-up delay-${(i + 1) * 100}`}
             >
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{it.label}</p>
-              <p className="mt-3 font-display text-base font-semibold transition group-hover:text-gold">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground/80">{it.label}</p>
+              <p className="mt-4 font-display text-base font-semibold tracking-tight transition group-hover:text-neon">
                 {it.value}
               </p>
             </a>
