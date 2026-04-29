@@ -16,7 +16,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-8 sm:py-4">
         <Link to="/" className="group flex items-center gap-3">
-          <div className="rounded-full bg-foreground p-1 ring-1 ring-[var(--gold)]/40 transition group-hover:ring-[var(--gold)]">
+          <div className="rounded-full bg-foreground/10 p-1 ring-1 ring-[var(--neon)]/50 transition group-hover:ring-[var(--neon)] group-hover:shadow-[0_0_18px_-2px_var(--neon-soft)]">
             <img src={logo} alt="CSF" className="h-9 w-9 rounded-full object-cover" />
           </div>
           <div className="leading-tight">
@@ -44,9 +44,9 @@ export function SiteHeader() {
           ))}
           <Link
             to="/join"
-            className="btn-glow group relative ml-3 inline-flex items-center gap-2 overflow-hidden rounded-full bg-foreground px-5 py-2 text-sm font-semibold text-primary-foreground transition hover:shadow-[0_10px_24px_-10px_rgba(212,175,55,0.6)]"
+            className="btn-glow group relative ml-3 inline-flex items-center gap-2 overflow-hidden rounded-full bg-foreground/10 px-5 py-2 text-sm font-semibold text-foreground ring-1 ring-[var(--neon)]/50 transition"
           >
-            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
+            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] opacity-80 transition-transform duration-500 group-hover:translate-x-0" />
             <span className="relative">Join Team</span>
           </Link>
         </nav>
