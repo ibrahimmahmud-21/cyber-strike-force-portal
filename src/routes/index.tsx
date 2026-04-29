@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
+import { CyberBackground } from "@/components/CyberBackground";
+import { useScrollReveal } from "@/hooks/useReveal";
 import logo from "@/assets/csf-logo.png";
 
 export const Route = createFileRoute("/")({
@@ -97,9 +99,10 @@ function Index() {
             ].map((c, i) => (
               <div
                 key={c.t}
-                className={`lift-card rounded-2xl border border-border bg-card p-7 shadow-[var(--shadow-card)] animate-fade-up delay-${(i + 1) * 100}`}
+                className="reveal lift-card rounded-2xl border border-border bg-card p-7 shadow-[var(--shadow-card)]"
+                style={{ transitionDelay: `${i * 90}ms` }}
               >
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-foreground text-gold">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/10 text-gold ring-1 ring-[var(--neon)]/40">
                   <span className="font-display text-sm font-bold">0{i + 1}</span>
                 </div>
                 <h3 className="font-display text-xl font-bold">{c.t}</h3>
@@ -112,8 +115,10 @@ function Index() {
 
       {/* CTA */}
       <section className="relative overflow-hidden border-t border-border px-6 py-20">
+        <CyberBackground />
         <div className="pointer-events-none absolute inset-0 cyber-grid opacity-50" />
-        <div className="relative mx-auto max-w-3xl text-center">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px sheen-band" />
+        <div className="relative mx-auto max-w-3xl text-center reveal">
           <h2 className="font-display text-3xl font-bold sm:text-4xl">
             Ready to <span className="text-gold">join the force?</span>
           </h2>
@@ -122,9 +127,9 @@ function Index() {
           </p>
           <Link
             to="/join"
-            className="group relative mt-8 inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-9 py-3.5 text-sm font-semibold text-primary-foreground transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_rgba(212,175,55,0.55)]"
+            className="btn-glow group relative mt-8 inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground/10 px-9 py-3.5 text-sm font-semibold text-foreground ring-1 ring-[var(--neon)]/50 transition hover:-translate-y-0.5"
           >
-            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
+            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] opacity-80 transition-transform duration-500 group-hover:translate-x-0" />
             <span className="relative">Apply Now</span>
           </Link>
         </div>
