@@ -44,10 +44,9 @@ export function SiteHeader() {
           ))}
           <Link
             to="/join"
-            className="btn-glow group relative ml-3 inline-flex items-center gap-2 overflow-hidden rounded-full bg-foreground/10 px-5 py-2 text-sm font-semibold text-foreground ring-1 ring-[var(--neon)]/50 transition"
+            className="btn-premium ml-3 inline-flex items-center gap-2 px-5 py-2 text-xs font-bold uppercase tracking-[0.16em]"
           >
-            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] opacity-80 transition-transform duration-500 group-hover:translate-x-0" />
-            <span className="relative">Join Team</span>
+            Join Team
           </Link>
         </nav>
 

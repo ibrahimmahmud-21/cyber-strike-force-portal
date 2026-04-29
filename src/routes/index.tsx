@@ -31,44 +31,44 @@ function Index() {
       <SiteHeader />
 
       {/* Hero */}
-      <section className="relative overflow-hidden px-6 py-24 sm:py-32">
-        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-60" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.92_0.06_88/0.4),transparent_60%)]" />
+      <section className="relative overflow-hidden px-6 py-28 sm:py-36">
+        <CyberBackground />
+        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-50" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,207,255,0.18),transparent_65%)]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px sheen-band" />
 
         <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
-          <div className="animate-fade-up mb-8">
-            <div className="rounded-full bg-foreground p-4 shadow-[0_20px_60px_-20px_rgba(212,175,55,0.5)] ring-1 ring-[var(--gold)]/40">
+          <div className="animate-fade-up relative mb-10">
+            <div className="logo-aura" />
+            <div className="float-y relative rounded-full bg-background/40 p-2 ring-1 ring-[var(--neon)]/60 backdrop-blur">
               <img
                 src={logo}
                 alt="Cyber Strike Force Logo"
-                className="h-28 w-28 rounded-full object-cover sm:h-36 sm:w-36"
+                className="h-32 w-32 rounded-full object-cover sm:h-40 sm:w-40"
               />
             </div>
           </div>
 
-          <span className="font-bangla animate-fade-up delay-100 mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--gold)]/40 bg-[var(--gold-soft)]/40 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--gold-deep)]" />
+          <span className="animate-fade-up delay-100 mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--neon)]/40 bg-[var(--neon-soft)]/20 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.28em] text-foreground/90 backdrop-blur">
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--neon)] shadow-[0_0_10px_var(--neon)]" />
             Cyber Strike Force
           </span>
 
-          <h1 className="animate-fade-up delay-200 font-display text-5xl font-bold leading-[1.05] text-foreground sm:text-6xl md:text-7xl">
-            JOIN <span className="text-gold">TEAM</span>
+          <h1 className="animate-fade-up delay-200 font-display text-6xl font-black leading-[1] tracking-tight text-foreground sm:text-7xl md:text-8xl">
+            JOIN <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">TEAM</span>
           </h1>
 
-          <div className="animate-fade-up delay-200 my-6 gold-divider" />
-
-          <p className="animate-fade-up delay-300 font-bangla max-w-xl text-lg text-muted-foreground sm:text-xl">
+          <p className="animate-fade-up delay-300 mt-8 max-w-xl text-base font-light tracking-wide text-muted-foreground/80 sm:text-lg">
             We fight for Bangladesh
           </p>
 
           <Link
             to="/join"
-            className="btn-glow animate-fade-up delay-400 group relative mt-10 inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-10 py-4 text-base font-semibold tracking-wide text-primary-foreground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.4)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_rgba(212,175,55,0.55)]"
+            className="btn-premium animate-fade-up delay-400 group mt-12 inline-flex items-center gap-3 px-10 py-4 text-sm font-bold uppercase tracking-[0.18em]"
           >
-            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
-            <span className="relative">Join Now</span>
+            <span>Join Now</span>
             <svg
-              className="relative h-4 w-4 transition-transform group-hover:translate-x-0.5"
+              className="h-4 w-4 transition-transform group-hover:translate-x-1"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -83,15 +83,17 @@ function Index() {
       </section>
 
       {/* Pillars */}
-      <section className="border-t border-border bg-secondary/30 px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-12 text-center">
-            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">What we stand for</p>
-            <h2 className="font-display mt-3 text-3xl font-bold sm:text-4xl">
-              Defending the digital <span className="text-gold">frontier</span>
+      <section className="relative border-t border-border px-6 py-24">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,207,255,0.06),transparent_70%)]" />
+        <div className="relative mx-auto max-w-6xl">
+          <div className="mb-14 text-center reveal">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">What we stand for</p>
+            <h2 className="font-display mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+              Defending the digital{" "}
+              <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">frontier</span>
             </h2>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
             {[
               { t: "Defense", d: "Protecting Bangladesh's digital infrastructure from emerging threats." },
               { t: "Intelligence", d: "Continuous monitoring, research and threat intelligence operations." },
@@ -99,14 +101,14 @@ function Index() {
             ].map((c, i) => (
               <div
                 key={c.t}
-                className="reveal lift-card rounded-2xl border border-border bg-card p-7 shadow-[var(--shadow-card)]"
+                className="reveal glass-card rounded-2xl p-8 transition duration-500"
                 style={{ transitionDelay: `${i * 90}ms` }}
               >
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/10 text-gold ring-1 ring-[var(--neon)]/40">
+                <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--neon-soft)]/30 text-neon ring-1 ring-[var(--neon)]/40">
                   <span className="font-display text-sm font-bold">0{i + 1}</span>
                 </div>
-                <h3 className="font-display text-xl font-bold">{c.t}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
+                <h3 className="font-display text-xl font-bold tracking-tight">{c.t}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground/90">{c.d}</p>
               </div>
             ))}
           </div>
@@ -114,23 +116,23 @@ function Index() {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden border-t border-border px-6 py-20">
+      <section className="relative overflow-hidden border-t border-border px-6 py-24">
         <CyberBackground />
-        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-50" />
+        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-40" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px sheen-band" />
         <div className="relative mx-auto max-w-3xl text-center reveal">
-          <h2 className="font-display text-3xl font-bold sm:text-4xl">
-            Ready to <span className="text-gold">join the force?</span>
+          <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
+            Ready to{" "}
+            <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">join the force?</span>
           </h2>
-          <p className="font-bangla mt-3 text-muted-foreground">
+          <p className="mt-4 text-muted-foreground/80">
             Apply today and become part of Bangladesh's elite cyber team.
           </p>
           <Link
             to="/join"
-            className="btn-glow group relative mt-8 inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground/10 px-9 py-3.5 text-sm font-semibold text-foreground ring-1 ring-[var(--neon)]/50 transition hover:-translate-y-0.5"
+            className="btn-premium group mt-10 inline-flex items-center gap-3 px-10 py-4 text-sm font-bold uppercase tracking-[0.18em]"
           >
-            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] opacity-80 transition-transform duration-500 group-hover:translate-x-0" />
-            <span className="relative">Apply Now</span>
+            <span>Apply Now</span>
           </Link>
         </div>
       </section>
