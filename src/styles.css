@@ -287,9 +287,6 @@
   .btn-glow {
     transition: box-shadow 300ms ease, transform 300ms ease, border-color 300ms ease;
   }
-  .btn-glow {
-    box-shadow: 0 0 0 1px transparent, 0 0 0 0 transparent;
-  }
   .btn-glow:hover {
     box-shadow: 0 0 0 1px var(--neon-soft), 0 0 28px -2px var(--neon-soft);
     transform: translateY(-1px);
