@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
+import { CyberBackground } from "@/components/CyberBackground";
+import { useScrollReveal } from "@/hooks/useReveal";
 import logo from "@/assets/csf-logo.png";
 
 export const Route = createFileRoute("/")({
