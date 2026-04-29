@@ -86,33 +86,40 @@ function Login({ onSuccess }: { onSuccess: () => void }) {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-6">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-6 text-foreground">
       <div className="pointer-events-none absolute inset-0 cyber-grid opacity-60" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,207,255,0.18),transparent_65%)]" />
       <Toaster position="top-center" richColors />
       <form
         onSubmit={submit}
-        className="animate-fade-up relative w-full max-w-sm rounded-2xl border border-border bg-card p-8 shadow-[var(--shadow-card)]"
+        className="glass-card animate-fade-up relative w-full max-w-sm rounded-2xl p-8"
       >
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 inline-flex h-16 w-16 items-center justify-center rounded-full bg-foreground p-1.5 ring-1 ring-[var(--gold)]/40">
-            <img src={logo} alt="CSF" className="h-full w-full rounded-full object-cover" />
+          <div className="relative mx-auto mb-4 inline-block">
+            <div className="logo-aura" />
+            <div className="relative inline-flex h-20 w-20 items-center justify-center rounded-full bg-background/40 p-1.5 ring-1 ring-[var(--neon)]/60 backdrop-blur">
+              <img src={logo} alt="CSF" className="h-full w-full rounded-full object-cover" />
+            </div>
           </div>
-          <h1 className="font-display text-2xl font-bold">Admin Panel</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Enter password to continue</p>
+          <h1 className="font-display text-2xl font-bold">
+            CSF <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">Admin</span>
+          </h1>
+          <p className="mt-1 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+            We fight for Bangladesh
+          </p>
         </div>
         <input
           type="password"
           value={pwd}
           onChange={(e) => setPwd(e.target.value)}
           placeholder="Password"
-          className="w-full rounded-xl border border-border bg-white px-4 py-3 outline-none focus:border-[var(--gold)] focus:ring-2 focus:ring-[var(--gold-soft)]"
+          className="input-neon w-full px-4 py-3"
         />
         <button
           type="submit"
-          className="group relative mt-4 w-full overflow-hidden rounded-xl bg-foreground px-6 py-3 font-semibold text-primary-foreground transition hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-8px_rgba(212,175,55,0.5)]"
+          className="btn-premium mt-4 w-full px-6 py-3 text-sm font-bold uppercase tracking-[0.16em]"
         >
-          <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
-          <span className="relative">Sign In</span>
+          Sign In
         </button>
       </form>
     </div>
@@ -133,18 +140,9 @@ function showBrowserNotification(title: string, body: string) {
 
 function StatusBadge({ status }: { status: Status }) {
   const map: Record<Status, { label: string; cls: string }> = {
-    pending: {
-      label: "Pending",
-      cls: "bg-[var(--gold-soft)] text-foreground ring-1 ring-[var(--gold)]/50",
-    },
-    approved: {
-      label: "Approved",
-      cls: "bg-emerald-100 text-emerald-800 ring-1 ring-emerald-300",
-    },
-    rejected: {
-      label: "Rejected",
-      cls: "bg-red-100 text-red-800 ring-1 ring-red-300",
-    },
+    pending: { label: "Pending", cls: "status-glow-pending" },
+    approved: { label: "Approved", cls: "status-glow-approved" },
+    rejected: { label: "Rejected", cls: "status-glow-rejected" },
   };
   const v = map[status];
   return (
@@ -416,23 +414,31 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   const unreadCount = items.filter((i) => !i.is_read).length;
 
   return (
-    <div className="min-h-screen bg-secondary/30">
+    <div className="relative min-h-screen bg-background text-foreground">
+      <div className="pointer-events-none fixed inset-0 cyber-grid opacity-30" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,207,255,0.12),transparent_60%)]" />
       <Toaster position="top-center" richColors />
 
-      <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur-xl">
+      <header className="sticky top-0 z-10 border-b border-[var(--neon)]/20 bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="rounded-full bg-foreground p-1 ring-1 ring-[var(--gold)]/40">
-              <img src={logo} alt="CSF" className="h-10 w-10 rounded-full object-cover" />
+            <div className="relative">
+              <div className="absolute -inset-1 rounded-full bg-[var(--neon-soft)] blur-md opacity-70" />
+              <div className="relative rounded-full bg-background/60 p-1 ring-1 ring-[var(--neon)]/60 backdrop-blur">
+                <img src={logo} alt="CSF" className="h-10 w-10 rounded-full object-cover" />
+              </div>
             </div>
             <div>
               <h1 className="font-display text-lg font-bold leading-none">
-                CSF <span className="text-gold">Admin</span>
+                CSF <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">Admin</span>
               </h1>
+              <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                We fight for Bangladesh
+              </p>
               <p className="mt-1 text-xs text-muted-foreground">
                 {items.length} submissions
                 {unreadCount > 0 && (
-                  <span className="ml-2 inline-flex items-center rounded-full bg-[var(--gold-soft)] px-2 py-0.5 text-[10px] font-semibold text-foreground ring-1 ring-[var(--gold)]/40">
+                  <span className="ml-2 inline-flex items-center rounded-full bg-[var(--neon-soft)]/40 px-2 py-0.5 text-[10px] font-semibold text-foreground ring-1 ring-[var(--neon)]/40">
                     {unreadCount} new
                   </span>
                 )}
@@ -444,7 +450,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
             <div className="relative">
               <button
                 onClick={() => setMenuOpen((v) => !v)}
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-sm font-medium transition hover:border-[var(--gold)]"
+                className="btn-ghost-neon inline-flex items-center gap-2 px-3 py-2 text-sm font-medium"
                 aria-label="Filter"
               >
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -453,7 +459,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 <span className="hidden sm:inline capitalize">{filter}</span>
               </button>
               {menuOpen && (
-                <div className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-white shadow-lg">
+                <div className="glass-card absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl">
                   {(["all", "pending", "approved", "rejected"] as Filter[]).map((f) => (
                     <button
                       key={f}
@@ -461,7 +467,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                         setFilter(f);
                         setMenuOpen(false);
                       }}
-                      className={`flex w-full items-center justify-between px-4 py-2.5 text-sm capitalize transition hover:bg-secondary ${filter === f ? "bg-[var(--gold-soft)]/40 font-semibold" : ""}`}
+                      className={`flex w-full items-center justify-between px-4 py-2.5 text-sm capitalize transition hover:bg-[var(--neon-soft)]/15 ${filter === f ? "bg-[var(--neon-soft)]/25 font-semibold text-neon" : "text-foreground/90"}`}
                     >
                       <span>{f}</span>
                       <span className="text-xs text-muted-foreground">{counts[f]}</span>
@@ -476,14 +482,14 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
             {notifPerm !== "granted" && notifPerm !== "unsupported" && (
               <button
                 onClick={enableNotifications}
-                className="rounded-lg border border-[var(--gold)]/50 bg-[var(--gold-soft)] px-3 py-2 text-xs font-medium text-foreground transition hover:bg-[var(--gold)]/30"
+                className="btn-ghost-neon px-3 py-2 text-xs font-medium"
               >
                 🔔 Alerts
               </button>
             )}
             <button
               onClick={onLogout}
-              className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-medium transition hover:border-[var(--gold)] hover:bg-secondary"
+              className="btn-ghost-neon px-4 py-2 text-sm font-medium"
             >
               Logout
             </button>
@@ -491,30 +497,28 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 py-8">
+      <main className="relative mx-auto max-w-6xl px-6 py-8">
         {loading ? (
           <p className="text-center text-muted-foreground">Loading...</p>
         ) : filtered.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border bg-card p-16 text-center">
+          <div className="glass-card rounded-2xl p-16 text-center">
             <p className="text-muted-foreground">No submissions {filter !== "all" ? `(${filter})` : "yet"}.</p>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((s, i) => (
               <button
                 key={s.id}
                 onClick={() => openSubmission(s)}
                 style={{ animationDelay: `${Math.min(i * 40, 400)}ms` }}
-                className={`lift-card animate-fade-up group relative flex flex-col gap-3 rounded-2xl border p-5 text-left shadow-[var(--shadow-card)] ${
-                  s.is_read
-                    ? "border-border bg-card"
-                    : "border-[var(--gold)]/50 bg-[var(--gold-soft)]/40 ring-1 ring-[var(--gold)]/30"
+                className={`glass-card animate-fade-up group relative flex flex-col gap-3 rounded-2xl p-5 text-left transition duration-300 hover:-translate-y-1 ${
+                  s.is_read ? "" : "ring-1 ring-[var(--neon)]/40"
                 }`}
               >
                 <div className="absolute right-3 top-3 flex items-center gap-1.5">
                   {!s.is_read && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-foreground px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-gold shadow">
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--gold)]" />
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[var(--neon-soft)]/40 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-neon ring-1 ring-[var(--neon)]/40">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--neon)] shadow-[0_0_10px_var(--neon)]" />
                       New
                     </span>
                   )}
@@ -524,7 +528,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                   <img
                     src={s.photo_url?.[0]}
                     alt={s.full_name}
-                    className="h-12 w-12 rounded-full object-cover ring-2 ring-[var(--gold-soft)]"
+                    className="h-12 w-12 rounded-full object-cover ring-2 ring-[var(--neon)]/40"
                   />
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold">{s.full_name}</p>
@@ -619,9 +623,9 @@ function ConfirmDialog({
   const matches = typed === confirmWord;
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 p-4 backdrop-blur" onClick={onCancel}>
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 backdrop-blur" onClick={onCancel}>
       <div
-        className="animate-fade-up w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl"
+        className="glass-card animate-fade-up w-full max-w-md rounded-2xl p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="font-display text-xl font-bold">{title}</h3>
@@ -637,27 +641,27 @@ function ConfirmDialog({
               onChange={(e) => extraInput.onChange(e.target.value)}
               placeholder={extraInput.placeholder}
               rows={3}
-              className="w-full rounded-xl border border-border bg-white px-3 py-2 text-sm outline-none focus:border-[var(--gold)] focus:ring-2 focus:ring-[var(--gold-soft)]"
+              className="input-neon w-full px-3 py-2 text-sm"
             />
           </div>
         )}
 
         <div className="mt-4">
           <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Type <span className="font-mono font-bold text-foreground">{confirmWord}</span> to confirm
+            Type <span className="font-mono font-bold text-neon">{confirmWord}</span> to confirm
           </label>
           <input
             value={typed}
             onChange={(e) => setTyped(e.target.value)}
             placeholder={confirmWord}
-            className="w-full rounded-xl border border-border bg-white px-3 py-2 text-sm outline-none focus:border-[var(--gold)] focus:ring-2 focus:ring-[var(--gold-soft)]"
+            className="input-neon w-full px-3 py-2 text-sm"
           />
         </div>
 
         <div className="mt-5 flex justify-end gap-2">
           <button
             onClick={onCancel}
-            className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-medium transition hover:bg-secondary"
+            className="btn-ghost-neon px-4 py-2 text-sm font-medium"
           >
             Cancel
           </button>
@@ -712,21 +716,21 @@ function DetailModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="animate-fade-up my-8 w-full max-w-2xl rounded-2xl border border-border bg-card shadow-2xl"
+        className="glass-card animate-fade-up my-8 w-full max-w-2xl overflow-hidden rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-border p-5">
+        <div className="flex items-center justify-between border-b border-[var(--neon)]/20 p-5">
           <div className="flex items-center gap-3">
             <h2 className="font-display text-xl font-bold">{item.full_name}</h2>
             <StatusBadge status={item.status} />
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-2 text-muted-foreground hover:bg-secondary"
+            className="rounded-lg p-2 text-muted-foreground transition hover:bg-[var(--neon-soft)]/15 hover:text-neon"
             aria-label="Close"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -736,11 +740,11 @@ function DetailModal({
         </div>
 
         {/* Action buttons */}
-        <div className="flex flex-wrap gap-2 border-b border-border bg-secondary/30 p-4">
+        <div className="flex flex-wrap gap-2 border-b border-[var(--neon)]/20 bg-background/40 p-4">
           <button
             onClick={() => setConfirmAction("approve")}
             disabled={item.status === "approved"}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            className="btn-approve inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
           >
             ✓ Approve
           </button>
@@ -750,13 +754,13 @@ function DetailModal({
               setConfirmAction("reject");
             }}
             disabled={item.status === "rejected"}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            className="btn-reject inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
           >
             ✕ Reject
           </button>
           <button
             onClick={() => setConfirmAction("delete")}
-            className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-50"
+            className="btn-ghost-neon ml-auto inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold !text-red-400 hover:!border-red-400/60"
           >
             🗑 Delete
           </button>
@@ -767,7 +771,7 @@ function DetailModal({
           <ImageGallery title={`ID Cards (${item.id_card_url?.length ?? 0})`} urls={item.id_card_url ?? []} />
         </div>
 
-        <dl className="divide-y divide-border border-t border-border">
+        <dl className="divide-y divide-[var(--neon)]/15 border-t border-[var(--neon)]/20">
           {rows.map(([k, v]) => (
             <div key={k} className="grid grid-cols-3 gap-4 px-5 py-3 text-sm">
               <dt className="text-muted-foreground">{k}</dt>
