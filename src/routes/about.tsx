@@ -61,21 +61,20 @@ function AboutPage() {
           ].map((c, i) => (
             <div
               key={c.t}
-              className={`lift-card rounded-2xl border border-border bg-card p-7 shadow-[var(--shadow-card)] animate-fade-up delay-${(i + 1) * 100}`}
+              className={`glass-card rounded-2xl p-8 animate-fade-up delay-${(i + 1) * 100}`}
             >
-              <h2 className="font-display text-xl font-bold">{c.t}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
+              <h2 className="font-display text-xl font-bold tracking-tight">{c.t}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground/90">{c.d}</p>
             </div>
           ))}
         </div>
 
-        <div className="mx-auto mt-12 max-w-3xl text-center">
+        <div className="mx-auto mt-14 max-w-3xl text-center">
           <Link
             to="/join"
-            className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-9 py-3.5 text-sm font-semibold text-primary-foreground transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_rgba(212,175,55,0.55)]"
+            className="btn-premium inline-flex items-center gap-3 px-9 py-3.5 text-sm font-bold uppercase tracking-[0.18em]"
           >
-            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
-            <span className="relative">Join the Team</span>
+            Join the Team
           </Link>
         </div>
       </section>
