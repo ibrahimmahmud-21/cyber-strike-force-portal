@@ -623,9 +623,9 @@ function ConfirmDialog({
   const matches = typed === confirmWord;
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 p-4 backdrop-blur" onClick={onCancel}>
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 backdrop-blur" onClick={onCancel}>
       <div
-        className="animate-fade-up w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl"
+        className="glass-card animate-fade-up w-full max-w-md rounded-2xl p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="font-display text-xl font-bold">{title}</h3>
@@ -641,27 +641,27 @@ function ConfirmDialog({
               onChange={(e) => extraInput.onChange(e.target.value)}
               placeholder={extraInput.placeholder}
               rows={3}
-              className="w-full rounded-xl border border-border bg-white px-3 py-2 text-sm outline-none focus:border-[var(--gold)] focus:ring-2 focus:ring-[var(--gold-soft)]"
+              className="input-neon w-full px-3 py-2 text-sm"
             />
           </div>
         )}
 
         <div className="mt-4">
           <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Type <span className="font-mono font-bold text-foreground">{confirmWord}</span> to confirm
+            Type <span className="font-mono font-bold text-neon">{confirmWord}</span> to confirm
           </label>
           <input
             value={typed}
             onChange={(e) => setTyped(e.target.value)}
             placeholder={confirmWord}
-            className="w-full rounded-xl border border-border bg-white px-3 py-2 text-sm outline-none focus:border-[var(--gold)] focus:ring-2 focus:ring-[var(--gold-soft)]"
+            className="input-neon w-full px-3 py-2 text-sm"
           />
         </div>
 
         <div className="mt-5 flex justify-end gap-2">
           <button
             onClick={onCancel}
-            className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-medium transition hover:bg-secondary"
+            className="btn-ghost-neon px-4 py-2 text-sm font-medium"
           >
             Cancel
           </button>
@@ -716,21 +716,21 @@ function DetailModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="animate-fade-up my-8 w-full max-w-2xl rounded-2xl border border-border bg-card shadow-2xl"
+        className="glass-card animate-fade-up my-8 w-full max-w-2xl overflow-hidden rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-border p-5">
+        <div className="flex items-center justify-between border-b border-[var(--neon)]/20 p-5">
           <div className="flex items-center gap-3">
             <h2 className="font-display text-xl font-bold">{item.full_name}</h2>
             <StatusBadge status={item.status} />
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-2 text-muted-foreground hover:bg-secondary"
+            className="rounded-lg p-2 text-muted-foreground transition hover:bg-[var(--neon-soft)]/15 hover:text-neon"
             aria-label="Close"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -740,11 +740,11 @@ function DetailModal({
         </div>
 
         {/* Action buttons */}
-        <div className="flex flex-wrap gap-2 border-b border-border bg-secondary/30 p-4">
+        <div className="flex flex-wrap gap-2 border-b border-[var(--neon)]/20 bg-background/40 p-4">
           <button
             onClick={() => setConfirmAction("approve")}
             disabled={item.status === "approved"}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            className="btn-approve inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
           >
             ✓ Approve
           </button>
@@ -754,13 +754,13 @@ function DetailModal({
               setConfirmAction("reject");
             }}
             disabled={item.status === "rejected"}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            className="btn-reject inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
           >
             ✕ Reject
           </button>
           <button
             onClick={() => setConfirmAction("delete")}
-            className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-50"
+            className="btn-ghost-neon ml-auto inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold !text-red-400 hover:!border-red-400/60"
           >
             🗑 Delete
           </button>
@@ -771,7 +771,7 @@ function DetailModal({
           <ImageGallery title={`ID Cards (${item.id_card_url?.length ?? 0})`} urls={item.id_card_url ?? []} />
         </div>
 
-        <dl className="divide-y divide-border border-t border-border">
+        <dl className="divide-y divide-[var(--neon)]/15 border-t border-[var(--neon)]/20">
           {rows.map(([k, v]) => (
             <div key={k} className="grid grid-cols-3 gap-4 px-5 py-3 text-sm">
               <dt className="text-muted-foreground">{k}</dt>
