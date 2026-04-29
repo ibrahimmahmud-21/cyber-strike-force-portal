@@ -86,33 +86,40 @@ function Login({ onSuccess }: { onSuccess: () => void }) {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-6">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-6 text-foreground">
       <div className="pointer-events-none absolute inset-0 cyber-grid opacity-60" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,207,255,0.18),transparent_65%)]" />
       <Toaster position="top-center" richColors />
       <form
         onSubmit={submit}
-        className="animate-fade-up relative w-full max-w-sm rounded-2xl border border-border bg-card p-8 shadow-[var(--shadow-card)]"
+        className="glass-card animate-fade-up relative w-full max-w-sm rounded-2xl p-8"
       >
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 inline-flex h-16 w-16 items-center justify-center rounded-full bg-foreground p-1.5 ring-1 ring-[var(--gold)]/40">
-            <img src={logo} alt="CSF" className="h-full w-full rounded-full object-cover" />
+          <div className="relative mx-auto mb-4 inline-block">
+            <div className="logo-aura" />
+            <div className="relative inline-flex h-20 w-20 items-center justify-center rounded-full bg-background/40 p-1.5 ring-1 ring-[var(--neon)]/60 backdrop-blur">
+              <img src={logo} alt="CSF" className="h-full w-full rounded-full object-cover" />
+            </div>
           </div>
-          <h1 className="font-display text-2xl font-bold">Admin Panel</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Enter password to continue</p>
+          <h1 className="font-display text-2xl font-bold">
+            CSF <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">Admin</span>
+          </h1>
+          <p className="mt-1 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+            We fight for Bangladesh
+          </p>
         </div>
         <input
           type="password"
           value={pwd}
           onChange={(e) => setPwd(e.target.value)}
           placeholder="Password"
-          className="w-full rounded-xl border border-border bg-white px-4 py-3 outline-none focus:border-[var(--gold)] focus:ring-2 focus:ring-[var(--gold-soft)]"
+          className="input-neon w-full px-4 py-3"
         />
         <button
           type="submit"
-          className="group relative mt-4 w-full overflow-hidden rounded-xl bg-foreground px-6 py-3 font-semibold text-primary-foreground transition hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-8px_rgba(212,175,55,0.5)]"
+          className="btn-premium mt-4 w-full px-6 py-3 text-sm font-bold uppercase tracking-[0.16em]"
         >
-          <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
-          <span className="relative">Sign In</span>
+          Sign In
         </button>
       </form>
     </div>
@@ -133,18 +140,9 @@ function showBrowserNotification(title: string, body: string) {
 
 function StatusBadge({ status }: { status: Status }) {
   const map: Record<Status, { label: string; cls: string }> = {
-    pending: {
-      label: "Pending",
-      cls: "bg-[var(--gold-soft)] text-foreground ring-1 ring-[var(--gold)]/50",
-    },
-    approved: {
-      label: "Approved",
-      cls: "bg-emerald-100 text-emerald-800 ring-1 ring-emerald-300",
-    },
-    rejected: {
-      label: "Rejected",
-      cls: "bg-red-100 text-red-800 ring-1 ring-red-300",
-    },
+    pending: { label: "Pending", cls: "status-glow-pending" },
+    approved: { label: "Approved", cls: "status-glow-approved" },
+    rejected: { label: "Rejected", cls: "status-glow-rejected" },
   };
   const v = map[status];
   return (
