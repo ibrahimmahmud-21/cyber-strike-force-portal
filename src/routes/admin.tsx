@@ -497,30 +497,28 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 py-8">
+      <main className="relative mx-auto max-w-6xl px-6 py-8">
         {loading ? (
           <p className="text-center text-muted-foreground">Loading...</p>
         ) : filtered.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border bg-card p-16 text-center">
+          <div className="glass-card rounded-2xl p-16 text-center">
             <p className="text-muted-foreground">No submissions {filter !== "all" ? `(${filter})` : "yet"}.</p>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((s, i) => (
               <button
                 key={s.id}
                 onClick={() => openSubmission(s)}
                 style={{ animationDelay: `${Math.min(i * 40, 400)}ms` }}
-                className={`lift-card animate-fade-up group relative flex flex-col gap-3 rounded-2xl border p-5 text-left shadow-[var(--shadow-card)] ${
-                  s.is_read
-                    ? "border-border bg-card"
-                    : "border-[var(--gold)]/50 bg-[var(--gold-soft)]/40 ring-1 ring-[var(--gold)]/30"
+                className={`glass-card animate-fade-up group relative flex flex-col gap-3 rounded-2xl p-5 text-left transition duration-300 hover:-translate-y-1 ${
+                  s.is_read ? "" : "ring-1 ring-[var(--neon)]/40"
                 }`}
               >
                 <div className="absolute right-3 top-3 flex items-center gap-1.5">
                   {!s.is_read && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-foreground px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-gold shadow">
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--gold)]" />
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[var(--neon-soft)]/40 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-neon ring-1 ring-[var(--neon)]/40">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--neon)] shadow-[0_0_10px_var(--neon)]" />
                       New
                     </span>
                   )}
@@ -530,7 +528,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                   <img
                     src={s.photo_url?.[0]}
                     alt={s.full_name}
-                    className="h-12 w-12 rounded-full object-cover ring-2 ring-[var(--gold-soft)]"
+                    className="h-12 w-12 rounded-full object-cover ring-2 ring-[var(--neon)]/40"
                   />
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold">{s.full_name}</p>
