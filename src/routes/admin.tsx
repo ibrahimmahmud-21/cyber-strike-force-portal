@@ -414,23 +414,31 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   const unreadCount = items.filter((i) => !i.is_read).length;
 
   return (
-    <div className="min-h-screen bg-secondary/30">
+    <div className="relative min-h-screen bg-background text-foreground">
+      <div className="pointer-events-none fixed inset-0 cyber-grid opacity-30" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,207,255,0.12),transparent_60%)]" />
       <Toaster position="top-center" richColors />
 
-      <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur-xl">
+      <header className="sticky top-0 z-10 border-b border-[var(--neon)]/20 bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="rounded-full bg-foreground p-1 ring-1 ring-[var(--gold)]/40">
-              <img src={logo} alt="CSF" className="h-10 w-10 rounded-full object-cover" />
+            <div className="relative">
+              <div className="absolute -inset-1 rounded-full bg-[var(--neon-soft)] blur-md opacity-70" />
+              <div className="relative rounded-full bg-background/60 p-1 ring-1 ring-[var(--neon)]/60 backdrop-blur">
+                <img src={logo} alt="CSF" className="h-10 w-10 rounded-full object-cover" />
+              </div>
             </div>
             <div>
               <h1 className="font-display text-lg font-bold leading-none">
-                CSF <span className="text-gold">Admin</span>
+                CSF <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">Admin</span>
               </h1>
+              <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                We fight for Bangladesh
+              </p>
               <p className="mt-1 text-xs text-muted-foreground">
                 {items.length} submissions
                 {unreadCount > 0 && (
-                  <span className="ml-2 inline-flex items-center rounded-full bg-[var(--gold-soft)] px-2 py-0.5 text-[10px] font-semibold text-foreground ring-1 ring-[var(--gold)]/40">
+                  <span className="ml-2 inline-flex items-center rounded-full bg-[var(--neon-soft)]/40 px-2 py-0.5 text-[10px] font-semibold text-foreground ring-1 ring-[var(--neon)]/40">
                     {unreadCount} new
                   </span>
                 )}
@@ -442,7 +450,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
             <div className="relative">
               <button
                 onClick={() => setMenuOpen((v) => !v)}
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-sm font-medium transition hover:border-[var(--gold)]"
+                className="btn-ghost-neon inline-flex items-center gap-2 px-3 py-2 text-sm font-medium"
                 aria-label="Filter"
               >
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -451,7 +459,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 <span className="hidden sm:inline capitalize">{filter}</span>
               </button>
               {menuOpen && (
-                <div className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-white shadow-lg">
+                <div className="glass-card absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl">
                   {(["all", "pending", "approved", "rejected"] as Filter[]).map((f) => (
                     <button
                       key={f}
@@ -459,7 +467,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                         setFilter(f);
                         setMenuOpen(false);
                       }}
-                      className={`flex w-full items-center justify-between px-4 py-2.5 text-sm capitalize transition hover:bg-secondary ${filter === f ? "bg-[var(--gold-soft)]/40 font-semibold" : ""}`}
+                      className={`flex w-full items-center justify-between px-4 py-2.5 text-sm capitalize transition hover:bg-[var(--neon-soft)]/15 ${filter === f ? "bg-[var(--neon-soft)]/25 font-semibold text-neon" : "text-foreground/90"}`}
                     >
                       <span>{f}</span>
                       <span className="text-xs text-muted-foreground">{counts[f]}</span>
@@ -474,14 +482,14 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
             {notifPerm !== "granted" && notifPerm !== "unsupported" && (
               <button
                 onClick={enableNotifications}
-                className="rounded-lg border border-[var(--gold)]/50 bg-[var(--gold-soft)] px-3 py-2 text-xs font-medium text-foreground transition hover:bg-[var(--gold)]/30"
+                className="btn-ghost-neon px-3 py-2 text-xs font-medium"
               >
                 🔔 Alerts
               </button>
             )}
             <button
               onClick={onLogout}
-              className="rounded-lg border border-border bg-white px-4 py-2 text-sm font-medium transition hover:border-[var(--gold)] hover:bg-secondary"
+              className="btn-ghost-neon px-4 py-2 text-sm font-medium"
             >
               Logout
             </button>
