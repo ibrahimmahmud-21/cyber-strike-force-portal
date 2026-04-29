@@ -45,8 +45,8 @@ export const Route = createRootRoute({
       { name: "description", content: "Cyber Strike force" },
       { property: "og:description", content: "Cyber Strike force" },
       { name: "twitter:description", content: "Cyber Strike force" },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/d9dbfdd5-16ad-4b68-8c82-5fe48d2a0dfb" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/d9dbfdd5-16ad-4b68-8c82-5fe48d2a0dfb" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/17bf3330-dd52-46e5-93c6-a241d5fecb39" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/17bf3330-dd52-46e5-93c6-a241d5fecb39" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
