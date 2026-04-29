@@ -69,37 +69,38 @@
 
 :root {
   --radius: 0.875rem;
-  /* White + Black + Gold premium theme */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.15 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0 0);
-  /* Primary = black */
-  --primary: oklch(0.15 0 0);
-  --primary-foreground: oklch(1 0 0);
-  /* Secondary = subtle warm gray */
-  --secondary: oklch(0.97 0.005 80);
-  --secondary-foreground: oklch(0.15 0 0);
-  --muted: oklch(0.97 0.005 80);
-  --muted-foreground: oklch(0.45 0.01 80);
-  /* Accent = gold #D4AF37 */
-  --accent: oklch(0.78 0.13 85);
-  --accent-foreground: oklch(0.15 0 0);
-  --gold: oklch(0.78 0.13 85);
-  --gold-deep: oklch(0.65 0.13 80);
-  --gold-soft: oklch(0.92 0.06 88);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.92 0.005 80);
-  --input: oklch(0.94 0.005 80);
-  --ring: oklch(0.78 0.13 85);
-  --shadow-soft: 0 2px 12px -4px oklch(0.15 0 0 / 0.08), 0 8px 32px -8px oklch(0.15 0 0 / 0.06);
-  --shadow-card: 0 1px 3px oklch(0.15 0 0 / 0.04), 0 8px 24px -8px oklch(0.15 0 0 / 0.08);
-  --gradient-gold: linear-gradient(135deg, oklch(0.82 0.13 88), oklch(0.68 0.14 80));
-  --neon: oklch(0.85 0.22 145);
-  --neon-soft: oklch(0.85 0.22 145 / 0.35);
+  /* Deep Black + Neon Blue cyber theme */
+  --background: oklch(0.13 0.01 250);
+  --foreground: oklch(0.97 0.01 240);
+  --card: oklch(0.17 0.015 250);
+  --card-foreground: oklch(0.97 0.01 240);
+  --popover: oklch(0.17 0.015 250);
+  --popover-foreground: oklch(0.97 0.01 240);
+  /* Primary = neon blue */
+  --primary: oklch(0.78 0.16 230);
+  --primary-foreground: oklch(0.1 0.02 250);
+  /* Secondary = deep panel */
+  --secondary: oklch(0.2 0.02 250);
+  --secondary-foreground: oklch(0.97 0.01 240);
+  --muted: oklch(0.2 0.02 250);
+  --muted-foreground: oklch(0.68 0.03 240);
+  /* Accent = cyan-blue glow */
+  --accent: oklch(0.78 0.16 230);
+  --accent-foreground: oklch(0.1 0.02 250);
+  /* Keep gold tokens (used minimally for subtle highlights) */
+  --gold: oklch(0.78 0.16 230);
+  --gold-deep: oklch(0.65 0.18 235);
+  --gold-soft: oklch(0.78 0.16 230 / 0.18);
+  --destructive: oklch(0.65 0.24 25);
+  --destructive-foreground: oklch(0.98 0.01 240);
+  --border: oklch(0.3 0.03 240 / 0.6);
+  --input: oklch(0.22 0.02 250);
+  --ring: oklch(0.78 0.16 230);
+  --shadow-soft: 0 2px 12px -4px oklch(0.78 0.16 230 / 0.18), 0 8px 32px -8px oklch(0.78 0.16 230 / 0.14);
+  --shadow-card: 0 1px 3px oklch(0 0 0 / 0.5), 0 10px 30px -10px oklch(0.78 0.16 230 / 0.25);
+  --gradient-gold: linear-gradient(135deg, oklch(0.82 0.16 225), oklch(0.62 0.2 240));
+  --neon: oklch(0.78 0.16 230);
+  --neon-soft: oklch(0.78 0.16 230 / 0.45);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -196,9 +197,15 @@
 
   .cyber-grid {
     background-image:
-      linear-gradient(to right, oklch(0.15 0 0 / 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(0.15 0 0 / 0.04) 1px, transparent 1px);
+      linear-gradient(to right, oklch(0.78 0.16 230 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(0.78 0.16 230 / 0.07) 1px, transparent 1px);
     background-size: 48px 48px;
+    animation: grid-drift 22s linear infinite;
+  }
+
+  @keyframes grid-drift {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 48px 48px, 48px 48px; }
   }
 
   .cyber-lines::before {
@@ -206,8 +213,8 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(90deg, transparent 49.5%, var(--gold) 49.5%, var(--gold) 50.5%, transparent 50.5%);
-    opacity: 0.06;
+      linear-gradient(90deg, transparent 49.5%, var(--neon) 49.5%, var(--neon) 50.5%, transparent 50.5%);
+    opacity: 0.05;
     pointer-events: none;
   }
 
@@ -218,8 +225,48 @@
   }
   .lift-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 18px 40px -18px oklch(0.15 0 0 / 0.25);
-    border-color: var(--gold);
+    box-shadow: 0 18px 40px -18px var(--neon-soft);
+    border-color: var(--neon);
+  }
+
+  /* Slow pulsing glow used behind hero logo */
+  @keyframes neon-pulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%      { opacity: 1;    transform: scale(1.08); }
+  }
+  .neon-pulse {
+    animation: neon-pulse 4.5s ease-in-out infinite;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Moving gradient sheen for accent bands */
+  @keyframes sheen-x {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .sheen-band {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--neon-soft) 25%,
+      transparent 50%,
+      var(--neon-soft) 75%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: sheen-x 6s linear infinite;
   }
 
   @keyframes csf-fade-up {
@@ -240,8 +287,11 @@
   .btn-glow {
     transition: box-shadow 300ms ease, transform 300ms ease, border-color 300ms ease;
   }
+  .btn-glow {
+    box-shadow: 0 0 0 1px transparent, 0 0 0 0 transparent;
+  }
   .btn-glow:hover {
-    box-shadow: 0 0 0 1px var(--neon-soft), 0 0 24px -4px var(--neon-soft);
+    box-shadow: 0 0 0 1px var(--neon-soft), 0 0 28px -2px var(--neon-soft);
     transform: translateY(-1px);
   }
 }
