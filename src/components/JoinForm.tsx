@@ -3,12 +3,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const inputCls =
-  "font-bangla w-full rounded-xl border border-border bg-white px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-[0_1px_2px_rgba(0,0,0,0.04)] outline-none transition focus:border-[var(--gold)] focus:ring-2 focus:ring-[var(--gold-soft)]";
+  "font-bangla w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white placeholder:text-white/40 shadow-[inset_0_1px_2px_rgba(0,0,0,0.35)] outline-none transition focus:border-[#00cfff]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#00cfff]/25 [color-scheme:dark]";
 
-const labelCls = "font-bangla mb-2 block text-sm font-medium text-foreground";
+const labelCls = "font-bangla mb-2.5 block text-sm font-semibold text-white/90";
 
 const fileCls =
-  "font-bangla w-full rounded-xl border border-dashed border-border bg-secondary/40 px-4 py-3 text-sm text-muted-foreground file:mr-4 file:rounded-lg file:border-0 file:bg-foreground file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-foreground/90 cursor-pointer";
+  "font-bangla w-full rounded-xl border border-dashed border-white/15 bg-white/[0.03] px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-lg file:border-0 file:bg-[#00cfff] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black hover:file:bg-[#33d8ff] cursor-pointer";
 
 export function JoinForm() {
   const [loading, setLoading] = useState(false);
@@ -135,7 +135,7 @@ export function JoinForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label className={labelCls}>আপনার পুরো নাম *</label>
         <input name="full_name" required maxLength={120} className={inputCls} />
@@ -215,9 +215,12 @@ export function JoinForm() {
       <button
         type="submit"
         disabled={loading}
-        className="font-bangla group relative mt-2 inline-flex w-full items-center justify-center overflow-hidden rounded-xl bg-foreground px-8 py-4 text-base font-semibold text-primary-foreground shadow-[0_8px_24px_-8px_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-10px_rgba(212,175,55,0.55)] disabled:opacity-60 disabled:hover:translate-y-0"
+        className="font-bangla group relative mt-2 inline-flex w-full items-center justify-center overflow-hidden rounded-xl px-8 py-4 text-base font-semibold text-white transition-all duration-300 disabled:opacity-60 disabled:hover:translate-y-0 hover:-translate-y-0.5"
+        style={{
+          background: "linear-gradient(135deg, #00cfff 0%, #0078ff 100%)",
+          boxShadow: "0 8px 24px -8px rgba(0, 120, 255, 0.55), 0 0 0 1px rgba(0, 207, 255, 0.25) inset",
+        }}
       >
-        <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
         <span className="relative">{loading ? "অপেক্ষা করুন..." : "সাবমিট করুন"}</span>
       </button>
     </form>
