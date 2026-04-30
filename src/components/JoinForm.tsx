@@ -135,7 +135,7 @@ export function JoinForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label className={labelCls}>আপনার পুরো নাম *</label>
         <input name="full_name" required maxLength={120} className={inputCls} />
@@ -215,9 +215,12 @@ export function JoinForm() {
       <button
         type="submit"
         disabled={loading}
-        className="font-bangla group relative mt-2 inline-flex w-full items-center justify-center overflow-hidden rounded-xl bg-foreground px-8 py-4 text-base font-semibold text-primary-foreground shadow-[0_8px_24px_-8px_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-10px_rgba(212,175,55,0.55)] disabled:opacity-60 disabled:hover:translate-y-0"
+        className="font-bangla group relative mt-2 inline-flex w-full items-center justify-center overflow-hidden rounded-xl px-8 py-4 text-base font-semibold text-white transition-all duration-300 disabled:opacity-60 disabled:hover:translate-y-0 hover:-translate-y-0.5"
+        style={{
+          background: "linear-gradient(135deg, #00cfff 0%, #0078ff 100%)",
+          boxShadow: "0 8px 24px -8px rgba(0, 120, 255, 0.55), 0 0 0 1px rgba(0, 207, 255, 0.25) inset",
+        }}
       >
-        <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
         <span className="relative">{loading ? "অপেক্ষা করুন..." : "সাবমিট করুন"}</span>
       </button>
     </form>
