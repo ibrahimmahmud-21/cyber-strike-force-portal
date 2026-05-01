@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import { supabase } from "@/integrations/supabase/client";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
@@ -413,6 +415,102 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 
   const unreadCount = items.filter((i) => !i.is_read).length;
 
+  const [exporting, setExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0);
+
+  async function exportAllAsZip() {
+    if (exporting) return;
+    if (filtered.length === 0) {
+      toast.error("No submissions to export");
+      return;
+    }
+    setExporting(true);
+    setExportProgress(0);
+    const tId = toast.loading(`Preparing ZIP (${filtered.length} submissions)...`);
+    try {
+      const zip = new JSZip();
+      const root = zip.folder("Submissions")!;
+
+      const sanitize = (s: string) =>
+        (s || "unknown").replace(/[^a-zA-Z0-9_\-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 60) || "unknown";
+
+      const extFromUrl = (url: string, fallback = "jpg") => {
+        try {
+          const path = new URL(url).pathname;
+          const m = path.match(/\.([a-zA-Z0-9]{2,5})$/);
+          return m ? m[1].toLowerCase() : fallback;
+        } catch {
+          const m = url.match(/\.([a-zA-Z0-9]{2,5})(?:\?|$)/);
+          return m ? m[1].toLowerCase() : fallback;
+        }
+      };
+
+      const fetchBlob = async (url: string): Promise<Blob | null> => {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) return null;
+          return await res.blob();
+        } catch {
+          return null;
+        }
+      };
+
+      let done = 0;
+      for (const s of filtered) {
+        const folderName = `${sanitize(s.full_name)}_${sanitize(s.mobile)}`;
+        const folder = root.folder(folderName)!;
+
+        const info = [
+          `Name: ${s.full_name}`,
+          `Email: ${s.email}`,
+          `Phone: ${s.mobile}`,
+          `WhatsApp: ${s.whatsapp}`,
+          `Father Name: ${s.father_name}`,
+          `Date of Birth: ${s.date_of_birth}`,
+          `Gender: ${s.gender}`,
+          `NID Number: ${s.nid_number}`,
+          `Address: ${s.address}`,
+          `Education: ${s.education}`,
+          `Facebook: ${s.facebook_link}`,
+          `Motivation: ${s.motivation ?? ""}`,
+          `Date: ${s.created_at}`,
+          `Status: ${s.status}`,
+          s.reject_reason ? `Reject Reason: ${s.reject_reason}` : "",
+        ]
+          .filter(Boolean)
+          .join("\n");
+        folder.file("info.txt", info);
+
+        const photos = Array.isArray(s.photo_url) ? s.photo_url : [];
+        for (let i = 0; i < photos.length; i++) {
+          const blob = await fetchBlob(photos[i]);
+          if (blob) folder.file(`photo${i + 1}.${extFromUrl(photos[i])}`, blob);
+        }
+        const ids = Array.isArray(s.id_card_url) ? s.id_card_url : [];
+        for (let i = 0; i < ids.length; i++) {
+          const blob = await fetchBlob(ids[i]);
+          if (blob) folder.file(`nid${i + 1}.${extFromUrl(ids[i])}`, blob);
+        }
+
+        done++;
+        setExportProgress(Math.round((done / filtered.length) * 100));
+      }
+
+      const blob = await zip.generateAsync({ type: "blob" }, (meta) => {
+        setExportProgress(Math.round(meta.percent));
+      });
+      const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+      saveAs(blob, `CSF_Submissions_${stamp}.zip`);
+      toast.success("Export ready", { id: tId });
+    } catch (err) {
+      console.error(err);
+      toast.error("Export failed", { id: tId });
+    } finally {
+      setExporting(false);
+      setExportProgress(0);
+    }
+  }
+
   return (
     <div className="relative min-h-screen bg-background text-foreground">
       <div className="pointer-events-none fixed inset-0 cyber-grid opacity-30" />
@@ -487,6 +585,29 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 🔔 Alerts
               </button>
             )}
+            <button
+              onClick={exportAllAsZip}
+              disabled={exporting}
+              className="btn-premium inline-flex items-center gap-2 px-3 py-2 text-xs font-semibold disabled:opacity-60"
+              title="Export all submissions as ZIP"
+            >
+              {exporting ? (
+                <>
+                  <svg className="h-3.5 w-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 12a9 9 0 1 1-3-6.7" strokeLinecap="round" />
+                  </svg>
+                  <span>Exporting {exportProgress}%</span>
+                </>
+              ) : (
+                <>
+                  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span className="hidden sm:inline">Export All Data (ZIP)</span>
+                  <span className="sm:hidden">Export ZIP</span>
+                </>
+              )}
+            </button>
             <button
               onClick={onLogout}
               className="btn-ghost-neon px-4 py-2 text-sm font-medium"
