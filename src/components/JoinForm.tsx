@@ -3,12 +3,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const inputCls =
-  "font-bangla w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white placeholder:text-white/40 shadow-[inset_0_1px_2px_rgba(0,0,0,0.35)] outline-none transition focus:border-[#00cfff]/60 focus:bg-white/[0.06] focus:ring-2 focus:ring-[#00cfff]/25 [color-scheme:dark]";
+  "font-bangla w-full rounded-xl border border-white/15 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08)] outline-none transition focus:border-[#00cfff] focus:ring-4 focus:ring-[#00cfff]/25 [color-scheme:light]";
 
 const labelCls = "font-bangla mb-2.5 block text-sm font-semibold text-white/90";
 
 const fileCls =
-  "font-bangla w-full rounded-xl border border-dashed border-white/15 bg-white/[0.03] px-4 py-3 text-sm text-white/70 file:mr-4 file:rounded-lg file:border-0 file:bg-[#00cfff] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black hover:file:bg-[#33d8ff] cursor-pointer";
+  "font-bangla w-full rounded-xl border border-dashed border-white/20 bg-white/[0.04] px-4 py-3 text-sm text-white/80 file:mr-4 file:rounded-lg file:border-0 file:bg-[#00cfff] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black hover:file:bg-[#33d8ff] cursor-pointer";
 
 export function JoinForm() {
   const [loading, setLoading] = useState(false);
