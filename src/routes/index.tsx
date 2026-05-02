@@ -25,6 +25,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  useScrollReveal();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Toaster position="top-center" richColors />
@@ -79,6 +80,97 @@ function Index() {
               <path d="M5 12h14M13 5l7 7-7 7" />
             </svg>
           </Link>
+        </div>
+      </section>
+
+      {/* Mission Briefing */}
+      <section className="relative border-t border-border px-6 py-20">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,207,255,0.05),transparent_70%)]" />
+        <div className="relative mx-auto max-w-3xl">
+          <div className="reveal glass-card relative overflow-hidden rounded-2xl p-8 sm:p-10">
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-1 bg-[var(--gradient-gold)]" />
+            <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
+              <span className="text-gold">// </span>
+              MISSION BRIEFING
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-muted-foreground/95">
+              Cyber Strike Force is an independent, mission-driven cybersecurity initiative
+              committed to protecting Bangladesh's digital frontier. We safeguard vulnerable
+              communities from cyber threats, online harassment, misinformation, and targeted
+              digital attacks — standing united for a safer national cyberspace.
+            </p>
+            <p className="mt-4 text-sm font-semibold tracking-wide text-neon">
+              We fight for Bangladesh.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Connect / Social Cards */}
+      <section className="relative border-t border-border px-6 py-20">
+        <div className="relative mx-auto max-w-4xl">
+          <div className="mb-10 text-center reveal">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">// Connect</p>
+            <h2 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+              Join our{" "}
+              <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">channels</span>
+            </h2>
+          </div>
+          <div className="grid gap-4 sm:gap-5">
+            {[
+              {
+                t: "Facebook Page",
+                href: "https://www.facebook.com/share/18iRhPDqkm/",
+                icon: (
+                  <path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-3h2.4V9.5c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 3h-2.2v7A10 10 0 0022 12z" />
+                ),
+              },
+              {
+                t: "Facebook Group",
+                href: "https://www.facebook.com/share/g/1CXqRabZRi/",
+                icon: (
+                  <path d="M16 11a3 3 0 100-6 3 3 0 000 6zm-8 0a3 3 0 100-6 3 3 0 000 6zm0 2c-2.7 0-8 1.3-8 4v3h10v-3c0-1 .3-2 .9-2.8C9.7 13.4 8.4 13 8 13zm8 0c-.4 0-1.7.4-2.9 1.2.6.8.9 1.8.9 2.8v3h10v-3c0-2.7-5.3-4-8-4z" />
+                ),
+              },
+              {
+                t: "Telegram Channel",
+                href: "https://t.me/cyberstrikeforce72",
+                icon: (
+                  <path d="M21.9 4.3L2.7 11.7c-1.3.5-1.3 1.3-.2 1.6l4.9 1.5 11.3-7.1c.5-.3 1-.1.6.2l-9.1 8.3-.3 4.6c.5 0 .7-.2 1-.5l2.4-2.3 5 3.7c.9.5 1.6.2 1.8-.9l3.3-15.4c.4-1.4-.5-2-1.5-1.6z" />
+                ),
+              },
+            ].map((s, i) => (
+              <a
+                key={s.t}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="reveal glass-card group relative flex items-center gap-5 overflow-hidden rounded-xl px-6 py-5 transition hover:border-[var(--neon)] hover:shadow-[0_0_28px_-4px_var(--neon-soft)]"
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-0.5 bg-[var(--gradient-neon)] opacity-60 group-hover:opacity-100" />
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--neon-soft)]/30 ring-1 ring-[var(--neon)]/40 text-neon">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+                    {s.icon}
+                  </svg>
+                </div>
+                <span className="font-display text-base font-bold tracking-wide sm:text-lg">
+                  {s.t}
+                </span>
+                <svg
+                  className="ml-auto h-4 w-4 text-muted-foreground transition group-hover:translate-x-1 group-hover:text-neon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14M13 5l7 7-7 7" />
+                </svg>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
