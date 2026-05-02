@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
 import { CyberBackground } from "@/components/CyberBackground";
@@ -8,16 +8,16 @@ import logo from "@/assets/csf-logo.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Cyber Strike Force — Join Bangladesh's Cyber Warriors" },
+      { title: "Cyber Strike Force — We fight for Bangladesh" },
       {
         name: "description",
         content:
-          "Cyber Strike Force is Bangladesh's premier cyber defense team. Join us to safeguard the nation's digital frontier.",
+          "Cyber Strike Force is Bangladesh's cyber defense team safeguarding the nation's digital frontier.",
       },
-      { property: "og:title", content: "Cyber Strike Force — Join Bangladesh's Cyber Warriors" },
+      { property: "og:title", content: "Cyber Strike Force — We fight for Bangladesh" },
       {
         property: "og:description",
-        content: "Become a Cyber Warrior of Bangladesh. Join Cyber Strike Force.",
+        content: "Bangladesh's cyber defense team. We fight for Bangladesh.",
       },
     ],
   }),
@@ -31,161 +31,73 @@ function Index() {
       <Toaster position="top-center" richColors />
       <SiteHeader />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden px-6 py-28 sm:py-36">
+      {/* Brand header (compact, not landing) */}
+      <section className="relative overflow-hidden border-b border-border px-6 py-16 sm:py-20">
         <CyberBackground />
-        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-50" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,207,255,0.18),transparent_65%)]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px sheen-band" />
+        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-40" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,207,255,0.12),transparent_65%)]" />
 
         <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
-          <div className="animate-fade-up relative mb-10">
+          <div className="animate-fade-up relative mb-6">
             <div className="logo-aura" />
             <div className="float-y relative rounded-full bg-background/40 p-2 ring-1 ring-[var(--neon)]/60 backdrop-blur">
               <img
                 src={logo}
                 alt="Cyber Strike Force Logo"
-                className="h-32 w-32 rounded-full object-cover sm:h-40 sm:w-40"
+                className="h-24 w-24 rounded-full object-cover sm:h-28 sm:w-28"
               />
             </div>
           </div>
 
-          <span className="animate-fade-up delay-100 mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--neon)]/40 bg-[var(--neon-soft)]/20 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.28em] text-foreground/90 backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--neon)] shadow-[0_0_10px_var(--neon)]" />
-            Cyber Strike Force
-          </span>
-
-          <h1 className="animate-fade-up delay-200 font-display text-6xl font-black leading-[1] tracking-tight text-foreground sm:text-7xl md:text-8xl">
-            JOIN <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">TEAM</span>
+          <h1 className="animate-fade-up delay-100 font-display text-3xl font-black leading-tight tracking-tight sm:text-4xl md:text-5xl">
+            CYBER STRIKE{" "}
+            <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">FORCE</span>
           </h1>
 
-          <p className="animate-fade-up delay-300 mt-8 max-w-xl text-base font-light tracking-wide text-muted-foreground/80 sm:text-lg">
+          <p className="animate-fade-up delay-200 mt-4 text-sm uppercase tracking-[0.3em] text-muted-foreground">
             We fight for Bangladesh
           </p>
-
-          <Link
-            to="/join"
-            className="btn-premium animate-fade-up delay-400 group mt-12 inline-flex items-center gap-3 px-10 py-4 text-sm font-bold uppercase tracking-[0.18em]"
-          >
-            <span>Join Now</span>
-            <svg
-              className="h-4 w-4 transition-transform group-hover:translate-x-1"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14M13 5l7 7-7 7" />
-            </svg>
-          </Link>
         </div>
       </section>
 
-      {/* Mission Briefing */}
-      <section className="relative border-t border-border px-6 py-20">
+      {/* Mission Briefing — directly under header */}
+      <section className="relative px-6 py-16 sm:py-20">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,207,255,0.05),transparent_70%)]" />
         <div className="relative mx-auto max-w-3xl">
-          <div className="reveal glass-card relative overflow-hidden rounded-2xl p-8 sm:p-10">
+          <div className="reveal glass-card relative overflow-hidden rounded-2xl p-7 sm:p-10">
             <div className="pointer-events-none absolute left-0 top-0 h-full w-1 bg-[var(--gradient-gold)]" />
-            <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
-              <span className="text-gold">// </span>
-              MISSION BRIEFING
+            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">
+              // Mission Briefing
+            </p>
+            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+              Defending the digital frontier
             </h2>
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground/95">
+            <p className="mt-5 text-base leading-[1.85] text-muted-foreground/95">
               Cyber Strike Force is an independent, mission-driven cybersecurity initiative
               committed to protecting Bangladesh's digital frontier. We safeguard vulnerable
               communities from cyber threats, online harassment, misinformation, and targeted
               digital attacks — standing united for a safer national cyberspace.
             </p>
-            <p className="mt-4 text-sm font-semibold tracking-wide text-neon">
+            <p className="mt-5 text-sm font-semibold tracking-wide text-neon">
               We fight for Bangladesh.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Connect / Social Cards */}
-      <section className="relative border-t border-border px-6 py-20">
-        <div className="relative mx-auto max-w-4xl">
-          <div className="mb-10 text-center reveal">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">// Connect</p>
-            <h2 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              Join our{" "}
-              <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">channels</span>
-            </h2>
-          </div>
-          <div className="grid gap-4 sm:gap-5">
-            {[
-              {
-                t: "Facebook Page",
-                href: "https://www.facebook.com/share/18iRhPDqkm/",
-                icon: (
-                  <path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-3h2.4V9.5c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 3h-2.2v7A10 10 0 0022 12z" />
-                ),
-              },
-              {
-                t: "Facebook Group",
-                href: "https://www.facebook.com/share/g/1CXqRabZRi/",
-                icon: (
-                  <path d="M16 11a3 3 0 100-6 3 3 0 000 6zm-8 0a3 3 0 100-6 3 3 0 000 6zm0 2c-2.7 0-8 1.3-8 4v3h10v-3c0-1 .3-2 .9-2.8C9.7 13.4 8.4 13 8 13zm8 0c-.4 0-1.7.4-2.9 1.2.6.8.9 1.8.9 2.8v3h10v-3c0-2.7-5.3-4-8-4z" />
-                ),
-              },
-              {
-                t: "Telegram Channel",
-                href: "https://t.me/cyberstrikeforce72",
-                icon: (
-                  <path d="M21.9 4.3L2.7 11.7c-1.3.5-1.3 1.3-.2 1.6l4.9 1.5 11.3-7.1c.5-.3 1-.1.6.2l-9.1 8.3-.3 4.6c.5 0 .7-.2 1-.5l2.4-2.3 5 3.7c.9.5 1.6.2 1.8-.9l3.3-15.4c.4-1.4-.5-2-1.5-1.6z" />
-                ),
-              },
-            ].map((s, i) => (
-              <a
-                key={s.t}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="reveal glass-card group relative flex items-center gap-5 overflow-hidden rounded-xl px-6 py-5 transition hover:border-[var(--neon)] hover:shadow-[0_0_28px_-4px_var(--neon-soft)]"
-                style={{ transitionDelay: `${i * 80}ms` }}
-              >
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-0.5 bg-[var(--gradient-neon)] opacity-60 group-hover:opacity-100" />
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--neon-soft)]/30 ring-1 ring-[var(--neon)]/40 text-neon">
-                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-                    {s.icon}
-                  </svg>
-                </div>
-                <span className="font-display text-base font-bold tracking-wide sm:text-lg">
-                  {s.t}
-                </span>
-                <svg
-                  className="ml-auto h-4 w-4 text-muted-foreground transition group-hover:translate-x-1 group-hover:text-neon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14M13 5l7 7-7 7" />
-                </svg>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Pillars */}
-      <section className="relative border-t border-border px-6 py-24">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,207,255,0.06),transparent_70%)]" />
+      <section className="relative border-t border-border px-6 py-20">
         <div className="relative mx-auto max-w-6xl">
-          <div className="mb-14 text-center reveal">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">What we stand for</p>
-            <h2 className="font-display mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
-              Defending the digital{" "}
-              <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">frontier</span>
+          <div className="mb-12 text-center reveal">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">
+              What we stand for
+            </p>
+            <h2 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+              Three{" "}
+              <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">pillars</span>
             </h2>
           </div>
-          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
               { t: "Defense", d: "Protecting Bangladesh's digital infrastructure from emerging threats." },
               { t: "Intelligence", d: "Continuous monitoring, research and threat intelligence operations." },
@@ -193,7 +105,7 @@ function Index() {
             ].map((c, i) => (
               <div
                 key={c.t}
-                className="reveal glass-card rounded-2xl p-8 transition duration-500"
+                className="reveal glass-card rounded-2xl p-7 transition duration-500"
                 style={{ transitionDelay: `${i * 90}ms` }}
               >
                 <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--neon-soft)]/30 text-neon ring-1 ring-[var(--neon)]/40">
@@ -207,25 +119,63 @@ function Index() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative overflow-hidden border-t border-border px-6 py-24">
-        <CyberBackground />
-        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-40" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px sheen-band" />
-        <div className="relative mx-auto max-w-3xl text-center reveal">
-          <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
-            Ready to{" "}
-            <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">join the force?</span>
-          </h2>
-          <p className="mt-4 text-muted-foreground/80">
-            Apply today and become part of Bangladesh's elite cyber team.
-          </p>
-          <Link
-            to="/join"
-            className="btn-premium group mt-10 inline-flex items-center gap-3 px-10 py-4 text-sm font-bold uppercase tracking-[0.18em]"
-          >
-            <span>Apply Now</span>
-          </Link>
+      {/* Contact / Connect */}
+      <section id="contact" className="relative border-t border-border px-6 py-20">
+        <div className="relative mx-auto max-w-4xl">
+          <div className="mb-10 text-center reveal">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">
+              // Contact
+            </p>
+            <h2 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+              Get in{" "}
+              <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">touch</span>
+            </h2>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              {
+                t: "Email",
+                v: "CyberStrikeforce@outlook.com",
+                href: "mailto:CyberStrikeforce@outlook.com",
+                icon: (
+                  <path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm1.4 2L12 12.5 19.6 7H4.4zM20 8.3l-7.4 5.4a1 1 0 01-1.2 0L4 8.3V17h16V8.3z" />
+                ),
+              },
+              {
+                t: "Facebook",
+                v: "facebook.com/cyberstrikeforceCSF",
+                href: "https://facebook.com/cyberstrikeforceCSF",
+                icon: (
+                  <path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-3h2.4V9.5c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 3h-2.2v7A10 10 0 0022 12z" />
+                ),
+              },
+            ].map((s, i) => (
+              <a
+                key={s.t}
+                href={s.href}
+                target={s.href.startsWith("http") ? "_blank" : undefined}
+                rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="reveal glass-card group relative flex items-center gap-4 overflow-hidden rounded-xl px-5 py-5 transition hover:border-[var(--neon)] hover:shadow-[0_0_28px_-4px_var(--neon-soft)]"
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-0.5 bg-[var(--gradient-neon)] opacity-60 group-hover:opacity-100" />
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--neon-soft)]/30 ring-1 ring-[var(--neon)]/40 text-neon">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+                    {s.icon}
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/80">
+                    {s.t}
+                  </p>
+                  <p className="truncate font-display text-sm font-semibold tracking-wide transition group-hover:text-neon sm:text-base">
+                    {s.v}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 

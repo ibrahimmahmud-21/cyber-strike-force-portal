@@ -21,9 +21,16 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const items = [
-    { label: "Email", value: "contact@cyberstrikeforce.bd", href: "mailto:contact@cyberstrikeforce.bd" },
-    { label: "WhatsApp", value: "+880 1XXX-XXXXXX", href: "#" },
-    { label: "Facebook", value: "facebook.com/cyberstrikeforce", href: "#" },
+    {
+      label: "Email",
+      value: "CyberStrikeforce@outlook.com",
+      href: "mailto:CyberStrikeforce@outlook.com",
+    },
+    {
+      label: "Facebook",
+      value: "facebook.com/cyberstrikeforceCSF",
+      href: "https://facebook.com/cyberstrikeforceCSF",
+    },
   ];
 
   return (
@@ -44,12 +51,14 @@ function ContactPage() {
       </section>
 
       <section className="px-6 py-16">
-        <div className="mx-auto grid max-w-4xl gap-5 sm:grid-cols-3">
+        <div className="mx-auto grid max-w-3xl gap-5 sm:grid-cols-2">
           {items.map((it, i) => (
             <a
               key={it.label}
               href={it.href}
-              className={`glass-card group block rounded-2xl p-7 text-center transition animate-fade-up delay-${(i + 1) * 100}`}
+              target={it.href.startsWith("http") ? "_blank" : undefined}
+              rel={it.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className={`glass-card group block rounded-2xl p-7 text-center transition hover:border-[var(--neon)] hover:shadow-[0_0_28px_-4px_var(--neon-soft)] animate-fade-up delay-${(i + 1) * 100}`}
             >
               <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground/80">{it.label}</p>
               <p className="mt-4 font-display text-base font-semibold tracking-tight transition group-hover:text-neon">

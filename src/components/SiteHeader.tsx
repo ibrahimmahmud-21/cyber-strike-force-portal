@@ -4,10 +4,9 @@ import logo from "@/assets/csf-logo.png";
 
 const navItems = [
   { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
-  { to: "/join", label: "Join" },
+  { to: "/about", label: "About Us" },
+  { to: "/join", label: "Join With Us" },
   { to: "/policy", label: "Policy" },
-  { to: "/contact", label: "Contact" },
 ] as const;
 
 export function SiteHeader() {
@@ -43,12 +42,6 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
-          <Link
-            to="/join"
-            className="btn-premium ml-3 inline-flex items-center gap-2 px-5 py-2 text-xs font-bold uppercase tracking-[0.16em]"
-          >
-            Join Team
-          </Link>
         </nav>
 
         <button
