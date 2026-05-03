@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
 import { CyberBackground } from "@/components/CyberBackground";
@@ -27,154 +27,236 @@ export const Route = createFileRoute("/")({
 function Index() {
   useScrollReveal();
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground font-rajdhani">
       <Toaster position="top-center" richColors />
+      <div className="scan-line" />
+
+      {/* Banner */}
+      <div className="cyber-banner relative z-20 px-4 py-2 text-center text-[13px] font-bold font-bengali-serif">
+        সর্বকর্মফলম্ শ্রীকৃষ্ণায় অর্পণমস্তু
+      </div>
+
       <SiteHeader />
 
-      {/* Brand header (compact, not landing) */}
-      <section className="relative overflow-hidden border-b border-border px-6 py-16 sm:py-20">
+      {/* HERO */}
+      <section className="hex-grid relative z-10 flex min-h-[88vh] flex-col items-center justify-center overflow-hidden px-6 pt-16 pb-20 text-center">
         <CyberBackground />
-        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-40" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,207,255,0.12),transparent_65%)]" />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 55% at 50% 35%, rgba(0,212,255,0.10) 0%, transparent 65%), radial-gradient(ellipse 40% 40% at 80% 70%, rgba(0,100,180,0.07) 0%, transparent 60%)",
+          }}
+        />
 
-        <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
-          <div className="animate-fade-up relative mb-6">
-            <div className="logo-aura" />
-            <div className="float-y relative rounded-full bg-background/40 p-2 ring-1 ring-[var(--neon)]/60 backdrop-blur">
-              <img
-                src={logo}
-                alt="Cyber Strike Force Logo"
-                className="h-24 w-24 rounded-full object-cover sm:h-28 sm:w-28"
-              />
+        <div className="relative z-10 mb-9 float-slow">
+          <div className="relative mx-auto h-[180px] w-[180px] sm:h-[210px] sm:w-[210px]">
+            <span className="pulse-ring" />
+            <span className="pulse-ring delay-1" />
+            <span className="pulse-ring delay-2" />
+            <div className="logo-cyber-ring relative z-10 h-full w-full overflow-hidden rounded-full">
+              <img src={logo} alt="Cyber Strike Force Logo" className="h-full w-full object-cover" />
             </div>
           </div>
+        </div>
 
-          <h1 className="animate-fade-up delay-100 font-display text-3xl font-black leading-tight tracking-tight sm:text-4xl md:text-5xl">
-            CYBER STRIKE{" "}
-            <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">FORCE</span>
-          </h1>
+        <h1
+          className="relative z-10 font-orbitron font-black text-white animate-fade-up delay-100"
+          style={{
+            fontSize: "clamp(30px, 7.5vw, 64px)",
+            letterSpacing: "5px",
+            lineHeight: 1.1,
+            textShadow: "0 0 40px rgba(0,212,255,0.4), 0 0 80px rgba(0,212,255,0.15)",
+          }}
+        >
+          CYBER STRIKE
+          <br />
+          FORCE
+        </h1>
 
-          <p className="animate-fade-up delay-200 mt-4 text-sm uppercase tracking-[0.3em] text-muted-foreground">
-            We fight for Bangladesh
+        <p
+          className="relative z-10 mt-4 font-rajdhani font-semibold uppercase text-[#00d4ff] animate-fade-up delay-200"
+          style={{ fontSize: "clamp(15px, 3vw, 20px)", letterSpacing: "5px" }}
+        >
+          We fight for Bangladesh
+        </p>
+        <p className="relative z-10 mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground animate-fade-up delay-300">
+          Defending the Digital Frontier — Standing United
+        </p>
+
+        <div className="relative z-10 mt-10 flex flex-wrap items-center justify-center gap-4 animate-fade-up delay-400">
+          <Link to="/join" className="btn-cyber">
+            JOIN WITH US
+          </Link>
+          <Link to="/about" className="btn-cyber-ghost">
+            LEARN MORE
+          </Link>
+        </div>
+      </section>
+
+      {/* MISSION */}
+      <section className="relative border-y border-[rgba(0,212,255,0.2)] bg-[#0a0d18] px-6 py-20">
+        <div className="mx-auto max-w-3xl reveal">
+          <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">
+            // Mission Briefing
           </p>
-        </div>
-      </section>
-
-      {/* Mission Briefing — directly under header */}
-      <section className="relative px-6 py-16 sm:py-20">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,207,255,0.05),transparent_70%)]" />
-        <div className="relative mx-auto max-w-3xl">
-          <div className="reveal glass-card relative overflow-hidden rounded-2xl p-7 sm:p-10">
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-1 bg-[var(--gradient-gold)]" />
-            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">
-              // Mission Briefing
-            </p>
-            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-              Defending the digital frontier
-            </h2>
-            <p className="mt-5 text-base leading-[1.85] text-muted-foreground/95">
-              Cyber Strike Force is an independent, mission-driven cybersecurity initiative
-              committed to protecting Bangladesh's digital frontier. We safeguard vulnerable
-              communities from cyber threats, online harassment, misinformation, and targeted
-              digital attacks — standing united for a safer national cyberspace.
-            </p>
-            <p className="mt-5 text-sm font-semibold tracking-wide text-neon">
-              We fight for Bangladesh.
+          <h2 className="font-orbitron mt-3 text-2xl font-bold text-white sm:text-3xl">
+            Defending the Digital Frontier
+          </h2>
+          <div className="mt-5 mb-10 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
+          <div className="mission-box">
+            <p className="text-[17px] leading-[1.9] text-[#aab4cc]">
+              <strong className="text-[#00d4ff]">Cyber Strike Force</strong> is an independent,
+              mission-driven cybersecurity initiative committed to protecting Bangladesh's digital
+              frontier. We safeguard <strong className="text-[#00d4ff]">vulnerable communities</strong>{" "}
+              from cyber threats, online harassment, misinformation, and targeted digital attacks —
+              standing united for a safer national cyberspace.
+              <br />
+              <br />
+              We fight for <strong className="text-[#00d4ff]">Bangladesh</strong>. We protect the
+              innocent. We stand against digital darkness.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Pillars */}
-      <section className="relative border-t border-border px-6 py-20">
-        <div className="relative mx-auto max-w-6xl">
-          <div className="mb-12 text-center reveal">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">
-              What we stand for
+      {/* PILLARS */}
+      <section className="relative px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="reveal mb-10">
+            <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">
+              // What We Stand For
             </p>
-            <h2 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              Three{" "}
-              <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">pillars</span>
+            <h2 className="font-orbitron mt-3 text-2xl font-bold text-white sm:text-3xl">
+              Three Pillars
             </h2>
+            <div className="mt-5 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { t: "Defense", d: "Protecting Bangladesh's digital infrastructure from emerging threats." },
-              { t: "Intelligence", d: "Continuous monitoring, research and threat intelligence operations." },
-              { t: "Community", d: "A united team of patriotic cyber warriors trained for the future." },
-            ].map((c, i) => (
+              {
+                t: "DEFENSE",
+                d: "Protecting Bangladesh's digital infrastructure from emerging threats and targeted cyber attacks.",
+                icon: (
+                  <>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <polyline points="9 12 11 14 15 10" />
+                  </>
+                ),
+              },
+              {
+                t: "INTELLIGENCE",
+                d: "Continuous monitoring, research and threat intelligence operations across the digital landscape.",
+                icon: (
+                  <>
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </>
+                ),
+              },
+              {
+                t: "COMMUNITY",
+                d: "A united team of patriotic cyber warriors trained and ready for the challenges of tomorrow.",
+                icon: (
+                  <>
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </>
+                ),
+              },
+            ].map((p, i) => (
               <div
-                key={c.t}
-                className="reveal glass-card rounded-2xl p-7 transition duration-500"
-                style={{ transitionDelay: `${i * 90}ms` }}
+                key={p.t}
+                className="pillar-card reveal"
+                style={{ transitionDelay: `${i * 120}ms` }}
               >
-                <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--neon-soft)]/30 text-neon ring-1 ring-[var(--neon)]/40">
-                  <span className="font-display text-sm font-bold">0{i + 1}</span>
+                <div className="pillar-num">0{i + 1}</div>
+                <div className="pillar-icon-wrap">
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    {p.icon}
+                  </svg>
                 </div>
-                <h3 className="font-display text-xl font-bold tracking-tight">{c.t}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground/90">{c.d}</p>
+                <h3 className="font-orbitron text-[13px] font-bold tracking-[2px] text-white">
+                  {p.t}
+                </h3>
+                <p className="mt-3 text-sm leading-[1.75] text-[#aab4cc]">{p.d}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact / Connect */}
-      <section id="contact" className="relative border-t border-border px-6 py-20">
-        <div className="relative mx-auto max-w-4xl">
-          <div className="mb-10 text-center reveal">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">
-              // Contact
+      {/* CONNECT */}
+      <section className="relative border-t border-[rgba(0,212,255,0.2)] bg-[#0a0d18] px-6 py-20">
+        <div className="mx-auto max-w-4xl">
+          <div className="reveal mb-10">
+            <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">
+              // Contact &amp; Connect
             </p>
-            <h2 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              Get in{" "}
-              <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">touch</span>
+            <h2 className="font-orbitron mt-3 text-2xl font-bold text-white sm:text-3xl">
+              Get in Touch
             </h2>
+            <div className="mt-5 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[
-              {
-                t: "Email",
-                v: "CyberStrikeforce@outlook.com",
-                href: "mailto:CyberStrikeforce@outlook.com",
-                icon: (
-                  <path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm1.4 2L12 12.5 19.6 7H4.4zM20 8.3l-7.4 5.4a1 1 0 01-1.2 0L4 8.3V17h16V8.3z" />
-                ),
-              },
-              {
-                t: "Facebook",
-                v: "facebook.com/cyberstrikeforceCSF",
-                href: "https://facebook.com/cyberstrikeforceCSF",
-                icon: (
-                  <path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-3h2.4V9.5c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 3h-2.2v7A10 10 0 0022 12z" />
-                ),
-              },
-            ].map((s, i) => (
-              <a
-                key={s.t}
-                href={s.href}
-                target={s.href.startsWith("http") ? "_blank" : undefined}
-                rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="reveal glass-card group relative flex items-center gap-4 overflow-hidden rounded-xl px-5 py-5 transition hover:border-[var(--neon)] hover:shadow-[0_0_28px_-4px_var(--neon-soft)]"
-                style={{ transitionDelay: `${i * 80}ms` }}
-              >
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-0.5 bg-[var(--gradient-neon)] opacity-60 group-hover:opacity-100" />
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--neon-soft)]/30 ring-1 ring-[var(--neon)]/40 text-neon">
-                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-                    {s.icon}
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/80">
-                    {s.t}
-                  </p>
-                  <p className="truncate font-display text-sm font-semibold tracking-wide transition group-hover:text-neon sm:text-base">
-                    {s.v}
-                  </p>
-                </div>
-              </a>
-            ))}
+          <div
+            className="grid gap-3.5"
+            style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}
+          >
+            <a href="mailto:CyberStrikeforce@outlook.com" className="con-btn reveal">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm1.4 2L12 12.5 19.6 7H4.4z" />
+              </svg>
+              EMAIL
+            </a>
+            <a
+              href="https://facebook.com/cyberstrikeforceCSF"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="con-btn reveal"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </svg>
+              FACEBOOK PAGE
+            </a>
+            <a
+              href="https://facebook.com/groups/cyberstrikeforce"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="con-btn reveal"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              </svg>
+              FACEBOOK GROUP
+            </a>
+            <a
+              href="https://t.me/cyberstrikeforce"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="con-btn reveal"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+              TELEGRAM CHANNEL
+            </a>
           </div>
         </div>
       </section>
