@@ -85,12 +85,17 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-background">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-8 sm:flex-row sm:justify-between">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          © {new Date().getFullYear()} Cyber Strike Force
+    <footer className="border-t border-[rgba(0,212,255,0.2)] bg-[#030508]">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-6 py-9 text-center sm:flex-row sm:justify-between sm:text-left">
+        <p className="font-orbitron text-[12px] font-bold tracking-[3px] text-[#00d4ff]">
+          CYBER STRIKE FORCE
         </p>
-        <p className="text-xs text-muted-foreground">We fight for Bangladesh</p>
+        <p className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
+          We fight for Bangladesh
+        </p>
+        <p className="text-[11px] tracking-[1px] text-muted-foreground/60">
+          © 2026 All Rights Reserved
+        </p>
       </div>
     </footer>
   );
