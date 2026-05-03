@@ -44,20 +44,6 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <nav className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: true }}
-              activeProps={{ className: "text-foreground after:scale-x-100" }}
-              inactiveProps={{ className: "text-muted-foreground hover:text-foreground" }}
-              className="relative px-4 py-2 text-sm font-medium transition after:absolute after:bottom-1 after:left-1/2 after:h-0.5 after:w-6 after:-translate-x-1/2 after:bg-[var(--gradient-gold)] after:transition-transform after:duration-300 after:scale-x-0"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
 
         <button
           onClick={() => setOpen((v) => !v)}
