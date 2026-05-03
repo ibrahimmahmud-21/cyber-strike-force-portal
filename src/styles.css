@@ -423,4 +423,177 @@
     border-color: var(--neon);
     box-shadow: 0 0 0 3px var(--neon-soft);
   }
+
+  /* ── Cyber redesign v2 utilities ── */
+  .font-orbitron { font-family: "Orbitron", monospace; letter-spacing: 0.12em; }
+  .font-rajdhani { font-family: "Rajdhani", sans-serif; }
+  .font-bengali-serif { font-family: "Noto Serif Bengali", serif; }
+
+  .cyber-banner {
+    background: linear-gradient(90deg, #061525 0%, #0a2035 50%, #061525 100%);
+    border-bottom: 1px solid rgba(0,212,255,0.2);
+    color: #00d4ff;
+    letter-spacing: 1.5px;
+  }
+
+  /* Scan line */
+  .scan-line {
+    position: fixed; left: 0; width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, #00d4ff 50%, transparent 100%);
+    opacity: 0.22;
+    animation: scan-move 7s linear infinite;
+    pointer-events: none;
+    z-index: 60;
+  }
+  @keyframes scan-move { from { top: -1px; } to { top: 100vh; } }
+
+  /* Hex grid for hero */
+  .hex-grid::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='48'%3E%3Cpolygon points='28,2 54,15 54,41 28,54 2,41 2,15' fill='none' stroke='rgba(0,212,255,0.07)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 56px 48px;
+    pointer-events: none;
+  }
+
+  /* Hero logo pulse rings */
+  .pulse-ring {
+    position: absolute; inset: -16px;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(0,212,255,0.35);
+    animation: pulse-ring 2.8s ease-out infinite;
+    pointer-events: none;
+  }
+  .pulse-ring.delay-1 { animation-delay: 0.9s; }
+  .pulse-ring.delay-2 { animation-delay: 1.8s; }
+  @keyframes pulse-ring {
+    0% { transform: scale(0.82); opacity: 1; }
+    100% { transform: scale(1.45); opacity: 0; }
+  }
+
+  .logo-cyber-ring {
+    border: 2px solid #00a8cc;
+    box-shadow:
+      0 0 50px rgba(0,212,255,0.35),
+      0 0 100px rgba(0,212,255,0.12),
+      inset 0 0 30px rgba(0,0,0,0.8);
+  }
+
+  .float-slow { animation: float-slow 4.5s ease-in-out infinite; }
+  @keyframes float-slow {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+
+  /* Clip-path cyber buttons */
+  .btn-cyber {
+    font-family: "Orbitron", monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: #03121a;
+    background: #00d4ff;
+    padding: 13px 34px;
+    text-decoration: none;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    font-weight: 700;
+    display: inline-block;
+    transition: box-shadow 0.3s, background 0.3s;
+  }
+  .btn-cyber:hover {
+    background: #33ddff;
+    box-shadow: 0 0 30px rgba(0,212,255,0.7);
+  }
+  .btn-cyber-ghost {
+    font-family: "Orbitron", monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: #00d4ff;
+    background: transparent;
+    padding: 12px 34px;
+    border: 1px solid rgba(0,212,255,0.6);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    display: inline-block;
+    transition: all 0.3s;
+  }
+  .btn-cyber-ghost:hover {
+    background: rgba(0,212,255,0.08);
+    border-color: #00d4ff;
+    box-shadow: 0 0 20px rgba(0,212,255,0.35);
+  }
+
+  /* Mission box */
+  .mission-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-left: 3px solid #00d4ff;
+    padding: 42px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mission-box::after {
+    content: '//';
+    position: absolute;
+    top: 16px; right: 28px;
+    font-family: "Orbitron", monospace;
+    font-size: 52px;
+    font-weight: 900;
+    color: rgba(0,212,255,0.05);
+  }
+  @media (max-width: 640px) {
+    .mission-box { padding: 28px 20px; }
+  }
+
+  /* Pillar cards */
+  .pillar-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 36px 26px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  .pillar-card:hover {
+    transform: translateY(-7px);
+    border-color: #00d4ff;
+    box-shadow: 0 8px 40px rgba(0,212,255,0.18);
+  }
+  .pillar-num {
+    font-family: "Orbitron", monospace;
+    font-size: 56px;
+    font-weight: 900;
+    color: rgba(0,212,255,0.08);
+    position: absolute;
+    top: 10px; right: 18px;
+    line-height: 1;
+  }
+  .pillar-icon-wrap {
+    width: 50px; height: 50px;
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 6px;
+    background: rgba(0,212,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 0 16px rgba(0,212,255,0.35);
+    color: #00d4ff;
+  }
+
+  /* Connect buttons */
+  .con-btn {
+    display: flex; align-items: center; gap: 12px;
+    padding: 17px 20px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(0,212,255,0.2);
+    color: #aab4cc;
+    font-family: "Orbitron", monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    transition: all 0.3s;
+  }
+  .con-btn svg { color: #00d4ff; flex-shrink: 0; }
+  .con-btn:hover {
+    background: rgba(0,212,255,0.08);
+    border-color: #00d4ff;
+    color: #00d4ff;
+    box-shadow: 0 0 20px rgba(0,212,255,0.18);
+  }
 }
