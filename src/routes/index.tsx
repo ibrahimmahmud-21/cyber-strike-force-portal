@@ -31,11 +31,6 @@ function Index() {
       <Toaster position="top-center" richColors />
       <div className="scan-line" />
 
-      {/* Banner */}
-      <div className="cyber-banner relative z-20 px-4 py-2 text-center text-[13px] font-bold font-bengali-serif">
-        সর্বকর্মফলম্ শ্রীকৃষ্ণায় অর্পণমস্তু
-      </div>
-
       <SiteHeader />
 
       {/* HERO */}
