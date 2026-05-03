@@ -16,18 +16,33 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-8 sm:py-4">
         <Link to="/" className="group flex items-center gap-3">
-          <div className="rounded-full bg-foreground/10 p-1 ring-1 ring-[var(--neon)]/50 transition group-hover:ring-[var(--neon)] group-hover:shadow-[0_0_18px_-2px_var(--neon-soft)]">
+          <div className="rounded-full bg-foreground/10 p-1 ring-1 ring-[#00d4ff]/60 transition group-hover:ring-[#00d4ff] group-hover:shadow-[0_0_18px_-2px_rgba(0,212,255,0.55)]">
             <img src={logo} alt="CSF" className="h-9 w-9 rounded-full object-cover" />
           </div>
           <div className="leading-tight">
-            <p className="font-display text-sm font-bold tracking-wide sm:text-base">
-              CYBER STRIKE <span className="text-gold">FORCE</span>
+            <p className="font-orbitron text-[12px] font-bold tracking-[2px] text-[#00d4ff] sm:text-[13px]">
+              CYBER STRIKE FORCE
             </p>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            <p className="text-[9px] uppercase tracking-[0.25em] text-muted-foreground">
               We fight for Bangladesh
             </p>
           </div>
         </Link>
+
+        <nav className="hidden items-center gap-1 md:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: true }}
+              activeProps={{ className: "text-[#00d4ff] after:scale-x-100" }}
+              inactiveProps={{ className: "text-muted-foreground hover:text-[#00d4ff]" }}
+              className="font-orbitron relative px-4 py-2 text-[10px] tracking-[2px] uppercase transition after:absolute after:bottom-1 after:left-1/2 after:h-px after:w-6 after:-translate-x-1/2 after:bg-[#00d4ff] after:transition-transform after:duration-300 after:scale-x-0"
+            >
+              {item.label.toUpperCase()}
+            </Link>
+          ))}
+        </nav>
 
         <nav className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => (
