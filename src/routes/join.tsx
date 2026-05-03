@@ -29,7 +29,7 @@ function JoinPage() {
   const [accepted, setAccepted] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground font-rajdhani">
       <Toaster position="top-center" richColors />
       <SiteHeader />
 
@@ -42,26 +42,25 @@ function JoinPage() {
         }}
       />
 
-      <section className="relative overflow-hidden border-b border-border px-6 py-16 sm:py-20">
-        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-50" />
+      <section className="relative overflow-hidden border-b border-[rgba(0,212,255,0.2)] px-6 py-14">
+        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-40" />
         <div className="relative mx-auto max-w-3xl text-center">
-          <span className="font-bangla animate-fade-up mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--gold)]/40 bg-[var(--gold-soft)]/40 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--gold-deep)]" />
-            Application
-          </span>
-          <h1 className="animate-fade-up delay-100 font-display mt-2 text-4xl font-bold sm:text-5xl">
-            Join <span className="text-gold">CSF</span>
+          <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">
+            // Application
+          </p>
+          <h1 className="font-orbitron mt-3 text-3xl font-black text-white sm:text-4xl" style={{ letterSpacing: "3px" }}>
+            JOIN <span className="text-[#00d4ff]">CSF</span>
           </h1>
-          <div className="animate-fade-up delay-200 mx-auto my-5 gold-divider" />
-          <p className="animate-fade-up delay-300 font-bangla text-muted-foreground">
+          <div className="mx-auto mt-4 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
+          <p className="mt-4 text-sm uppercase tracking-[0.2em] text-muted-foreground">
             We fight for Bangladesh
           </p>
         </div>
       </section>
 
-      <section className="px-6 py-16">
-        <div className="mx-auto w-full max-w-2xl animate-fade-up">
-          <div className="glass-card rounded-3xl p-6 sm:p-10">
+      <section className="px-6 py-12">
+        <div className="mx-auto w-full max-w-2xl">
+          <div className="glass-card rounded-2xl p-6 sm:p-10">
             {accepted ? (
               <JoinForm />
             ) : (
@@ -72,7 +71,7 @@ function JoinPage() {
                 <button
                   type="button"
                   onClick={() => setRulesOpen(true)}
-                  className="btn-premium font-bangla px-6 py-3 text-sm font-semibold"
+                  className="btn-cyber font-bangla"
                 >
                   নিয়মাবলী দেখুন
                 </button>
