@@ -16,8 +16,8 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-8 sm:py-4">
         <Link to="/" className="group flex items-center gap-3">
-          <div className="rounded-full bg-foreground/10 p-1 ring-1 ring-[#00d4ff]/60 transition group-hover:ring-[#00d4ff] group-hover:shadow-[0_0_18px_-2px_rgba(0,212,255,0.55)]">
-            <img src={logo} alt="CSF" className="h-9 w-9 rounded-full object-cover" />
+          <div className="bg-foreground/10 p-1 ring-1 ring-[#00d4ff]/60 transition group-hover:ring-[#00d4ff] group-hover:shadow-[0_0_18px_-2px_rgba(0,212,255,0.55)]">
+            <img src={logo} alt="CSF" className="h-9 w-9 object-cover" />
           </div>
           <div className="leading-tight">
             <p className="font-orbitron text-[12px] font-bold tracking-[2px] text-[#00d4ff] sm:text-[13px]">
@@ -47,7 +47,7 @@ export function SiteHeader() {
 
         <button
           onClick={() => setOpen((v) => !v)}
-          className="rounded-lg border border-border p-2 md:hidden"
+          className="border border-[#00d4ff]/40 bg-[#00d4ff]/5 p-2 text-[#00d4ff] transition hover:border-[#00d4ff] hover:bg-[#00d4ff]/10 hover:shadow-[0_0_16px_-2px_rgba(0,212,255,0.55)] md:hidden"
           aria-label="Toggle menu"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -71,7 +71,7 @@ export function SiteHeader() {
                 activeOptions={{ exact: true }}
                 activeProps={{ className: "text-foreground" }}
                 inactiveProps={{ className: "text-muted-foreground" }}
-                className="rounded-lg px-3 py-3 text-sm font-medium hover:bg-secondary"
+                className="font-orbitron border-l-2 border-transparent px-3 py-3 text-[11px] uppercase tracking-[2px] hover:border-[#00d4ff] hover:bg-[#00d4ff]/5 hover:text-[#00d4ff]"
               >
                 {item.label}
               </Link>
