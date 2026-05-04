@@ -25,7 +25,7 @@ export const Route = createFileRoute("/join")({
 });
 
 function JoinPage() {
-  const [rulesOpen, setRulesOpen] = useState(true);
+  const [rulesOpen, setRulesOpen] = useState(false);
   const [accepted, setAccepted] = useState(false);
 
   return (
