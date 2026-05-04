@@ -456,8 +456,14 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       };
 
       let done = 0;
+      const usedNames = new Set<string>();
       for (const s of filtered) {
-        const folderName = `${sanitize(s.full_name)}_${sanitize(s.mobile)}`;
+        let folderName = sanitize(s.full_name);
+        if (usedNames.has(folderName)) {
+          // Disambiguate duplicates by appending short id
+          folderName = `${folderName}_${s.id.slice(0, 6)}`;
+        }
+        usedNames.add(folderName);
         const folder = root.folder(folderName)!;
 
         const info = [
