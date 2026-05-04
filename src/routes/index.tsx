@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
 import { CyberBackground } from "@/components/CyberBackground";
@@ -79,14 +79,6 @@ function Index() {
           Defending the Digital Frontier — Standing United
         </p>
 
-        <div className="relative z-10 mt-10 flex flex-wrap items-center justify-center gap-4 animate-fade-up delay-400">
-          <Link to="/join" className="btn-cyber">
-            JOIN WITH US
-          </Link>
-          <Link to="/about" className="btn-cyber-ghost">
-            LEARN MORE
-          </Link>
-        </div>
       </section>
 
       {/* MISSION */}
@@ -211,29 +203,47 @@ function Index() {
             style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}
           >
             {[
-              { label: "MAIN PAGE", href: "https://facebook.com/cyberstrikeforceCSF" },
-              { label: "FACEBOOK PAGE", href: "https://facebook.com/cyberstrikeforceCSF" },
-              { label: "TELEGRAM CHANNEL", href: "https://t.me/cyberstrikeforce" },
-              { label: "BACKUP PAGE 1", href: "https://facebook.com/cyberstrikeforceCSF" },
-              { label: "BACKUP PAGE 2", href: "https://facebook.com/cyberstrikeforceCSF" },
+              {
+                label: "FACEBOOK PAGE",
+                href: "https://facebook.com/cyberstrikeforceCSF",
+                icon: (
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                ),
+              },
+              {
+                label: "TELEGRAM CHANNEL",
+                href: "https://t.me/cyberstrikeforce",
+                icon: (
+                  <path d="M21.5 4.5 2.5 12l6 2 2 6 4-4 5 4 2-15.5z" />
+                ),
+              },
+              {
+                label: "EMAIL",
+                href: "mailto:CyberStrikeforce@outlook.com",
+                icon: (
+                  <>
+                    <rect x="3" y="5" width="18" height="14" rx="1" />
+                    <path d="m3 7 9 6 9-6" />
+                  </>
+                ),
+              },
             ].map((l) => (
               <a
                 key={l.label}
                 href={l.href}
-                target="_blank"
+                target={l.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel="noopener noreferrer"
                 className="con-btn reveal"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5" />
-                  <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5" />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  {l.icon}
                 </svg>
                 {l.label}
               </a>
             ))}
           </div>
           <p className="mt-6 text-center text-xs uppercase tracking-[0.25em] text-muted-foreground/70">
-            Email: <a href="mailto:CyberStrikeforce@outlook.com" className="text-[#00d4ff] hover:underline">CyberStrikeforce@outlook.com</a>
+            <a href="mailto:CyberStrikeforce@outlook.com" className="text-[#00d4ff] hover:underline">CyberStrikeforce@outlook.com</a>
           </p>
         </div>
       </section>

@@ -227,7 +227,7 @@
     position: relative;
     background: var(--gradient-neon);
     color: #03121a;
-    border-radius: 9999px;
+    border-radius: 4px;
     box-shadow:
       0 8px 24px -8px rgba(0, 207, 255, 0.55),
       inset 0 1px 0 rgba(255, 255, 255, 0.35);
@@ -247,7 +247,7 @@
     backdrop-filter: blur(8px);
     border: 1px solid oklch(0.82 0.15 220 / 0.4);
     color: var(--foreground);
-    border-radius: 9999px;
+    border-radius: 4px;
     transition: all 280ms cubic-bezier(.2,.8,.2,1);
   }
   .btn-ghost-neon:hover {

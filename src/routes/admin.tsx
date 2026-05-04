@@ -94,7 +94,7 @@ function Login({ onSuccess }: { onSuccess: () => void }) {
       <Toaster position="top-center" richColors />
       <form
         onSubmit={submit}
-        className="glass-card animate-fade-up relative w-full max-w-sm rounded-2xl p-8"
+        className="glass-card animate-fade-up relative w-full max-w-sm rounded-none p-8"
       >
         <div className="mb-6 text-center">
           <div className="relative mx-auto mb-4 inline-block">
@@ -456,8 +456,14 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       };
 
       let done = 0;
+      const usedNames = new Set<string>();
       for (const s of filtered) {
-        const folderName = `${sanitize(s.full_name)}_${sanitize(s.mobile)}`;
+        let folderName = sanitize(s.full_name);
+        if (usedNames.has(folderName)) {
+          // Disambiguate duplicates by appending short id
+          folderName = `${folderName}_${s.id.slice(0, 6)}`;
+        }
+        usedNames.add(folderName);
         const folder = root.folder(folderName)!;
 
         const info = [
@@ -622,7 +628,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
         {loading ? (
           <p className="text-center text-muted-foreground">Loading...</p>
         ) : filtered.length === 0 ? (
-          <div className="glass-card rounded-2xl p-16 text-center">
+          <div className="glass-card rounded-none p-16 text-center">
             <p className="text-muted-foreground">No submissions {filter !== "all" ? `(${filter})` : "yet"}.</p>
           </div>
         ) : (
@@ -632,7 +638,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 key={s.id}
                 onClick={() => openSubmission(s)}
                 style={{ animationDelay: `${Math.min(i * 40, 400)}ms` }}
-                className={`glass-card animate-fade-up group relative flex flex-col gap-3 rounded-2xl p-5 text-left transition duration-300 hover:-translate-y-1 ${
+                className={`glass-card animate-fade-up group relative flex flex-col gap-3 rounded-none p-5 text-left transition duration-300 hover:-translate-y-1 ${
                   s.is_read ? "" : "ring-1 ring-[var(--neon)]/40"
                 }`}
               >
@@ -746,7 +752,7 @@ function ConfirmDialog({
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 backdrop-blur" onClick={onCancel}>
       <div
-        className="glass-card animate-fade-up w-full max-w-md rounded-2xl p-6"
+        className="glass-card animate-fade-up w-full max-w-md rounded-none p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="font-display text-xl font-bold">{title}</h3>
@@ -841,7 +847,7 @@ function DetailModal({
       onClick={onClose}
     >
       <div
-        className="glass-card animate-fade-up my-8 w-full max-w-2xl overflow-hidden rounded-2xl"
+        className="glass-card animate-fade-up my-8 w-full max-w-2xl overflow-hidden rounded-none"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-[var(--neon)]/20 p-5">

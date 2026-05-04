@@ -52,37 +52,51 @@ const sections = [
 function PolicyPage() {
   useScrollReveal();
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground font-rajdhani">
       <SiteHeader />
-      <section className="relative overflow-hidden px-6 py-24">
+      <section className="relative overflow-hidden px-6 py-20">
         <CyberBackground />
-        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-40" />
+        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-30" />
         <div className="relative mx-auto max-w-3xl">
           <div className="text-center reveal">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/80">
+            <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">
               // Operational Rules
             </p>
-            <h1 className="font-display mt-4 text-5xl font-bold tracking-tight sm:text-6xl">
-              Team{" "}
-              <span className="bg-[var(--gradient-neon)] bg-clip-text text-transparent">Policy</span>
+            <h1
+              className="font-orbitron mt-4 text-3xl font-black text-white sm:text-4xl"
+              style={{ letterSpacing: "3px" }}
+            >
+              TEAM <span className="text-[#00d4ff]">POLICY</span>
             </h1>
-            <p className="mt-4 text-sm text-muted-foreground/80">
+            <div className="mx-auto mt-5 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
+            <p className="mt-4 text-sm uppercase tracking-[0.2em] text-muted-foreground">
               We fight for Bangladesh — under a strict code of honor.
             </p>
           </div>
 
-          <div className="mt-14 space-y-5">
+          <div className="mt-12 space-y-5">
             {sections.map((s, i) => (
               <article
                 key={s.t}
-                className="reveal glass-card rounded-2xl p-7"
+                className="reveal pillar-card"
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
-                <h2 className="font-display text-xl font-bold tracking-tight">
-                  <span className="text-gold">// </span>
+                <h2 className="font-orbitron text-[15px] font-bold uppercase tracking-[2px] text-white">
+                  <span className="text-[#00d4ff]">{String(i + 1).padStart(2, "0")} // </span>
                   {s.t}
                 </h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground/90">{s.d}</p>
+                <p
+                  className="mt-4 text-[15px] text-[#cbd3e1]"
+                  style={{
+                    lineHeight: 1.85,
+                    letterSpacing: "normal",
+                    wordSpacing: "normal",
+                    textAlign: "left",
+                    hyphens: "none",
+                  }}
+                >
+                  {s.d}
+                </p>
               </article>
             ))}
           </div>
