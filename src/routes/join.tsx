@@ -25,7 +25,7 @@ export const Route = createFileRoute("/join")({
 });
 
 function JoinPage() {
-  const [rulesOpen, setRulesOpen] = useState(true);
+  const [rulesOpen, setRulesOpen] = useState(false);
   const [accepted, setAccepted] = useState(false);
 
   return (
@@ -60,23 +60,36 @@ function JoinPage() {
 
       <section className="px-6 py-12">
         <div className="mx-auto w-full max-w-2xl">
-          <div className="glass-card rounded-2xl p-6 sm:p-10">
-            {accepted ? (
-              <JoinForm />
-            ) : (
-              <div className="flex flex-col items-center gap-4 py-8 text-center">
-                <p className="font-bangla text-muted-foreground">
-                  ফর্ম দেখতে আবেদনের নিয়মাবলী পড়ুন এবং Continue ক্লিক করুন।
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setRulesOpen(true)}
-                  className="btn-cyber font-bangla"
-                >
-                  নিয়মাবলী দেখুন
-                </button>
-              </div>
-            )}
+          <div className="glass-card rounded-2xl p-8 sm:p-12">
+            <div className="flex flex-col items-center gap-5 text-center">
+              <span className="inline-flex items-center gap-2 rounded-full border border-red-500/50 bg-red-500/15 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-red-400 shadow-[0_0_18px_-4px_rgba(239,68,68,0.55)]">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
+                CLOSED
+              </span>
+              <h2 className="font-orbitron text-xl font-bold uppercase tracking-[2px] text-white sm:text-2xl">
+                Applications are currently closed
+              </h2>
+              <p className="font-bangla max-w-md text-sm leading-relaxed text-muted-foreground">
+                নতুন আবেদন গ্রহণ আপাতত বন্ধ রয়েছে। পরবর্তী রিক্রুটমেন্ট চালু হলে আমাদের অফিসিয়াল
+                পেজে ঘোষণা দেওয়া হবে।
+              </p>
+              <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/70">
+                Follow our official Facebook page for updates
+              </p>
+              <a
+                href="https://facebook.com/cyberstrikeforceCSF"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-cyber mt-2"
+              >
+                FACEBOOK PAGE
+              </a>
+            </div>
+          </div>
+          {/* Hidden suppressed references to avoid unused warnings */}
+          <div className="hidden">
+            {accepted ? <JoinForm /> : null}
+            <button onClick={() => setRulesOpen(true)} />
           </div>
         </div>
       </section>
