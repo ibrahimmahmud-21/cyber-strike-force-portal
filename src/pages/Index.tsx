@@ -1,31 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
 import { CyberBackground } from "@/components/CyberBackground";
 import { useScrollReveal } from "@/hooks/useReveal";
 import logo from "@/assets/csf-logo.png";
+import { useEffect } from "react";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Cyber Strike Force — We fight for Bangladesh" },
-      {
-        name: "description",
-        content:
-          "Cyber Strike Force is Bangladesh's cyber defense team safeguarding the nation's digital frontier.",
-      },
-      { property: "og:title", content: "Cyber Strike Force — We fight for Bangladesh" },
-      {
-        property: "og:description",
-        content: "Bangladesh's cyber defense team. We fight for Bangladesh.",
-      },
-    ],
-  }),
-  component: Index,
-});
-
-function Index() {
+export default function IndexPage() {
   useScrollReveal();
+  useEffect(() => {
+    document.title = "Cyber Strike Force — We fight for Bangladesh";
+  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground font-rajdhani">
       <Toaster position="top-center" richColors />
@@ -78,7 +62,6 @@ function Index() {
         <p className="relative z-10 mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground animate-fade-up delay-300">
           Defending the Digital Frontier — Standing United
         </p>
-
       </section>
 
       {/* MISSION */}
@@ -155,29 +138,14 @@ function Index() {
                 ),
               },
             ].map((p, i) => (
-              <div
-                key={p.t}
-                className="pillar-card reveal"
-                style={{ transitionDelay: `${i * 120}ms` }}
-              >
+              <div key={p.t} className="pillar-card reveal" style={{ transitionDelay: `${i * 120}ms` }}>
                 <div className="pillar-num">0{i + 1}</div>
                 <div className="pillar-icon-wrap">
-                  <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     {p.icon}
                   </svg>
                 </div>
-                <h3 className="font-orbitron text-[13px] font-bold tracking-[2px] text-white">
-                  {p.t}
-                </h3>
+                <h3 className="font-orbitron text-[13px] font-bold tracking-[2px] text-white">{p.t}</h3>
                 <p className="mt-3 text-sm leading-[1.75] text-[#aab4cc]">{p.d}</p>
               </div>
             ))}
@@ -198,35 +166,11 @@ function Index() {
             <div className="mt-5 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
           </div>
 
-          <div
-            className="grid gap-3.5"
-            style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}
-          >
+          <div className="grid gap-3.5" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
             {[
-              {
-                label: "FACEBOOK PAGE",
-                href: "https://facebook.com/cyberstrikeforceCSF",
-                icon: (
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                ),
-              },
-              {
-                label: "TELEGRAM CHANNEL",
-                href: "https://t.me/cyberstrikeforce",
-                icon: (
-                  <path d="M21.5 4.5 2.5 12l6 2 2 6 4-4 5 4 2-15.5z" />
-                ),
-              },
-              {
-                label: "EMAIL",
-                href: "mailto:CyberStrikeforce@outlook.com",
-                icon: (
-                  <>
-                    <rect x="3" y="5" width="18" height="14" rx="1" />
-                    <path d="m3 7 9 6 9-6" />
-                  </>
-                ),
-              },
+              { label: "FACEBOOK PAGE", href: "https://facebook.com/cyberstrikeforceCSF", icon: (<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />) },
+              { label: "TELEGRAM CHANNEL", href: "https://t.me/cyberstrikeforce", icon: (<path d="M21.5 4.5 2.5 12l6 2 2 6 4-4 5 4 2-15.5z" />) },
+              { label: "EMAIL", href: "mailto:CyberStrikeforce@outlook.com", icon: (<><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m3 7 9 6 9-6" /></>) },
             ].map((l) => (
               <a
                 key={l.label}

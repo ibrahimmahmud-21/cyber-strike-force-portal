@@ -1,36 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { useEffect } from "react";
 
-export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact — Cyber Strike Force" },
-      {
-        name: "description",
-        content: "Get in touch with Cyber Strike Force — Bangladesh's cyber defense team.",
-      },
-      { property: "og:title", content: "Contact — Cyber Strike Force" },
-      {
-        property: "og:description",
-        content: "Get in touch with Cyber Strike Force.",
-      },
-    ],
-  }),
-  component: ContactPage,
-});
-
-function ContactPage() {
+export default function ContactPage() {
+  useEffect(() => { document.title = "Contact — Cyber Strike Force"; }, []);
   const items = [
-    {
-      label: "Email",
-      value: "CyberStrikeforce@outlook.com",
-      href: "mailto:CyberStrikeforce@outlook.com",
-    },
-    {
-      label: "Facebook",
-      value: "facebook.com/cyberstrikeforceCSF",
-      href: "https://facebook.com/cyberstrikeforceCSF",
-    },
+    { label: "Email", value: "CyberStrikeforce@outlook.com", href: "mailto:CyberStrikeforce@outlook.com" },
+    { label: "Facebook", value: "facebook.com/cyberstrikeforceCSF", href: "https://facebook.com/cyberstrikeforceCSF" },
   ];
 
   return (

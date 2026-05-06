@@ -1,29 +1,12 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { CyberBackground } from "@/components/CyberBackground";
 import { useScrollReveal } from "@/hooks/useReveal";
+import { useEffect } from "react";
 
-export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About — Cyber Strike Force" },
-      {
-        name: "description",
-        content:
-          "Learn about Cyber Strike Force — Bangladesh's volunteer cyber defense team protecting national digital assets.",
-      },
-      { property: "og:title", content: "About — Cyber Strike Force" },
-      {
-        property: "og:description",
-        content: "Bangladesh's volunteer cyber defense team. Learn our mission.",
-      },
-    ],
-  }),
-  component: AboutPage,
-});
-
-function AboutPage() {
+export default function AboutPage() {
   useScrollReveal();
+  useEffect(() => { document.title = "About — Cyber Strike Force"; }, []);
   return (
     <div className="min-h-screen bg-background text-foreground font-rajdhani">
       <SiteHeader />
@@ -31,9 +14,7 @@ function AboutPage() {
       <section className="hex-grid relative overflow-hidden border-b border-[rgba(0,212,255,0.2)] px-6 py-20">
         <CyberBackground />
         <div className="relative mx-auto max-w-3xl text-center">
-          <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">
-            // About Us
-          </p>
+          <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">// About Us</p>
           <h1 className="font-orbitron mt-4 text-3xl font-black text-white sm:text-5xl" style={{ letterSpacing: "3px" }}>
             ABOUT <span className="text-[#00d4ff]">CSF</span>
           </h1>

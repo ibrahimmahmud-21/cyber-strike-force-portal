@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 import JSZip from "jszip";
@@ -8,9 +7,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import logo from "@/assets/csf-logo.png";
 
-export const Route = createFileRoute("/admin")({
-  component: AdminPage,
-});
 
 const ADMIN_PASSWORD = "csfcyberforce";
 const STORAGE_KEY = "csf_admin_auth";
@@ -54,7 +50,7 @@ const defaultSettings: EmailSettings = {
   rejectTemplateId: "",
 };
 
-function AdminPage() {
+export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
 
   useEffect(() => {

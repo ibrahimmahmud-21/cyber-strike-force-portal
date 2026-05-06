@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -68,7 +68,7 @@ export function RulesDialog({ open, onOpenChange, onContinue }: RulesDialogProps
             type="button"
             onClick={() => {
               onOpenChange(false);
-              navigate({ to: "/" });
+              navigate("/");
             }}
             className="font-bangla flex-1 rounded-xl border border-border bg-white px-6 py-3 text-sm font-medium text-foreground transition hover:bg-secondary"
           >
