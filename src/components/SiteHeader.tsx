@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { NavLink, Link } from "react-router-dom";
 import { useState } from "react";
 import logo from "@/assets/csf-logo.png";
 
