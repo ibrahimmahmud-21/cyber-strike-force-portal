@@ -31,16 +31,16 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => (
-            <Link
+            <NavLink
               key={item.to}
               to={item.to}
-              activeOptions={{ exact: true }}
-              activeProps={{ className: "text-[#00d4ff] after:scale-x-100" }}
-              inactiveProps={{ className: "text-muted-foreground hover:text-[#00d4ff]" }}
-              className="font-orbitron relative px-4 py-2 text-[10px] tracking-[2px] uppercase transition after:absolute after:bottom-1 after:left-1/2 after:h-px after:w-6 after:-translate-x-1/2 after:bg-[#00d4ff] after:transition-transform after:duration-300 after:scale-x-0"
+              end
+              className={({ isActive }) =>
+                `font-orbitron relative px-4 py-2 text-[10px] tracking-[2px] uppercase transition after:absolute after:bottom-1 after:left-1/2 after:h-px after:w-6 after:-translate-x-1/2 after:bg-[#00d4ff] after:transition-transform after:duration-300 ${isActive ? "text-[#00d4ff] after:scale-x-100" : "text-muted-foreground hover:text-[#00d4ff] after:scale-x-0"}`
+              }
             >
               {item.label.toUpperCase()}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 
@@ -64,17 +64,17 @@ export function SiteHeader() {
         <div className="border-t border-border bg-background md:hidden">
           <nav className="mx-auto flex max-w-6xl flex-col px-5 py-3">
             {navItems.map((item) => (
-              <Link
+              <NavLink
                 key={item.to}
                 to={item.to}
+                end
                 onClick={() => setOpen(false)}
-                activeOptions={{ exact: true }}
-                activeProps={{ className: "text-foreground" }}
-                inactiveProps={{ className: "text-muted-foreground" }}
-                className="font-orbitron border-l-2 border-transparent px-3 py-3 text-[11px] uppercase tracking-[2px] hover:border-[#00d4ff] hover:bg-[#00d4ff]/5 hover:text-[#00d4ff]"
+                className={({ isActive }) =>
+                  `font-orbitron border-l-2 border-transparent px-3 py-3 text-[11px] uppercase tracking-[2px] hover:border-[#00d4ff] hover:bg-[#00d4ff]/5 hover:text-[#00d4ff] ${isActive ? "text-foreground" : "text-muted-foreground"}`
+                }
               >
                 {item.label}
-              </Link>
+              </NavLink>
             ))}
           </nav>
         </div>
