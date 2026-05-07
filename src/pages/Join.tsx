@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, BackToTop } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
 import { JoinForm } from "@/components/JoinForm";
 import { RulesDialog } from "@/components/RulesDialog";
@@ -71,6 +71,7 @@ export default function JoinPage() {
       </section>
 
       <SiteFooter />
+      <BackToTop />
     </div>
   );
 }

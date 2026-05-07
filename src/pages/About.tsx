@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, BackToTop } from "@/components/SiteHeader";
 import { CyberBackground } from "@/components/CyberBackground";
 import { useScrollReveal } from "@/hooks/useReveal";
 import { useEffect } from "react";
@@ -47,6 +47,7 @@ export default function AboutPage() {
       </section>
 
       <SiteFooter />
+      <BackToTop />
     </div>
   );
 }
