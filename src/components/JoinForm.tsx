@@ -123,7 +123,9 @@ export function JoinForm() {
       }
 
       toast.success("আপনার আবেদন সফলভাবে জমা হয়েছে");
+      setSuccess(true);
       form.reset();
+      setTimeout(() => setSuccess(false), 4500);
     } catch (err) {
       const message =
         err instanceof Error && err.message ? err.message : "একটি সমস্যা হয়েছে, আবার চেষ্টা করুন";
