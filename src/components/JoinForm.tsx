@@ -136,7 +136,22 @@ export function JoinForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="relative space-y-6">
+      {success && (
+        <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center bg-[rgba(5,8,16,0.85)] backdrop-blur-sm">
+          <div className="relative h-24 w-24">
+            <span className="absolute inset-0 rounded-full border-2 border-[#00d4ff] ring-expand" />
+            <div className="check-pop relative flex h-24 w-24 items-center justify-center rounded-full bg-[rgba(0,212,255,0.12)] border-2 border-[#00d4ff] shadow-[0_0_40px_rgba(0,212,255,0.6)]">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+          </div>
+          <p className="font-orbitron mt-5 text-sm font-bold tracking-[2px] text-[#00d4ff]">SUBMITTED</p>
+          <p className="font-bangla mt-1 text-xs text-muted-foreground">আপনার আবেদন সফলভাবে জমা হয়েছে</p>
+        </div>
+      )}
+
       <div>
         <label className={labelCls}>আপনার পুরো নাম *</label>
         <input name="full_name" required maxLength={120} className={inputCls} />
