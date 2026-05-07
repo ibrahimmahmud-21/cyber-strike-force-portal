@@ -232,6 +232,7 @@ export default function IndexPage() {
       </section>
 
       <SiteFooter />
+      <BackToTop />
     </div>
   );
 }
