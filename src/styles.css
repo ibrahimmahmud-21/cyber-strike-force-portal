@@ -545,17 +545,20 @@
 
   /* Pillar cards */
   .pillar-card {
-    background: rgba(255,255,255,0.04);
+    background: rgba(10,16,28,0.55);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
     border: 1px solid rgba(0,212,255,0.2);
     padding: 36px 26px;
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s, background 0.35s;
   }
   .pillar-card:hover {
-    transform: translateY(-7px);
+    transform: translateY(-9px);
     border-color: #00d4ff;
-    box-shadow: 0 8px 40px rgba(0,212,255,0.18);
+    background: rgba(0,212,255,0.06);
+    box-shadow: 0 14px 50px rgba(0,212,255,0.3), 0 0 0 1px rgba(0,212,255,0.35);
   }
   .pillar-num {
     font-family: "Orbitron", monospace;
