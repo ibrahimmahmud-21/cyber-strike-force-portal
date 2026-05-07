@@ -1,9 +1,44 @@
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, BackToTop } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
 import { CyberBackground } from "@/components/CyberBackground";
 import { useScrollReveal } from "@/hooks/useReveal";
 import logo from "@/assets/csf-logo.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const TYPE_WORDS = ["Defender.", "Guardian.", "Patriot."];
+
+function useTyping() {
+  const [text, setText] = useState("");
+  useEffect(() => {
+    let wordIdx = 0;
+    let charIdx = 0;
+    let deleting = false;
+    let t: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      const word = TYPE_WORDS[wordIdx];
+      if (!deleting) {
+        charIdx++;
+        setText(word.slice(0, charIdx));
+        if (charIdx === word.length) {
+          deleting = true;
+          t = setTimeout(tick, 1400);
+          return;
+        }
+      } else {
+        charIdx--;
+        setText(word.slice(0, charIdx));
+        if (charIdx === 0) {
+          deleting = false;
+          wordIdx = (wordIdx + 1) % TYPE_WORDS.length;
+        }
+      }
+      t = setTimeout(tick, deleting ? 50 : 90);
+    };
+    t = setTimeout(tick, 600);
+    return () => clearTimeout(t);
+  }, []);
+  return text;
+}
 
 export default function IndexPage() {
   useScrollReveal();
