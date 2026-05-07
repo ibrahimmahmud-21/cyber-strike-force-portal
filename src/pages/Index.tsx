@@ -207,7 +207,7 @@ export default function IndexPage() {
           <div className="grid gap-3.5" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
             {[
               { label: "FACEBOOK PAGE", href: "https://facebook.com/cyberstrikeforceCSF", icon: (<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />) },
-              { label: "TELEGRAM CHANNEL", href: "https://t.me/cyberstrikeforce", icon: (<path d="M21.5 4.5 2.5 12l6 2 2 6 4-4 5 4 2-15.5z" />) },
+              { label: "TELEGRAM CHANNEL", href: "https://t.me/cyberstrikeforce72", icon: (<path d="M21.5 4.5 2.5 12l6 2 2 6 4-4 5 4 2-15.5z" />) },
               { label: "EMAIL", href: "mailto:CyberStrikeforce@outlook.com", icon: (<><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m3 7 9 6 9-6" /></>) },
             ].map((l) => (
               <a
