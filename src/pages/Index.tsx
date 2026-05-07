@@ -64,10 +64,9 @@ export default function IndexPage() {
           }}
         />
 
-        <div className="relative z-10 mb-9 float-slow">
+        <div className="relative z-10 mb-9">
           <div className="relative mx-auto h-[180px] w-[180px] sm:h-[210px] sm:w-[210px]">
-            <span className="cyan-glow-pulse" />
-            <div className="logo-cyber-ring relative z-10 h-full w-full overflow-hidden rounded-full">
+            <div className="logo-glow-only relative z-10 h-full w-full overflow-hidden rounded-full">
               <img src={logo} alt="Cyber Strike Force Logo" className="h-full w-full object-cover" />
             </div>
           </div>
