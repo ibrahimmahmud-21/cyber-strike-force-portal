@@ -1,5 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "@/assets/csf-logo.png";
 
 const navItems = [
@@ -11,13 +11,21 @@ const navItems = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-xl">
+    <header className={`sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-xl transition-all duration-300 ${scrolled ? "nav-scrolled" : ""}`}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-8 sm:py-4">
         <Link to="/" className="group flex items-center gap-3">
-          <div className="bg-foreground/10 p-1 ring-1 ring-[#00d4ff]/60 transition group-hover:ring-[#00d4ff] group-hover:shadow-[0_0_18px_-2px_rgba(0,212,255,0.55)]">
-            <img src={logo} alt="CSF" className="h-9 w-9 object-cover" />
+          <div className="logo-circle-glow overflow-hidden bg-foreground/10 p-0.5">
+            <img src={logo} alt="CSF" className="h-9 w-9 rounded-full object-cover" />
           </div>
           <div className="leading-tight">
             <p className="font-orbitron text-[12px] font-bold tracking-[2px] text-[#00d4ff] sm:text-[13px]">
