@@ -2,16 +2,15 @@ import { useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-const inputCls =
-  "font-bangla w-full rounded-xl border border-white/15 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08)] outline-none transition focus:border-[#00cfff] focus:ring-4 focus:ring-[#00cfff]/25 [color-scheme:light]";
+const inputCls = "input-cyber font-bangla";
 
 const labelCls = "font-bangla mb-2.5 block text-sm font-semibold text-white/90";
 
-const fileCls =
-  "font-bangla w-full rounded-xl border border-dashed border-white/20 bg-white/[0.04] px-4 py-3 text-sm text-white/80 file:mr-4 file:rounded-lg file:border-0 file:bg-[#00cfff] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black hover:file:bg-[#33d8ff] cursor-pointer";
+const fileCls = "file-cyber font-bangla text-sm";
 
 export function JoinForm() {
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   async function uploadFile(file: File, bucket: string): Promise<string> {
     const ext = file.name.split(".").pop();
@@ -124,7 +123,9 @@ export function JoinForm() {
       }
 
       toast.success("আপনার আবেদন সফলভাবে জমা হয়েছে");
+      setSuccess(true);
       form.reset();
+      setTimeout(() => setSuccess(false), 4500);
     } catch (err) {
       const message =
         err instanceof Error && err.message ? err.message : "একটি সমস্যা হয়েছে, আবার চেষ্টা করুন";
@@ -135,7 +136,22 @@ export function JoinForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="relative space-y-6">
+      {success && (
+        <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center bg-[rgba(5,8,16,0.85)] backdrop-blur-sm">
+          <div className="relative h-24 w-24">
+            <span className="absolute inset-0 rounded-full border-2 border-[#00d4ff] ring-expand" />
+            <div className="check-pop relative flex h-24 w-24 items-center justify-center rounded-full bg-[rgba(0,212,255,0.12)] border-2 border-[#00d4ff] shadow-[0_0_40px_rgba(0,212,255,0.6)]">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+          </div>
+          <p className="font-orbitron mt-5 text-sm font-bold tracking-[2px] text-[#00d4ff]">SUBMITTED</p>
+          <p className="font-bangla mt-1 text-xs text-muted-foreground">আপনার আবেদন সফলভাবে জমা হয়েছে</p>
+        </div>
+      )}
+
       <div>
         <label className={labelCls}>আপনার পুরো নাম *</label>
         <input name="full_name" required maxLength={120} className={inputCls} />

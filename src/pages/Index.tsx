@@ -1,12 +1,48 @@
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, BackToTop } from "@/components/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
 import { CyberBackground } from "@/components/CyberBackground";
 import { useScrollReveal } from "@/hooks/useReveal";
 import logo from "@/assets/csf-logo.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const TYPE_WORDS = ["Defender.", "Guardian.", "Patriot."];
+
+function useTyping() {
+  const [text, setText] = useState("");
+  useEffect(() => {
+    let wordIdx = 0;
+    let charIdx = 0;
+    let deleting = false;
+    let t: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      const word = TYPE_WORDS[wordIdx];
+      if (!deleting) {
+        charIdx++;
+        setText(word.slice(0, charIdx));
+        if (charIdx === word.length) {
+          deleting = true;
+          t = setTimeout(tick, 1400);
+          return;
+        }
+      } else {
+        charIdx--;
+        setText(word.slice(0, charIdx));
+        if (charIdx === 0) {
+          deleting = false;
+          wordIdx = (wordIdx + 1) % TYPE_WORDS.length;
+        }
+      }
+      t = setTimeout(tick, deleting ? 50 : 90);
+    };
+    t = setTimeout(tick, 600);
+    return () => clearTimeout(t);
+  }, []);
+  return text;
+}
 
 export default function IndexPage() {
   useScrollReveal();
+  const typed = useTyping();
   useEffect(() => {
     document.title = "Cyber Strike Force — We fight for Bangladesh";
   }, []);
@@ -30,9 +66,7 @@ export default function IndexPage() {
 
         <div className="relative z-10 mb-9 float-slow">
           <div className="relative mx-auto h-[180px] w-[180px] sm:h-[210px] sm:w-[210px]">
-            <span className="pulse-ring" />
-            <span className="pulse-ring delay-1" />
-            <span className="pulse-ring delay-2" />
+            <span className="cyan-glow-pulse" />
             <div className="logo-cyber-ring relative z-10 h-full w-full overflow-hidden rounded-full">
               <img src={logo} alt="Cyber Strike Force Logo" className="h-full w-full object-cover" />
             </div>
@@ -40,7 +74,8 @@ export default function IndexPage() {
         </div>
 
         <h1
-          className="relative z-10 font-orbitron font-black text-white animate-fade-up delay-100"
+          className="glitch relative z-10 font-orbitron font-black text-white animate-fade-up delay-100"
+          data-text="CYBER STRIKE FORCE"
           style={{
             fontSize: "clamp(30px, 7.5vw, 64px)",
             letterSpacing: "5px",
@@ -62,7 +97,11 @@ export default function IndexPage() {
         <p className="relative z-10 mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground animate-fade-up delay-300">
           Defending the Digital Frontier — Standing United
         </p>
+        <p className="type-caret relative z-10 mt-3 font-orbitron text-sm font-semibold tracking-[3px] text-[#00d4ff] min-h-[1.5em] animate-fade-up delay-400">
+          {typed}
+        </p>
       </section>
+
 
       {/* MISSION */}
       <section className="relative border-y border-[rgba(0,212,255,0.2)] bg-[#0a0d18] px-6 py-20">
@@ -193,6 +232,7 @@ export default function IndexPage() {
       </section>
 
       <SiteFooter />
+      <BackToTop />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, BackToTop } from "@/components/SiteHeader";
 import { useEffect } from "react";
 
 export default function ContactPage() {
@@ -45,6 +45,7 @@ export default function ContactPage() {
       </section>
 
       <SiteFooter />
+      <BackToTop />
     </div>
   );
 }

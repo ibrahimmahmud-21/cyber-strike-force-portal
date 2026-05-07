@@ -54,7 +54,7 @@ export function RulesDialog({ open, onOpenChange, onContinue }: RulesDialogProps
             </li>
           </ol>
 
-          <div className="rounded-xl border border-border bg-secondary/40 p-4">
+          <div className="note-cyber">
             <p className="font-bangla text-sm font-semibold text-foreground">ℹ️ নোট:</p>
             <p className="font-bangla mt-1 text-sm text-muted-foreground">
               Admin যদি আপনার আবেদন Reject বা Delete করে, সেটি স্ক্যাম হিসেবে ধরা হবে না। আপনি
@@ -70,16 +70,19 @@ export function RulesDialog({ open, onOpenChange, onContinue }: RulesDialogProps
               onOpenChange(false);
               navigate("/");
             }}
-            className="font-bangla flex-1 rounded-xl border border-border bg-white px-6 py-3 text-sm font-medium text-foreground transition hover:bg-secondary"
+            className="font-bangla flex-1 rounded-md border border-[rgba(0,212,255,0.25)] bg-transparent px-6 py-3 text-sm font-medium text-muted-foreground transition hover:border-[#00d4ff] hover:text-[#00d4ff]"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onContinue}
-            className="font-bangla group relative flex-1 overflow-hidden rounded-xl bg-foreground px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[0_8px_24px_-8px_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5"
+            className="font-orbitron group relative flex-1 overflow-hidden rounded-md px-6 py-3 text-xs font-bold uppercase tracking-[2px] text-[#03121a] transition hover:-translate-y-0.5"
+            style={{
+              background: "linear-gradient(135deg,#00d4ff,#0078ff)",
+              boxShadow: "0 8px 24px -8px rgba(0,212,255,0.6), inset 0 1px 0 rgba(255,255,255,0.3)",
+            }}
           >
-            <span className="absolute inset-0 -translate-x-full bg-[var(--gradient-gold)] transition-transform duration-500 group-hover:translate-x-0" />
             <span className="relative">Continue</span>
           </button>
         </DialogFooter>
