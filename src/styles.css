@@ -479,6 +479,15 @@
       inset 0 0 30px rgba(0,0,0,0.8);
   }
 
+  /* Logo glow-only (no rotation, no rings) */
+  .logo-glow-only {
+    animation: logo-cyan-glow 3.6s ease-in-out infinite;
+  }
+  @keyframes logo-cyan-glow {
+    0%, 100% { box-shadow: 0 0 18px 2px rgba(0,255,255,0.35), 0 0 40px 6px rgba(0,255,255,0.15); }
+    50%      { box-shadow: 0 0 36px 8px rgba(0,255,255,0.85), 0 0 80px 18px rgba(0,255,255,0.4); }
+  }
+
   .float-slow { animation: float-slow 4.5s ease-in-out infinite; }
   @keyframes float-slow {
     0%,100% { transform: translateY(0); }
