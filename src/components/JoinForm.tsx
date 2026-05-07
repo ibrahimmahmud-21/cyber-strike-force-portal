@@ -2,16 +2,15 @@ import { useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-const inputCls =
-  "font-bangla w-full rounded-xl border border-white/15 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08)] outline-none transition focus:border-[#00cfff] focus:ring-4 focus:ring-[#00cfff]/25 [color-scheme:light]";
+const inputCls = "input-cyber font-bangla";
 
 const labelCls = "font-bangla mb-2.5 block text-sm font-semibold text-white/90";
 
-const fileCls =
-  "font-bangla w-full rounded-xl border border-dashed border-white/20 bg-white/[0.04] px-4 py-3 text-sm text-white/80 file:mr-4 file:rounded-lg file:border-0 file:bg-[#00cfff] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black hover:file:bg-[#33d8ff] cursor-pointer";
+const fileCls = "file-cyber font-bangla text-sm";
 
 export function JoinForm() {
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   async function uploadFile(file: File, bucket: string): Promise<string> {
     const ext = file.name.split(".").pop();
