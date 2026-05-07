@@ -94,17 +94,56 @@ export function SiteHeader() {
 export function SiteFooter() {
   return (
     <footer className="border-t border-[rgba(0,212,255,0.2)] bg-[#030508]">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-6 py-9 text-center sm:flex-row sm:justify-between sm:text-left">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-9 text-center sm:flex-row sm:justify-between sm:text-left">
         <p className="font-orbitron text-[12px] font-bold tracking-[3px] text-[#00d4ff]">
           CYBER STRIKE FORCE
         </p>
-        <p className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
-          We fight for Bangladesh
-        </p>
+        <div className="flex items-center gap-3">
+          {[
+            { href: "https://facebook.com/cyberstrikeforceCSF", label: "Facebook", icon: (<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />) },
+            { href: "https://t.me/cyberstrikeforce", label: "Telegram", icon: (<path d="M21.5 4.5 2.5 12l6 2 2 6 4-4 5 4 2-15.5z" />) },
+            { href: "mailto:CyberStrikeforce@outlook.com", label: "Email", icon: (<><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m3 7 9 6 9-6" /></>) },
+          ].map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target={s.href.startsWith("mailto:") ? undefined : "_blank"}
+              rel="noopener noreferrer"
+              aria-label={s.label}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(0,212,255,0.35)] text-[#00d4ff] transition hover:border-[#00d4ff] hover:bg-[#00d4ff]/10 hover:shadow-[0_0_18px_rgba(0,212,255,0.55)]"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {s.icon}
+              </svg>
+            </a>
+          ))}
+        </div>
         <p className="text-[11px] tracking-[1px] text-muted-foreground/60">
           © 2026 All Rights Reserved
         </p>
       </div>
     </footer>
+  );
+}
+
+export function BackToTop() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <button
+      aria-label="Back to top"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      className={`back-to-top ${visible ? "visible" : ""}`}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 19V5" />
+        <path d="m5 12 7-7 7 7" />
+      </svg>
+    </button>
   );
 }
