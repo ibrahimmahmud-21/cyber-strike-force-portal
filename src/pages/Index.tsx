@@ -49,7 +49,7 @@ export default function IndexPage() {
   return (
     <div className="min-h-screen bg-background text-foreground font-rajdhani">
       <Toaster position="top-center" richColors />
-      <div className="scan-line" />
+      
 
       <SiteHeader />
 
