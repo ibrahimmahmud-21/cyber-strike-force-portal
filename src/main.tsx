@@ -27,6 +27,7 @@ function NotFound() {
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
+      <ScreenshotGuard />
       <Routes>
         <Route path="/" element={<IndexPage />} />
         <Route path="/about" element={<AboutPage />} />
