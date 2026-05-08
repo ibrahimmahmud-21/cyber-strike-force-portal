@@ -841,3 +841,22 @@
   }
   .ring-expand { animation: ring-expand 1.2s ease-out infinite; }
 }
+
+/* === Screenshot protection (applied via body.ss-protected; /join is exempt) === */
+body.ss-protected,
+body.ss-protected * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+body.ss-protected img,
+body.ss-protected video,
+body.ss-protected canvas {
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+@media print {
+  body { display: none !important; }
+}
