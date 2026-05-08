@@ -65,10 +65,18 @@ export default function IndexPage() {
         />
 
         <div className="relative z-10 mb-9">
-          <div className="relative mx-auto h-[180px] w-[180px] sm:h-[210px] sm:w-[210px]">
-            <div className="logo-glow-only relative z-10 h-full w-full overflow-hidden rounded-full">
-              <img src={logo} alt="Cyber Strike Force Logo" className="h-full w-full object-cover" />
+          <div className="logo-stage relative mx-auto h-[180px] w-[180px] sm:h-[210px] sm:w-[210px]">
+            <div className="logo-hex-grid" aria-hidden />
+            <div className="logo-deep-glow" aria-hidden />
+            <div className="logo-float relative z-10 h-full w-full">
+              <div className="logo-glitch h-full w-full overflow-hidden rounded-full">
+                <img src={logo} alt="Cyber Strike Force Logo" className="h-full w-full object-cover" />
+              </div>
             </div>
+            <span className="logo-corner logo-corner--tl" aria-hidden />
+            <span className="logo-corner logo-corner--tr" aria-hidden />
+            <span className="logo-corner logo-corner--bl" aria-hidden />
+            <span className="logo-corner logo-corner--br" aria-hidden />
           </div>
         </div>
 

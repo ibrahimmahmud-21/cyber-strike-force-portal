@@ -479,20 +479,75 @@
       inset 0 0 30px rgba(0,0,0,0.8);
   }
 
-  /* Logo glow-only (no rotation, no rings) */
-  .logo-glow-only {
-    animation: logo-cyan-glow 3.6s ease-in-out infinite;
-  }
-  @keyframes logo-cyan-glow {
-    0%, 100% { box-shadow: 0 0 18px 2px rgba(0,255,255,0.35), 0 0 40px 6px rgba(0,255,255,0.15); }
-    50%      { box-shadow: 0 0 36px 8px rgba(0,255,255,0.85), 0 0 80px 18px rgba(0,255,255,0.4); }
+  /* === Hero logo: stage, float, glitch, deep glow, hex grid, corner brackets === */
+  .logo-stage { isolation: isolate; }
+
+  /* 1. Floating levitation */
+  .logo-float { animation: logo-float 6s ease-in-out infinite; will-change: transform; }
+  @keyframes logo-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
   }
 
-  .float-slow { animation: float-slow 4.5s ease-in-out infinite; }
-  @keyframes float-slow {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-14px); }
+  /* 2. Glitch flicker (rare, ~every 5s) */
+  .logo-glitch { position: relative; animation: logo-glitch 5s steps(1) infinite; }
+  @keyframes logo-glitch {
+    0%, 94%, 100% { transform: translateX(0); filter: none; }
+    95%           { transform: translateX(-3px); filter: drop-shadow(2px 0 0 rgba(255,0,80,0.7)) drop-shadow(-2px 0 0 rgba(0,212,255,0.7)); }
+    96%           { transform: translateX(3px);  filter: drop-shadow(-2px 0 0 rgba(255,0,80,0.7)) drop-shadow(2px 0 0 rgba(0,212,255,0.7)); }
+    97%           { transform: translateX(-2px); filter: drop-shadow(1px 0 0 rgba(0,212,255,0.6)); }
+    98%           { transform: translateX(0); filter: none; }
   }
+
+  /* 3. Deep ambient cyan glow that breathes */
+  .logo-deep-glow {
+    position: absolute; inset: -25%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,255,0.35) 0%, rgba(0,140,200,0.18) 35%, transparent 70%);
+    filter: blur(28px);
+    z-index: 0;
+    animation: logo-breath 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes logo-breath {
+    0%, 100% { opacity: 0.55; transform: scale(0.95); }
+    50%      { opacity: 1;    transform: scale(1.08); }
+  }
+
+  /* 4. Static dark cyan hex grid texture behind logo */
+  .logo-hex-grid {
+    position: absolute; inset: -15%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image:
+      radial-gradient(circle at center, rgba(0,212,255,0.18) 0.5px, transparent 1.5px),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='46' viewBox='0 0 40 46'><polygon points='20,1 39,12 39,34 20,45 1,34 1,12' fill='none' stroke='%2300505a' stroke-width='0.8'/></svg>");
+    background-size: 12px 12px, 40px 46px;
+    -webkit-mask-image: radial-gradient(circle, black 40%, transparent 75%);
+            mask-image: radial-gradient(circle, black 40%, transparent 75%);
+  }
+
+  /* 5. Corner targeting brackets (fade in once, then static) */
+  .logo-corner {
+    position: absolute;
+    width: 22px; height: 22px;
+    border: 2px solid #00d4ff;
+    box-shadow: 0 0 8px rgba(0,212,255,0.6);
+    opacity: 0;
+    animation: logo-corner-in 0.9s ease-out 0.4s forwards;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .logo-corner--tl { top: -10px; left: -10px; border-right: 0; border-bottom: 0; }
+  .logo-corner--tr { top: -10px; right: -10px; border-left: 0; border-bottom: 0; }
+  .logo-corner--bl { bottom: -10px; left: -10px; border-right: 0; border-top: 0; }
+  .logo-corner--br { bottom: -10px; right: -10px; border-left: 0; border-top: 0; }
+  @keyframes logo-corner-in {
+    from { opacity: 0; transform: scale(0.6); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
 
   /* Clip-path cyber buttons */
   .btn-cyber {
