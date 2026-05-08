@@ -18,9 +18,9 @@ export function RulesDialog({ open, onOpenChange, onContinue }: RulesDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+      <DialogContent className="max-h-[90vh] overflow-y-auto border border-[rgba(0,212,255,0.25)] bg-[#070d18] sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="font-bangla text-center text-xl">
+          <DialogTitle className="font-bangla text-center text-xl text-white">
             🛡️ CYBER STRIKE FORCE (CSF)
           </DialogTitle>
           <p className="font-bangla text-center text-sm text-muted-foreground">
@@ -29,29 +29,29 @@ export function RulesDialog({ open, onOpenChange, onContinue }: RulesDialogProps
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="rounded-xl border border-[var(--gold)]/40 bg-[var(--gold-soft)]/30 p-4">
-            <p className="font-bangla text-sm font-semibold text-foreground">
+          <div className="rounded-sm border border-[rgba(0,212,255,0.25)] border-l-[3px] border-l-[#00d4ff] bg-[rgba(8,14,26,0.7)] p-4 backdrop-blur">
+            <p className="font-bangla text-sm font-semibold text-white">
               ⚠️ আবেদন করার আগে অবশ্যই পড়ুন:
             </p>
           </div>
 
           <ol className="font-bangla space-y-3 text-sm leading-relaxed text-foreground">
-            <li className="flex gap-3">
-              <span className="font-semibold text-[var(--gold-deep)]">১.</span>
-              <span>আপনার নাম অবশ্যই আপনার Facebook প্রোফাইলের নামের সাথে মিল থাকতে হবে।</span>
-            </li>
-            <li className="flex gap-3">
-              <span className="font-semibold text-[var(--gold-deep)]">২.</span>
-              <span>সব তথ্য সঠিক ও বাস্তব (অরিজিনাল) দিতে হবে।</span>
-            </li>
-            <li className="flex gap-3">
-              <span className="font-semibold text-[var(--gold-deep)]">৩.</span>
-              <span>আপনি অন্য কোনো টিম বা গ্রুপের সদস্য হতে পারবেন না।</span>
-            </li>
-            <li className="flex gap-3">
-              <span className="font-semibold text-[var(--gold-deep)]">৪.</span>
-              <span>একই Email বা Phone Number ব্যবহার করে একাধিকবার আবেদন করা যাবে না।</span>
-            </li>
+            {[
+              "আপনার নাম অবশ্যই আপনার Facebook প্রোফাইলের নামের সাথে মিল থাকতে হবে।",
+              "সব তথ্য সঠিক ও বাস্তব (অরিজিনাল) দিতে হবে।",
+              "আপনি অন্য কোনো টিম বা গ্রুপের সদস্য হতে পারবেন না।",
+              "একই Email বা Phone Number ব্যবহার করে একাধিকবার আবেদন করা যাবে না।",
+            ].map((text, i) => (
+              <li
+                key={i}
+                className="flex gap-3 rounded-sm border border-[rgba(0,212,255,0.18)] bg-[rgba(10,16,28,0.6)] p-3 backdrop-blur transition hover:border-[rgba(0,212,255,0.45)] hover:bg-[rgba(0,212,255,0.05)]"
+              >
+                <span className="font-orbitron font-bold text-[#00d4ff]">
+                  {["১", "২", "৩", "৪"][i]}.
+                </span>
+                <span className="text-[#cbd3e1]">{text}</span>
+              </li>
+            ))}
           </ol>
 
           <div className="note-cyber">
