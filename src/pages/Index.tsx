@@ -1,240 +1,336 @@
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { SiteHeader, SiteFooter, BackToTop } from "@/components/SiteHeader";
-import { Toaster } from "@/components/ui/sonner";
 import { CyberBackground } from "@/components/CyberBackground";
+import { StatCounter } from "@/components/StatCounter";
 import { useScrollReveal } from "@/hooks/useReveal";
 import logo from "@/assets/csf-logo.png";
-import { useEffect, useState } from "react";
 
-const TYPE_WORDS = ["Defender.", "Guardian.", "Patriot."];
+const STATS = [
+  { value: 24, suffix: "/7", label: "Continuous Monitoring", sub: "Always-on threat watch" },
+  { value: 350, suffix: "+", label: "Active Operators", sub: "Trained volunteers nationwide" },
+  { value: 99.9, suffix: "%", label: "Response Uptime", sub: "Coordinated incident readiness", decimals: 1 },
+  { value: 18, suffix: "min", label: "Avg. Triage Time", sub: "From report to action" },
+] as const;
 
-function useTyping() {
-  const [text, setText] = useState("");
-  useEffect(() => {
-    let wordIdx = 0;
-    let charIdx = 0;
-    let deleting = false;
-    let t: ReturnType<typeof setTimeout>;
-    const tick = () => {
-      const word = TYPE_WORDS[wordIdx];
-      if (!deleting) {
-        charIdx++;
-        setText(word.slice(0, charIdx));
-        if (charIdx === word.length) {
-          deleting = true;
-          t = setTimeout(tick, 1400);
-          return;
-        }
-      } else {
-        charIdx--;
-        setText(word.slice(0, charIdx));
-        if (charIdx === 0) {
-          deleting = false;
-          wordIdx = (wordIdx + 1) % TYPE_WORDS.length;
-        }
-      }
-      t = setTimeout(tick, deleting ? 50 : 90);
-    };
-    t = setTimeout(tick, 600);
-    return () => clearTimeout(t);
-  }, []);
-  return text;
-}
+const SERVICES = [
+  {
+    title: "Threat Intelligence",
+    body: "Real-time intelligence on emerging threats, campaigns, and infrastructure abuse targeting Bangladeshi assets.",
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+      </>
+    ),
+  },
+  {
+    title: "Incident Response",
+    body: "Coordinated triage, containment, and remediation playbooks built on a 24/7 volunteer operations cadence.",
+    icon: (
+      <>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <path d="m9 12 2 2 4-4" />
+      </>
+    ),
+  },
+  {
+    title: "Vulnerability Research",
+    body: "Coordinated disclosure, deep-dive analysis, and tooling that hardens Bangladesh's most exposed surfaces.",
+    icon: (
+      <>
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </>
+    ),
+  },
+  {
+    title: "Community Defense",
+    body: "Protecting journalists, activists, and vulnerable communities from harassment, doxxing, and targeted attacks.",
+    icon: (
+      <>
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </>
+    ),
+  },
+  {
+    title: "Awareness & Training",
+    body: "Curriculum, workshops, and digital hygiene programs that scale defensive literacy across the country.",
+    icon: (
+      <>
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+      </>
+    ),
+  },
+  {
+    title: "Critical-Asset Hardening",
+    body: "Advisory and operational support for institutions defending public infrastructure and digital sovereignty.",
+    icon: (
+      <>
+        <rect x="3" y="11" width="18" height="11" rx="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </>
+    ),
+  },
+] as const;
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "CSF's coordinated response gave us a clear playbook within hours of detection. Their discipline is on par with the best teams I've seen.",
+    name: "Anonymized SOC Lead",
+    role: "Financial Sector, Dhaka",
+  },
+  {
+    quote:
+      "When our journalist colleagues were targeted, CSF moved fast — takedowns, hardening, and quiet reassurance. They protect people, not just systems.",
+    name: "Newsroom Editor",
+    role: "Independent Media",
+  },
+  {
+    quote:
+      "A rare blend of patriotism and rigor. Their threat advisories are precise, their conduct exemplary. We rely on them.",
+    name: "University CISO",
+    role: "Public Institution",
+  },
+] as const;
+
+const TRUST = [
+  "Confidential by Default",
+  "Coordinated Disclosure",
+  "Volunteer Operated",
+  "Bangladesh First",
+];
 
 export default function IndexPage() {
   useScrollReveal();
-  const typed = useTyping();
   useEffect(() => {
-    document.title = "Cyber Strike Force — We fight for Bangladesh";
+    document.title = "Cyber Strike Force — Enterprise-grade Cyber Defense for Bangladesh";
   }, []);
-  return (
-    <div className="min-h-screen bg-background text-foreground font-rajdhani">
-      <Toaster position="top-center" richColors />
-      
 
+  return (
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <SiteHeader />
 
       {/* HERO */}
-      <section className="hex-grid relative z-10 flex min-h-[88vh] flex-col items-center justify-center overflow-hidden px-6 pt-16 pb-20 text-center">
+      <section className="relative isolate overflow-hidden px-6 pt-12 pb-24 sm:pt-20 sm:pb-32">
         <CyberBackground />
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 70% 55% at 50% 35%, rgba(0,212,255,0.10) 0%, transparent 65%), radial-gradient(ellipse 40% 40% at 80% 70%, rgba(0,100,180,0.07) 0%, transparent 60%)",
-          }}
-        />
+        <div className="relative mx-auto max-w-7xl">
+          <div className="grid items-center gap-14 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <div className="reveal">
+                <span className="eyebrow">Defending Bangladesh's Digital Frontier</span>
+              </div>
+              <h1 className="display-h1 reveal mt-6" style={{ transitionDelay: "60ms" }}>
+                Enterprise-grade cyber defense,
+                <br className="hidden sm:block" /> built for a{" "}
+                <span className="gradient-text">sovereign</span> nation.
+              </h1>
+              <p
+                className="reveal mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg"
+                style={{ transitionDelay: "120ms" }}
+              >
+                Cyber Strike Force is a mission-driven, volunteer-operated initiative protecting
+                Bangladesh's institutions, infrastructure, and people from advanced digital
+                threats — with the discipline of a top-tier security team.
+              </p>
+              <div
+                className="reveal mt-9 flex flex-wrap items-center gap-3"
+                style={{ transitionDelay: "180ms" }}
+              >
+                <Link to="/join" className="btn btn-primary">
+                  Join the Team
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M13 5l7 7-7 7" />
+                  </svg>
+                </Link>
+                <Link to="/about" className="btn btn-secondary">
+                  Learn more
+                </Link>
+              </div>
 
-        <div className="relative z-10 mb-9">
-          <div className="logo-stage relative mx-auto h-[180px] w-[180px] sm:h-[210px] sm:w-[210px]">
-            <div className="logo-hex-grid" aria-hidden />
-            <div className="logo-deep-glow" aria-hidden />
-            <div className="logo-float relative z-10 h-full w-full">
-              <div className="logo-glitch h-full w-full overflow-hidden rounded-full">
-                <img src={logo} alt="Cyber Strike Force Logo" className="h-full w-full object-cover" />
+              <div
+                className="reveal mt-10 flex flex-wrap items-center gap-2.5"
+                style={{ transitionDelay: "240ms" }}
+              >
+                {TRUST.map((t) => (
+                  <span key={t} className="trust-pill">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                    {t}
+                  </span>
+                ))}
               </div>
             </div>
-            <span className="logo-corner logo-corner--tl" aria-hidden />
-            <span className="logo-corner logo-corner--tr" aria-hidden />
-            <span className="logo-corner logo-corner--bl" aria-hidden />
-            <span className="logo-corner logo-corner--br" aria-hidden />
-          </div>
-        </div>
 
-        <h1
-          className="glitch relative z-10 font-orbitron font-black text-white animate-fade-up delay-100"
-          data-text="CYBER STRIKE FORCE"
-          style={{
-            fontSize: "clamp(30px, 7.5vw, 64px)",
-            letterSpacing: "5px",
-            lineHeight: 1.1,
-            textShadow: "0 0 40px rgba(0,212,255,0.4), 0 0 80px rgba(0,212,255,0.15)",
-          }}
-        >
-          CYBER STRIKE
-          <br />
-          FORCE
-        </h1>
-
-        <p
-          className="relative z-10 mt-4 font-rajdhani font-semibold uppercase text-[#00d4ff] animate-fade-up delay-200"
-          style={{ fontSize: "clamp(15px, 3vw, 20px)", letterSpacing: "5px" }}
-        >
-          We fight for Bangladesh
-        </p>
-        <p className="relative z-10 mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground animate-fade-up delay-300">
-          Defending the Digital Frontier — Standing United
-        </p>
-        <p className="type-caret relative z-10 mt-3 font-orbitron text-sm font-semibold tracking-[3px] text-[#00d4ff] min-h-[1.5em] animate-fade-up delay-400">
-          {typed}
-        </p>
-      </section>
-
-
-      {/* MISSION */}
-      <section className="relative border-y border-[rgba(0,212,255,0.2)] bg-[#0a0d18] px-6 py-20">
-        <div className="mx-auto max-w-3xl reveal">
-          <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">
-            // Mission Briefing
-          </p>
-          <h2 className="font-orbitron mt-3 text-2xl font-bold text-white sm:text-3xl">
-            Defending the Digital Frontier
-          </h2>
-          <div className="mt-5 mb-10 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
-          <div className="mission-box">
-            <p className="text-[17px] leading-[1.9] text-[#aab4cc]">
-              <strong className="text-[#00d4ff]">Cyber Strike Force</strong> is an independent,
-              mission-driven cybersecurity initiative committed to protecting Bangladesh's digital
-              frontier. We safeguard <strong className="text-[#00d4ff]">vulnerable communities</strong>{" "}
-              from cyber threats, online harassment, misinformation, and targeted digital attacks —
-              standing united for a safer national cyberspace.
-              <br />
-              <br />
-              We fight for <strong className="text-[#00d4ff]">Bangladesh</strong>. We protect the
-              innocent. We stand against digital darkness.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* PILLARS */}
-      <section className="relative px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="reveal mb-10">
-            <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">
-              // What We Stand For
-            </p>
-            <h2 className="font-orbitron mt-3 text-2xl font-bold text-white sm:text-3xl">
-              Three Pillars
-            </h2>
-            <div className="mt-5 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
-          </div>
-
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                t: "DEFENSE",
-                d: "Protecting Bangladesh's digital infrastructure from emerging threats and targeted cyber attacks.",
-                icon: (
-                  <>
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    <polyline points="9 12 11 14 15 10" />
-                  </>
-                ),
-              },
-              {
-                t: "INTELLIGENCE",
-                d: "Continuous monitoring, research and threat intelligence operations across the digital landscape.",
-                icon: (
-                  <>
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                  </>
-                ),
-              },
-              {
-                t: "COMMUNITY",
-                d: "A united team of patriotic cyber warriors trained and ready for the challenges of tomorrow.",
-                icon: (
-                  <>
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                  </>
-                ),
-              },
-            ].map((p, i) => (
-              <div key={p.t} className="pillar-card reveal" style={{ transitionDelay: `${i * 120}ms` }}>
-                <div className="pillar-num">0{i + 1}</div>
-                <div className="pillar-icon-wrap">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    {p.icon}
-                  </svg>
+            <div className="reveal lg:col-span-5" style={{ transitionDelay: "240ms" }}>
+              <div className="relative mx-auto aspect-square w-full max-w-md">
+                <div
+                  className="absolute inset-0 rounded-full opacity-60 blur-3xl"
+                  style={{ background: "var(--gradient-brand)" }}
+                  aria-hidden
+                />
+                <div className="glass-strong absolute inset-6 flex items-center justify-center rounded-full">
+                  <div className="relative h-44 w-44 sm:h-52 sm:w-52">
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 animate-pulse rounded-full opacity-50 blur-2xl"
+                      style={{ background: "var(--gradient-brand)" }}
+                    />
+                    <img
+                      src={logo}
+                      alt="Cyber Strike Force emblem"
+                      loading="eager"
+                      decoding="async"
+                      className="relative h-full w-full rounded-full border border-white/15 object-cover shadow-2xl"
+                    />
+                  </div>
                 </div>
-                <h3 className="font-orbitron text-[13px] font-bold tracking-[2px] text-white">{p.t}</h3>
-                <p className="mt-3 text-sm leading-[1.75] text-[#aab4cc]">{p.d}</p>
+                {/* Orbiting markers */}
+                <span className="absolute left-1/2 top-2 -translate-x-1/2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.22em] text-slate-300 backdrop-blur">
+                  Live
+                </span>
+                <span className="absolute bottom-3 left-4 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.22em] text-slate-300 backdrop-blur">
+                  SOC v2
+                </span>
+                <span className="absolute right-3 top-1/3 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.22em] text-slate-300 backdrop-blur">
+                  TLP:Green
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section className="relative px-6 py-14">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {STATS.map((s, i) => (
+              <div key={s.label} className="stat-card reveal" style={{ transitionDelay: `${i * 80}ms` }}>
+                <p className="stat-number">
+                  <StatCounter value={s.value} suffix={s.suffix} decimals={(s as any).decimals ?? 0} />
+                </p>
+                <p className="mt-2 font-display text-sm font-semibold text-white">{s.label}</p>
+                <p className="mt-1 text-xs text-slate-400">{s.sub}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CONNECT */}
-      <section className="relative border-t border-[rgba(0,212,255,0.2)] bg-[#0a0d18] px-6 py-20">
-        <div className="mx-auto max-w-4xl">
-          <div className="reveal mb-10">
-            <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">
-              // Contact &amp; Connect
-            </p>
-            <h2 className="font-orbitron mt-3 text-2xl font-bold text-white sm:text-3xl">
-              Get in Touch
+      {/* SERVICES */}
+      <section className="relative px-6 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="reveal mx-auto max-w-2xl text-center">
+            <span className="eyebrow">Capabilities</span>
+            <h2 className="display-h2 mt-5">
+              A full-spectrum, <span className="gradient-text">defensive</span> operation
             </h2>
-            <div className="mt-5 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
+            <p className="mt-4 text-base text-slate-300">
+              From intelligence to incident response, our capabilities are organized around the threats
+              that matter most to Bangladesh — delivered with discipline, transparency, and care.
+            </p>
           </div>
 
-          <div className="grid gap-3.5" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
-            {[
-              { label: "FACEBOOK PAGE", href: "https://facebook.com/cyberstrikeforceCSF", icon: (<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />) },
-              { label: "TELEGRAM CHANNEL", href: "https://t.me/cyberstrikeforce72", icon: (<path d="M21.5 4.5 2.5 12l6 2 2 6 4-4 5 4 2-15.5z" />) },
-              { label: "EMAIL", href: "mailto:CyberStrikeforce@outlook.com", icon: (<><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m3 7 9 6 9-6" /></>) },
-            ].map((l) => (
-              <a
-                key={l.label}
-                href={l.href}
-                target={l.href.startsWith("mailto:") ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                className="con-btn reveal"
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {SERVICES.map((svc, i) => (
+              <article
+                key={svc.title}
+                className="feature-card reveal"
+                style={{ transitionDelay: `${i * 70}ms` }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  {l.icon}
-                </svg>
-                {l.label}
-              </a>
+                <div className="icon-chip">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {svc.icon}
+                  </svg>
+                </div>
+                <h3 className="mt-5 font-display text-lg font-semibold text-white">{svc.title}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-slate-400">{svc.body}</p>
+              </article>
             ))}
           </div>
-          <p className="mt-6 text-center text-xs uppercase tracking-[0.25em] text-muted-foreground/70">
-            <a href="mailto:CyberStrikeforce@outlook.com" className="text-[#00d4ff] hover:underline">CyberStrikeforce@outlook.com</a>
-          </p>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="relative px-6 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="reveal mx-auto max-w-2xl text-center">
+            <span className="eyebrow">Trusted by the field</span>
+            <h2 className="display-h2 mt-5">
+              What partners <span className="gradient-text">say</span>
+            </h2>
+          </div>
+
+          <div className="mt-14 grid gap-5 md:grid-cols-3">
+            {TESTIMONIALS.map((t, i) => (
+              <figure
+                key={t.name}
+                className="quote-card reveal"
+                style={{ transitionDelay: `${i * 90}ms` }}
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-violet-300/80">
+                  <path d="M7 7h4v4H7c0 2 1 4 4 4v3c-4 0-7-3-7-7V7zm9 0h4v4h-4c0 2 1 4 4 4v3c-4 0-7-3-7-7V7z" fill="currentColor" />
+                </svg>
+                <blockquote className="mt-4 text-sm leading-relaxed text-slate-200">
+                  "{t.quote}"
+                </blockquote>
+                <figcaption className="mt-6 flex items-center gap-3">
+                  <div
+                    aria-hidden
+                    className="h-9 w-9 rounded-full"
+                    style={{ background: "var(--gradient-brand)" }}
+                  />
+                  <div>
+                    <p className="font-display text-sm font-semibold text-white">{t.name}</p>
+                    <p className="text-xs text-slate-400">{t.role}</p>
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative px-6 pb-24 pt-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="glass-strong relative overflow-hidden p-10 sm:p-14">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full opacity-60 blur-3xl"
+              style={{ background: "radial-gradient(circle, rgba(167,139,250,0.5), transparent 70%)" }}
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-32 -left-32 h-96 w-96 rounded-full opacity-60 blur-3xl"
+              style={{ background: "radial-gradient(circle, rgba(125,211,252,0.5), transparent 70%)" }}
+            />
+            <div className="relative grid items-center gap-8 md:grid-cols-12">
+              <div className="md:col-span-8">
+                <span className="eyebrow">Enlist</span>
+                <h2 className="display-h2 mt-4">
+                  Stand with Bangladesh.
+                  <br className="hidden sm:block" />
+                  <span className="gradient-text">Become a Cyber Warrior.</span>
+                </h2>
+                <p className="mt-4 max-w-xl text-base text-slate-300">
+                  Join a disciplined, mission-first community defending the country's digital frontier.
+                  Training, mentorship, and a shared sense of purpose.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 md:col-span-4 md:justify-end">
+                <Link to="/join" className="btn btn-primary">Join the Team</Link>
+                <Link to="/contact" className="btn btn-secondary">Contact</Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

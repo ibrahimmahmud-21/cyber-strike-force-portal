@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles.css";
 import { ScreenshotGuard } from "./components/ScreenshotGuard";
+import { LoadingScreen } from "./components/LoadingScreen";
 
 import IndexPage from "./pages/Index";
 import AboutPage from "./pages/About";
@@ -26,6 +27,7 @@ function NotFound() {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
+    <LoadingScreen />
     <BrowserRouter>
       <ScreenshotGuard />
       <Routes>
