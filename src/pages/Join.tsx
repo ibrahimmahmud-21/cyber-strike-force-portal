@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { SiteHeader, SiteFooter, BackToTop } from "@/components/SiteHeader";
+import { CyberBackground } from "@/components/CyberBackground";
 import { Toaster } from "@/components/ui/sonner";
 import { JoinForm } from "@/components/JoinForm";
 import { RulesDialog } from "@/components/RulesDialog";
@@ -10,7 +11,7 @@ export default function JoinPage() {
   useEffect(() => { document.title = "Join the Team — Cyber Strike Force"; }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-rajdhani">
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <Toaster position="top-center" richColors />
       <SiteHeader />
 
@@ -23,46 +24,47 @@ export default function JoinPage() {
         }}
       />
 
-      <section className="relative overflow-hidden border-b border-[rgba(0,212,255,0.2)] px-6 py-14">
-        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-40" />
+      <section className="relative isolate overflow-hidden px-6 pt-16 pb-12 sm:pt-24">
+        <CyberBackground />
         <div className="relative mx-auto max-w-3xl text-center">
-          <p className="font-orbitron text-[11px] uppercase tracking-[0.3em] text-[#00d4ff]">// Application</p>
-          <h1 className="font-orbitron mt-3 text-3xl font-black text-white sm:text-4xl" style={{ letterSpacing: "3px" }}>
-            JOIN <span className="text-[#00d4ff]">CSF</span>
+          <div className="reveal"><span className="eyebrow">Application</span></div>
+          <h1 className="display-h1 reveal mt-6" style={{ transitionDelay: "60ms" }}>
+            Become a <span className="gradient-text">Cyber Warrior</span>.
           </h1>
-          <div className="mx-auto mt-4 h-[2px] w-14 bg-gradient-to-r from-[#00d4ff] to-transparent" />
-          <p className="mt-4 text-sm uppercase tracking-[0.2em] text-muted-foreground">We fight for Bangladesh</p>
+          <p className="reveal mt-5 text-base text-slate-300 sm:text-lg" style={{ transitionDelay: "120ms" }}>
+            Join a disciplined, mission-first community defending Bangladesh's digital frontier.
+          </p>
         </div>
       </section>
 
-      <section className="px-6 py-10">
+      <section className="px-6 py-8">
         <div className="mx-auto w-full max-w-3xl">
-          <div className="mb-8 flex flex-col items-center gap-3 border border-red-500/40 bg-red-500/10 p-5 text-center shadow-[0_0_24px_-8px_rgba(239,68,68,0.5)]">
-            <span className="inline-flex items-center gap-2 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.3em] text-red-400">
-              <span className="h-2 w-2 animate-pulse bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
+          <div className="mb-8 flex flex-col items-center gap-3 rounded-2xl border border-red-500/30 bg-red-500/8 p-5 text-center backdrop-blur">
+            <span className="inline-flex items-center gap-2 rounded-full border border-red-400/40 bg-red-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.28em] text-red-300">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-400" />
               Notice
             </span>
-            <p className="font-orbitron text-sm font-bold uppercase tracking-[2px] text-white sm:text-base">
+            <p className="font-display text-base font-semibold text-white sm:text-lg">
               Applications are currently closed.
             </p>
-            <p className="font-bangla max-w-md text-xs leading-relaxed text-muted-foreground">
+            <p className="font-bangla max-w-md text-sm leading-relaxed text-slate-300">
               নতুন আবেদন গ্রহণ আপাতত বন্ধ রয়েছে। পরবর্তী রিক্রুটমেন্ট চালু হলে অফিসিয়াল পেজে ঘোষণা দেওয়া হবে।
             </p>
           </div>
 
-          <div className="glass-card p-6 sm:p-10">
+          <div className="glass-strong p-6 sm:p-10">
             {accepted ? (
               <JoinForm />
             ) : (
               <div className="flex flex-col items-center gap-5 text-center">
-                <h2 className="font-orbitron text-lg font-bold uppercase tracking-[2px] text-white">
+                <h2 className="font-display text-xl font-semibold text-white">
                   Application Form
                 </h2>
-                <p className="text-sm text-muted-foreground">
+                <p className="max-w-md text-sm text-slate-400">
                   Please review the rules before opening the form.
                 </p>
-                <button onClick={() => setRulesOpen(true)} className="btn-cyber">
-                  REVIEW RULES
+                <button onClick={() => setRulesOpen(true)} className="btn btn-primary">
+                  Review Rules
                 </button>
               </div>
             )}
